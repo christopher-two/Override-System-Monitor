@@ -6,18 +6,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.override.system.monitor.core.ui.components.DetailItem
-import org.override.system.monitor.core.ui.theme.NeonBlue
-import org.override.system.monitor.core.ui.theme.NeonGreen
-import org.override.system.monitor.core.ui.theme.NeonOrange
-import org.override.system.monitor.core.ui.theme.NeonRed
 import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -28,24 +22,24 @@ fun MemoryDetailScreen(viewModel: MemoryViewModel) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("MEMORY INFO", style = MaterialTheme.typography.titleLarge.copy(fontFamily = FontFamily.Monospace)) },
+                title = { Text("Memory", style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)) },
                 navigationIcon = {
                     IconButton(onClick = { viewModel.processAction(MemoryAction.NavigateBack) }) {
-                        Icon(Icons.AutoMirrored.Rounded.ArrowBack, contentDescription = "Back", tint = NeonBlue)
+                        Icon(Icons.AutoMirrored.Rounded.ArrowBack, contentDescription = "Back")
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surface)
             )
         },
-        containerColor = MaterialTheme.colorScheme.background,
+        containerColor = MaterialTheme.colorScheme.surface,
         contentWindowInsets = WindowInsets.systemBars
     ) { padding ->
         LazyColumn(modifier = Modifier.padding(padding).padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
             state.data?.let { m ->
-                item { DetailItem("Total RAM", String.format(Locale.US, "%.2f GB", m.totalMemory / 1024f / 1024f / 1024f), NeonBlue) }
-                item { DetailItem("Used RAM", String.format(Locale.US, "%.2f GB", m.usedMemory / 1024f / 1024f / 1024f), NeonOrange) }
-                item { DetailItem("Available RAM", String.format(Locale.US, "%.2f GB", m.availableMemory / 1024f / 1024f / 1024f), NeonGreen) }
-                item { DetailItem("Usage", String.format(Locale.US, "%.1f%%", m.percentageUsed), NeonRed) }
+                item { DetailItem("Total RAM", String.format(Locale.US, "%.2f GB", m.totalMemory / 1024f / 1024f / 1024f), MaterialTheme.colorScheme.primary) }
+                item { DetailItem("Used RAM", String.format(Locale.US, "%.2f GB", m.usedMemory / 1024f / 1024f / 1024f), MaterialTheme.colorScheme.tertiary) }
+                item { DetailItem("Available RAM", String.format(Locale.US, "%.2f GB", m.availableMemory / 1024f / 1024f / 1024f), MaterialTheme.colorScheme.secondary) }
+                item { DetailItem("Usage", String.format(Locale.US, "%.1f%%", m.percentageUsed), MaterialTheme.colorScheme.error) }
             }
         }
     }

@@ -1,4 +1,4 @@
-package org.override.system.monitor.ui
+package org.override.system.monitor.core.ui
 
 import androidx.navigation3.runtime.NavKey
 

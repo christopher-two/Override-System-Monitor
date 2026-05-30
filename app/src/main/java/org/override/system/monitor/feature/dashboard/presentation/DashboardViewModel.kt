@@ -15,7 +15,7 @@ import org.override.system.monitor.feature.sensor.domain.usecase.GetGyroscopeDat
 import org.override.system.monitor.feature.sensor.domain.usecase.GetLightDataUseCase
 import org.override.system.monitor.feature.storage.domain.usecase.GetStorageDataUseCase
 import org.override.system.monitor.feature.systemidentity.domain.usecase.GetSystemIdentityDataUseCase
-import org.override.system.monitor.ui.Destination
+import org.override.system.monitor.core.ui.Destination
 
 class DashboardViewModel(
     private val appNavigator: AppNavigator,

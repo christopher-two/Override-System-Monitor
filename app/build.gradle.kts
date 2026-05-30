@@ -104,6 +104,9 @@ dependencies {
     // Play
     implementation(libs.play.services.location)
 
+    // Utils
+    implementation(libs.material.kolor)
+
     // Testing & Debug
     implementation(libs.logging.interceptor)
     testImplementation(libs.androidx.core)

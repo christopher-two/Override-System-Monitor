@@ -11,14 +11,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import org.override.system.monitor.core.ui.theme.DarkSurface
-import org.override.system.monitor.core.ui.theme.NeonBlue
 
 @Composable
 fun BentoCard(
@@ -29,39 +25,27 @@ fun BentoCard(
     onClick: (() -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    val gradientColors = listOf(
-        DarkSurface,
-        DarkSurface.copy(alpha = 0.95f)
-    )
-
     Card(
         modifier = modifier
             .clip(RoundedCornerShape(16.dp))
             .then(if (onClick != null) Modifier.clickable { onClick() } else Modifier),
-        colors = CardDefaults.cardColors(containerColor = Color.Transparent),
-        shape = RoundedCornerShape(16.dp)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
+        shape = RoundedCornerShape(16.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(brush = Brush.verticalGradient(colors = gradientColors))
-                .padding(16.dp)
-        ) {
-            Column(modifier = Modifier.fillMaxSize()) {
-                Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
-                    Icon(imageVector = icon, contentDescription = null, tint = accentColor, modifier = Modifier.size(20.dp))
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = title,
-                        style = MaterialTheme.typography.labelMedium,
-                        color = NeonBlue,
-                        fontFamily = FontFamily.Monospace,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-                Spacer(modifier = Modifier.height(12.dp))
-                content()
+        Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
+                Icon(imageVector = icon, contentDescription = null, tint = accentColor, modifier = Modifier.size(20.dp))
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.labelMedium,
+                    color = accentColor,
+                    fontWeight = FontWeight.Bold
+                )
             }
+            Spacer(modifier = Modifier.height(12.dp))
+            content()
         }
     }
 }
@@ -70,7 +54,7 @@ fun BentoCard(
 fun MetricValue(
     value: String,
     unit: String,
-    color: Color = NeonBlue,
+    color: Color = MaterialTheme.colorScheme.primary,
     shouldPulse: Boolean = false
 ) {
     val infiniteTransition = rememberInfiniteTransition(label = "pulse")
@@ -84,7 +68,7 @@ fun MetricValue(
     Row(verticalAlignment = Alignment.Bottom) {
         Text(
             text = value,
-            style = MaterialTheme.typography.headlineLarge.copy(fontFamily = FontFamily.Monospace, fontWeight = FontWeight.Bold),
+            style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
             color = if (shouldPulse) color.copy(alpha = alpha) else color
         )
         Spacer(modifier = Modifier.width(2.dp))
@@ -97,7 +81,7 @@ fun MetricValue(
 }
 
 @Composable
-fun MetricProgress(progress: Float, color: Color = NeonBlue, modifier: Modifier = Modifier) {
+fun MetricProgress(progress: Float, color: Color = MaterialTheme.colorScheme.primary, modifier: Modifier = Modifier) {
     val animatedProgress by animateFloatAsState(
         targetValue = progress.coerceIn(0f, 1f),
         animationSpec = tween(durationMillis = 300),
@@ -109,7 +93,7 @@ fun MetricProgress(progress: Float, color: Color = NeonBlue, modifier: Modifier 
             .fillMaxWidth()
             .height(4.dp)
             .clip(RoundedCornerShape(2.dp))
-            .background(DarkSurface)
+            .background(MaterialTheme.colorScheme.surfaceContainerHighest)
     ) {
         Box(
             modifier = Modifier
@@ -124,17 +108,18 @@ fun MetricProgress(progress: Float, color: Color = NeonBlue, modifier: Modifier 
 @Composable
 fun DetailItem(label: String, value: String, accentColor: Color) {
     Card(
-        colors = CardDefaults.cardColors(containerColor = DarkSurface),
-        modifier = Modifier.fillMaxWidth()
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
+        modifier = Modifier.fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Row(
             modifier = Modifier.padding(16.dp).fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(label, style = MaterialTheme.typography.labelLarge, color = Color.LightGray)
+            Text(label, style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
             Text(
                 value,
-                style = MaterialTheme.typography.titleMedium.copy(fontFamily = FontFamily.Monospace, fontWeight = FontWeight.Bold),
+                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                 color = accentColor
             )
         }

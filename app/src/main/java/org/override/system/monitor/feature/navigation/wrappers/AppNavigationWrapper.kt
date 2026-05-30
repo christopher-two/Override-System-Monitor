@@ -15,7 +15,7 @@ import org.koin.compose.koinInject
 import org.koin.compose.navigation3.koinEntryProvider
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.override.system.monitor.feature.navigation.navigator.AppNavigator
-import org.override.system.monitor.ui.Destination
+import org.override.system.monitor.core.ui.Destination
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable

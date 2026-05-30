@@ -12,7 +12,7 @@ import org.override.system.monitor.feature.navigation.navigator.AppNavigator
 import org.override.system.monitor.feature.sensor.presentation.SensorDetailScreen
 import org.override.system.monitor.feature.settings.presentation.SettingsScreen
 import org.override.system.monitor.feature.storage.presentation.StorageDetailScreen
-import org.override.system.monitor.ui.Destination
+import org.override.system.monitor.core.ui.Destination
 
 @OptIn(KoinExperimentalAPI::class)
 val navigationModule = module {

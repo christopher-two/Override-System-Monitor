@@ -2,7 +2,7 @@ package org.override.system.monitor.feature.navigation.navigator
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.navigation3.runtime.NavKey
-import org.override.system.monitor.ui.Destination
+import org.override.system.monitor.core.ui.Destination
 
 class AppNavigator {
     private val _backStack = mutableStateListOf<NavKey>(Destination.Dashboard)
