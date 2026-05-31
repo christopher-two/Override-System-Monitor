@@ -182,6 +182,10 @@
     <string name="sensors">Sensores</string>
     <string name="vendor_label">Fabricante: %1$s</string>
     <string name="power_label">Consumo: %1$s mA</string>
+    <string name="search_sensors">Buscar sensores</string>
+    <string name="sensors_info_title">Acerca de los Sensores</string>
+    <string name="sensors_info_description">Esta sección muestra todos los sensores disponibles en tu dispositivo, incluyendo acelerómetros, giroscopios, magnetómetros y más. Toca cualquier sensor para ver información detallada sobre su fabricante, consumo de energía y especificaciones técnicas.</string>
+    <string name="sensors_info">Info de Sensores</string>
 
     <!-- Settings Screen -->
     <string name="app_version">Versión de App: %1$s</string>
