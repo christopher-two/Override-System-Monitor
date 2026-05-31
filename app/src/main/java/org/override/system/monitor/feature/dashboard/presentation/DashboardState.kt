@@ -24,7 +24,6 @@ data class DashboardState(
     val ambientTemperatureData: SensorData? = null,
     val humidityData: SensorData? = null,
     // Motion & Health
-    val stepCounterData: SensorData? = null,
     val linearAccelerationData: SensorData? = null,
     // Missing sensors
     val missingSensors: List<MissingSensorInfo> = emptyList(),

@@ -21,7 +21,6 @@ import org.override.system.monitor.feature.sensor.domain.usecase.GetRotationVect
 import org.override.system.monitor.feature.sensor.domain.usecase.GetBarometerDataUseCase
 import org.override.system.monitor.feature.sensor.domain.usecase.GetAmbientTemperatureDataUseCase
 import org.override.system.monitor.feature.sensor.domain.usecase.GetHumidityDataUseCase
-import org.override.system.monitor.feature.sensor.domain.usecase.GetStepCounterDataUseCase
 import org.override.system.monitor.feature.sensor.domain.usecase.GetLinearAccelerationDataUseCase
 import org.override.system.monitor.feature.sensor.domain.usecase.GetMissingSensorsUseCase
 import org.override.system.monitor.feature.storage.domain.usecase.GetStorageDataUseCase
@@ -46,7 +45,6 @@ class DashboardViewModel(
     private val getAmbientTemperatureDataUseCase: GetAmbientTemperatureDataUseCase,
     private val getHumidityDataUseCase: GetHumidityDataUseCase,
     // Motion & Health
-    private val getStepCounterDataUseCase: GetStepCounterDataUseCase,
     private val getLinearAccelerationDataUseCase: GetLinearAccelerationDataUseCase,
     // Missing sensors
     private val getMissingSensorsUseCase: GetMissingSensorsUseCase
@@ -150,11 +148,6 @@ class DashboardViewModel(
             }
         }
         // Motion & Health
-        viewModelScope.launch {
-            getStepCounterDataUseCase().collect { data ->
-                _state.update { it.copy(stepCounterData = data) }
-            }
-        }
         viewModelScope.launch {
             getLinearAccelerationDataUseCase().collect { data ->
                 _state.update { it.copy(linearAccelerationData = data) }

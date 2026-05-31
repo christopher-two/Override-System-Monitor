@@ -13,7 +13,6 @@ import org.override.system.monitor.feature.sensor.domain.usecase.GetRotationVect
 import org.override.system.monitor.feature.sensor.domain.usecase.GetBarometerDataUseCase
 import org.override.system.monitor.feature.sensor.domain.usecase.GetAmbientTemperatureDataUseCase
 import org.override.system.monitor.feature.sensor.domain.usecase.GetHumidityDataUseCase
-import org.override.system.monitor.feature.sensor.domain.usecase.GetStepCounterDataUseCase
 import org.override.system.monitor.feature.sensor.domain.usecase.GetLinearAccelerationDataUseCase
 import org.override.system.monitor.feature.sensor.domain.usecase.GetMissingSensorsUseCase
 import org.override.system.monitor.feature.storage.domain.usecase.GetStorageDataUseCase
@@ -36,7 +35,6 @@ val domainModule = module {
     factoryOf(::GetAmbientTemperatureDataUseCase)
     factoryOf(::GetHumidityDataUseCase)
     // Motion & Health
-    factoryOf(::GetStepCounterDataUseCase)
     factoryOf(::GetLinearAccelerationDataUseCase)
     // Missing sensors
     factoryOf(::GetMissingSensorsUseCase)

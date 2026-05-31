@@ -44,10 +44,6 @@ class GetHumidityDataUseCase(private val repository: SensorRepository) {
 }
 
 // Motion & Health Sensors
-class GetStepCounterDataUseCase(private val repository: SensorRepository) {
-    operator fun invoke(): Flow<SensorData> = repository.getSensorData(Sensor.TYPE_STEP_COUNTER)
-}
-
 class GetLinearAccelerationDataUseCase(private val repository: SensorRepository) {
     operator fun invoke(): Flow<SensorData> = repository.getSensorData(Sensor.TYPE_LINEAR_ACCELERATION)
 }

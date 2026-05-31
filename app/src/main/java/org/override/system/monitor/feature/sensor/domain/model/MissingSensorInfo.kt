@@ -16,7 +16,6 @@ object SensorExplanations {
         Sensor.TYPE_PRESSURE to "El barómetro (sensor de presión) es raro en smartphones. Se encuentra principalmente en dispositivos de gama alta o tablets diseñadas para uso profesional.",
         Sensor.TYPE_AMBIENT_TEMPERATURE to "Este sensor mide la temperatura ambiental real del entorno. La mayoría de smartphones no lo incluyen porque usan sensores de temperatura de batería/procesador.",
         Sensor.TYPE_RELATIVE_HUMIDITY to "El sensor de humedad relativa generalmente solo está en dispositivos rugged (resistentes) o de gama alta con enfoque en salud/aventura.",
-        Sensor.TYPE_STEP_COUNTER to "El contador de pasos requiere hardware especializado o el permiso ACTIVITY_RECOGNITION. Algunos dispositivos no lo soportan o lo deshabilitan.",
         Sensor.TYPE_LINEAR_ACCELERATION to "Similar al acelerómetro pero sin gravedad. Si el acelerómetro base no está disponible, este tampoco lo estará."
     )
 
@@ -30,7 +29,6 @@ object SensorExplanations {
         Sensor.TYPE_PRESSURE -> "Barómetro"
         Sensor.TYPE_AMBIENT_TEMPERATURE -> "Temperatura Ambiental"
         Sensor.TYPE_RELATIVE_HUMIDITY -> "Humedad"
-        Sensor.TYPE_STEP_COUNTER -> "Contador de Pasos"
         Sensor.TYPE_LINEAR_ACCELERATION -> "Aceleración Lineal"
         else -> "Sensor Desconocido"
     }
@@ -42,7 +40,6 @@ object SensorExplanations {
         Sensor.TYPE_PRESSURE,
         Sensor.TYPE_AMBIENT_TEMPERATURE,
         Sensor.TYPE_RELATIVE_HUMIDITY,
-        Sensor.TYPE_STEP_COUNTER,
         Sensor.TYPE_LINEAR_ACCELERATION
     )
 }
