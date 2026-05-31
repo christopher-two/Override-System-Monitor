@@ -127,15 +127,13 @@ private fun TriAxisSensorContent(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Spacer(modifier = Modifier.height(4.dp))
-            Row {
+            Row(horizontalArrangement = Arrangement.spacedBy(24.dp)) {
                 SensorAxis(label = "X", value = String.format(Locale.US, "%.2f", data.x), color = axisColor)
-                Spacer(modifier = Modifier.width(24.dp))
                 SensorAxis(label = "Y", value = String.format(Locale.US, "%.2f", data.y), color = axisColor)
-                Spacer(modifier = Modifier.width(24.dp))
                 SensorAxis(label = "Z", value = String.format(Locale.US, "%.2f", data.z), color = axisColor)
             }
         } else {
-            Row {
+            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 SensorAxis(label = "X", value = String.format(Locale.US, "%.2f", data.x), color = axisColor)
                 SensorAxis(label = "Y", value = String.format(Locale.US, "%.2f", data.y), color = axisColor)
                 SensorAxis(label = "Z", value = String.format(Locale.US, "%.2f", data.z), color = axisColor)

@@ -21,16 +21,22 @@ class SensorDataSource(context: Context) {
         }
 
         val listener = object : SensorEventListener {
+            private var lastEmitTime = 0L
+
             override fun onSensorChanged(event: SensorEvent) {
-                val data = when (event.values.size) {
-                    1 -> SensorData(value = event.values[0])
-                    else -> SensorData(
-                        x = event.values.getOrNull(0) ?: 0f,
-                        y = event.values.getOrNull(1) ?: 0f,
-                        z = event.values.getOrNull(2) ?: 0f
-                    )
+                val currentTime = System.currentTimeMillis()
+                if (currentTime - lastEmitTime >= 300L) {
+                    lastEmitTime = currentTime
+                    val data = when (event.values.size) {
+                        1 -> SensorData(value = event.values[0])
+                        else -> SensorData(
+                            x = event.values.getOrNull(0) ?: 0f,
+                            y = event.values.getOrNull(1) ?: 0f,
+                            z = event.values.getOrNull(2) ?: 0f
+                        )
+                    }
+                    trySend(data)
                 }
-                trySend(data)
             }
 
             override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
