@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.override.system.monitor.core.preferences.PreferencesRepository
+import org.override.system.monitor.core.preferences.ThemeMode
 import org.override.system.monitor.feature.navigation.navigator.AppNavigator
 
 class SettingsViewModel(
@@ -23,7 +24,7 @@ class SettingsViewModel(
         viewModelScope.launch {
             preferencesRepository.preferencesFlow.onEach { prefs ->
                 _state.value = _state.value.copy(
-                    isDarkMode = prefs.isDarkMode,
+                    themeMode = prefs.themeMode,
                     isAutoRefresh = prefs.isAutoRefresh,
                     refreshInterval = prefs.refreshInterval,
                     isHighPrecision = prefs.isHighPrecision,
@@ -41,7 +42,7 @@ class SettingsViewModel(
             is SettingsAction.ResetDashboard -> showResetDialog()
             is SettingsAction.ShowResetDialog -> showResetDialog()
             is SettingsAction.HideResetDialog -> hideResetDialog()
-            is SettingsAction.ToggleDarkMode -> toggleDarkMode(action.enabled)
+            is SettingsAction.SetThemeMode -> setThemeMode(action.mode)
             is SettingsAction.ToggleAutoRefresh -> toggleAutoRefresh(action.enabled)
             is SettingsAction.SetRefreshInterval -> setRefreshInterval(action.interval)
             is SettingsAction.ToggleHighPrecision -> toggleHighPrecision(action.enabled)
@@ -64,9 +65,9 @@ class SettingsViewModel(
         _state.value = _state.value.copy(showResetDialog = false)
     }
 
-    private fun toggleDarkMode(enabled: Boolean) {
+    private fun setThemeMode(mode: ThemeMode) {
         viewModelScope.launch {
-            preferencesRepository.updateDarkMode(enabled)
+            preferencesRepository.updateThemeMode(mode)
         }
     }
 

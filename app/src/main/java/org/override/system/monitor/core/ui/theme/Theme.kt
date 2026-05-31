@@ -11,6 +11,7 @@ import com.materialkolor.PaletteStyle
 import com.materialkolor.dynamiccolor.ColorSpec
 import com.materialkolor.rememberDynamicMaterialThemeState
 import org.koin.compose.koinInject
+import org.override.system.monitor.core.preferences.ThemeMode
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -18,10 +19,16 @@ fun OverrideSystemMonitorTheme(
     content: @Composable () -> Unit,
 ) {
     val preferencesRepository: org.override.system.monitor.core.preferences.PreferencesRepository = koinInject()
-    val isDarkMode: Boolean by preferencesRepository.darkModeFlow.collectAsState(initial = isSystemInDarkTheme())
+    val themeMode: ThemeMode by preferencesRepository.themeModeFlow.collectAsState(initial = ThemeMode.SYSTEM)
+
+    val isDark = when (themeMode) {
+        ThemeMode.SYSTEM -> isSystemInDarkTheme()
+        ThemeMode.LIGHT -> false
+        ThemeMode.DARK -> true
+    }
 
     val dynamicThemeState = rememberDynamicMaterialThemeState(
-        isDark = isDarkMode,
+        isDark = isDark,
         style = PaletteStyle.Expressive,
         specVersion = ColorSpec.SpecVersion.SPEC_2025,
         seedColor = SeedColor,

@@ -10,11 +10,13 @@ import org.override.system.monitor.feature.dashboard.presentation.DashboardViewM
 import org.override.system.monitor.feature.memory.presentation.MemoryViewModel
 import org.override.system.monitor.feature.navigation.navigator.AppNavigator
 import org.override.system.monitor.feature.sensor.presentation.SensorViewModel
+import org.override.system.monitor.MainViewModel
 import org.override.system.monitor.feature.settings.presentation.SettingsViewModel
 import org.override.system.monitor.feature.storage.presentation.StorageViewModel
 
 val viewModelModule = module {
     single { PreferencesRepository(androidContext()) }
+    viewModelOf(::MainViewModel)
     viewModelOf(::SettingsViewModel)
     viewModelOf(::DashboardViewModel)
     viewModelOf(::BatteryViewModel)

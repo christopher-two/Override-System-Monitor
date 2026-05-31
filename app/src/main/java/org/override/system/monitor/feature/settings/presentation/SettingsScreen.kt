@@ -11,6 +11,7 @@ import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.DarkMode
 import androidx.compose.material.icons.rounded.Info
+import androidx.compose.material.icons.rounded.LightMode
 import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material.icons.rounded.Speed
 import androidx.compose.material.icons.rounded.Vibration
@@ -28,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.override.system.monitor.R
 import androidx.compose.foundation.layout.Box
+import org.override.system.monitor.core.preferences.ThemeMode
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -101,12 +103,11 @@ fun SettingsScreen(
 
             // Appearance Section
             SettingsSection(title = stringResource(R.string.appearance)) {
-                SettingsSwitchRow(
-                    icon = Icons.Rounded.DarkMode,
-                    title = stringResource(R.string.dark_mode),
-                    subtitle = stringResource(R.string.dark_mode_description),
-                    checked = state.isDarkMode,
-                    onCheckedChange = { viewModel.processAction(SettingsAction.ToggleDarkMode(it)) }
+                ThemeSelectorRow(
+                    selectedMode = state.themeMode,
+                    onModeSelected = { mode ->
+                        viewModel.processAction(SettingsAction.SetThemeMode(mode))
+                    }
                 )
             }
 
@@ -202,6 +203,83 @@ fun SettingsScreen(
             )
 
             Spacer(modifier = Modifier.height(16.dp))
+        }
+    }
+}
+
+@Composable
+private fun ThemeSelectorRow(
+    selectedMode: ThemeMode,
+    onModeSelected: (ThemeMode) -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(12.dp)
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = Icons.Rounded.DarkMode,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.size(24.dp)
+            )
+            Spacer(modifier = Modifier.width(12.dp))
+            Column {
+                Text(
+                    text = stringResource(R.string.theme_mode),
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Text(
+                    text = stringResource(R.string.theme_mode_description),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        SingleChoiceSegmentedButtonRow(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            ThemeMode.entries.forEachIndexed { index, mode ->
+                SegmentedButton(
+                    selected = mode == selectedMode,
+                    onClick = { onModeSelected(mode) },
+                    shape = SegmentedButtonDefaults.itemShape(
+                        index = index,
+                        count = ThemeMode.entries.size
+                    ),
+                    icon = {
+                        when (mode) {
+                            ThemeMode.SYSTEM -> {}
+                            ThemeMode.LIGHT -> Icon(
+                                Icons.Rounded.LightMode,
+                                contentDescription = null,
+                                modifier = Modifier.size(18.dp)
+                            )
+                            ThemeMode.DARK -> Icon(
+                                Icons.Rounded.DarkMode,
+                                contentDescription = null,
+                                modifier = Modifier.size(18.dp)
+                            )
+                        }
+                    },
+                    label = {
+                        Text(
+                            text = when (mode) {
+                                ThemeMode.SYSTEM -> stringResource(R.string.theme_system)
+                                ThemeMode.LIGHT -> stringResource(R.string.theme_light)
+                                ThemeMode.DARK -> stringResource(R.string.theme_dark)
+                            }
+                        )
+                    }
+                )
+            }
         }
     }
 }

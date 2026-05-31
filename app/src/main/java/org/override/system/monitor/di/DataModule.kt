@@ -27,7 +27,7 @@ val dataModule = module {
     singleOf(::BatteryDataSource)
     singleOf(::MemoryDataSource)
     singleOf(::StorageDataSource)
-    singleOf(::SensorDataSource)
+    single { SensorDataSource(androidContext(), get()) }
     singleOf(::SystemIdentityDataSource)
     single { NetworkDataSource(androidContext()) }
 

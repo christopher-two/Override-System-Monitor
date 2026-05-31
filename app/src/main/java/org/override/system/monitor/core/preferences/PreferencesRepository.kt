@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.map
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 data class AppPreferences(
-    val isDarkMode: Boolean = false,
+    val themeMode: ThemeMode = ThemeMode.SYSTEM,
     val isAutoRefresh: Boolean = true,
     val refreshInterval: Int = 1,
     val isHighPrecision: Boolean = false,
@@ -24,7 +24,7 @@ data class AppPreferences(
 class PreferencesRepository(private val context: Context) {
 
     private object PreferencesKeys {
-        val DARK_MODE = booleanPreferencesKey("dark_mode")
+        val THEME_MODE = stringPreferencesKey("theme_mode")
         val AUTO_REFRESH = booleanPreferencesKey("auto_refresh")
         val REFRESH_INTERVAL = intPreferencesKey("refresh_interval")
         val HIGH_PRECISION = booleanPreferencesKey("high_precision")
@@ -32,14 +32,19 @@ class PreferencesRepository(private val context: Context) {
         val VIBRATION_FEEDBACK = booleanPreferencesKey("vibration_feedback")
     }
 
-    private val _darkModeFlow = MutableStateFlow(false)
-    val darkModeFlow: StateFlow<Boolean> = _darkModeFlow.asStateFlow()
+    private val _themeModeFlow = MutableStateFlow(ThemeMode.SYSTEM)
+    val themeModeFlow: StateFlow<ThemeMode> = _themeModeFlow.asStateFlow()
 
     val preferencesFlow: Flow<AppPreferences> = context.dataStore.data.map { preferences ->
-        val darkMode = preferences[PreferencesKeys.DARK_MODE] ?: false
-        _darkModeFlow.value = darkMode
+        val themeModeStr = preferences[PreferencesKeys.THEME_MODE] ?: ThemeMode.SYSTEM.name
+        val themeMode = try {
+            ThemeMode.valueOf(themeModeStr)
+        } catch (e: IllegalArgumentException) {
+            ThemeMode.SYSTEM
+        }
+        _themeModeFlow.value = themeMode
         AppPreferences(
-            isDarkMode = darkMode,
+            themeMode = themeMode,
             isAutoRefresh = preferences[PreferencesKeys.AUTO_REFRESH] ?: true,
             refreshInterval = preferences[PreferencesKeys.REFRESH_INTERVAL] ?: 1,
             isHighPrecision = preferences[PreferencesKeys.HIGH_PRECISION] ?: false,
@@ -48,10 +53,10 @@ class PreferencesRepository(private val context: Context) {
         )
     }
 
-    suspend fun updateDarkMode(enabled: Boolean) {
+    suspend fun updateThemeMode(mode: ThemeMode) {
         context.dataStore.edit { preferences ->
-            preferences[PreferencesKeys.DARK_MODE] = enabled
-            _darkModeFlow.value = enabled
+            preferences[PreferencesKeys.THEME_MODE] = mode.name
+            _themeModeFlow.value = mode
         }
     }
 

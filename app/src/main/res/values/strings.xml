@@ -196,8 +196,11 @@
     <string name="monitoring_settings">Monitoring</string>
     <string name="appearance">Appearance</string>
     <string name="about">About</string>
-    <string name="dark_mode">Dark Mode</string>
-    <string name="dark_mode_description">Enable dark theme for the application</string>
+    <string name="theme_mode">Theme</string>
+    <string name="theme_mode_description">Choose how the app looks</string>
+    <string name="theme_system">System</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
     <string name="auto_refresh">Auto Refresh</string>
     <string name="auto_refresh_description">Automatically update sensor data</string>
     <string name="refresh_interval">Refresh Interval</string>
