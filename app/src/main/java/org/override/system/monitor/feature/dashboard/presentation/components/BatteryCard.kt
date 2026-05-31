@@ -22,9 +22,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import org.override.system.monitor.R
 import java.util.Locale
 
 @Composable
@@ -66,7 +68,7 @@ fun BatteryCard(
                 )
                 Spacer(modifier = Modifier.width(12.dp))
                 Text(
-                    "Battery",
+                    stringResource(R.string.battery),
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                     color = MaterialTheme.colorScheme.onSurface
                 )
@@ -109,7 +111,7 @@ fun BatteryCard(
                         )
                     }
                     Text(
-                        "health: ${health.uppercase()}",
+                        stringResource(R.string.health_label, health.uppercase()),
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )

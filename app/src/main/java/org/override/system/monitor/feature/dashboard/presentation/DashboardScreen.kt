@@ -31,8 +31,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import org.override.system.monitor.R
 import org.override.system.monitor.core.ui.Destination
 import org.override.system.monitor.feature.dashboard.presentation.components.MobileDashboardContent
 import org.override.system.monitor.feature.dashboard.presentation.components.SensorDetailBottomSheet
@@ -110,7 +112,7 @@ fun DashboardScreen(viewModel: DashboardViewModel) {
             TopAppBar(
                 title = {
                     Text(
-                        "System Monitor",
+                        stringResource(R.string.system_monitor),
                         style = MaterialTheme.typography.titleLarge.copy(
                             fontWeight = FontWeight.Bold
                         )
@@ -123,7 +125,7 @@ fun DashboardScreen(viewModel: DashboardViewModel) {
                         ) {
                             Icon(
                                 Icons.Rounded.Warning,
-                                contentDescription = "Missing Sensors",
+                                contentDescription = stringResource(R.string.missing_sensors),
                                 tint = MaterialTheme.colorScheme.error
                             )
                         }
@@ -131,7 +133,7 @@ fun DashboardScreen(viewModel: DashboardViewModel) {
                     FilledTonalIconButton(
                         onClick = { viewModel.processAction(DashboardAction.Navigate(Destination.Settings)) }
                     ) {
-                        Icon(Icons.Rounded.Settings, contentDescription = "Settings")
+                        Icon(Icons.Rounded.Settings, contentDescription = stringResource(R.string.settings))
                     }
                 },
                 scrollBehavior = scrollBehavior,

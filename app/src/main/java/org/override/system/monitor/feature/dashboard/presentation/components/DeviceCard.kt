@@ -24,8 +24,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import org.override.system.monitor.R
 import java.util.Locale
 
 @Composable
@@ -60,7 +62,7 @@ fun DeviceCard(
                 )
                 Spacer(modifier = Modifier.width(12.dp))
                 Text(
-                    "Device",
+                    stringResource(R.string.device),
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                     color = MaterialTheme.colorScheme.onSurface
                 )
@@ -82,7 +84,7 @@ fun DeviceCard(
 
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    "Android $osVersion",
+                    stringResource(R.string.android_version, osVersion),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -91,7 +93,7 @@ fun DeviceCard(
                     onClick = {},
                     label = {
                         Text(
-                            "API $apiLevel",
+                            stringResource(R.string.api_level, apiLevel),
                             style = MaterialTheme.typography.labelSmall,
                             fontWeight = FontWeight.Bold
                         )

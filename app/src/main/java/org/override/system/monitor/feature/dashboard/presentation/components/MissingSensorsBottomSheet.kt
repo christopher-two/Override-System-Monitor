@@ -27,8 +27,10 @@ import androidx.compose.material3.rememberBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import org.override.system.monitor.R
 import org.override.system.monitor.feature.sensor.domain.model.MissingSensorInfo
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -63,14 +65,14 @@ fun MissingSensorsBottomSheet(
                 )
                 Spacer(modifier = Modifier.width(12.dp))
                 Text(
-                    text = "Sensores No Disponibles",
+                    text = stringResource(R.string.sensors_not_available),
                     style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
                     color = MaterialTheme.colorScheme.onSurface
                 )
             }
 
             Text(
-                text = "Tu dispositivo no tiene los siguientes sensores:",
+                text = stringResource(R.string.sensors_not_available_description),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(bottom = 16.dp)
@@ -112,7 +114,7 @@ private fun MissingSensorCard(sensorInfo: MissingSensorInfo) {
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = sensorInfo.sensorName,
+                    text = stringResource(sensorInfo.sensorNameResId),
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                     color = MaterialTheme.colorScheme.onSurface
                 )
@@ -121,7 +123,7 @@ private fun MissingSensorCard(sensorInfo: MissingSensorInfo) {
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = sensorInfo.explanation,
+                text = stringResource(sensorInfo.explanationResId),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )

@@ -27,9 +27,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import org.override.system.monitor.R
 import java.util.Locale
 
 data class SensorData(val x: Float = 0f, val y: Float = 0f, val z: Float = 0f, val value: Float = 0f)
@@ -181,7 +183,7 @@ private fun SingleValueSensorContent(
         }
     } else {
         Text(
-            text = "No data",
+            text = stringResource(R.string.no_data),
             style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Bold),
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -202,12 +204,12 @@ fun AccelerometerCard(
         expanded = expanded,
         icon = Icons.Rounded.Speed,
         iconBackgroundColor = MaterialTheme.colorScheme.primaryContainer,
-        title = "Accelerometer",
+        title = stringResource(R.string.accelerometer),
         onClick = onClick
     ) {
         TriAxisSensorContent(
             data = data,
-            unit = "m/s²",
+            unit = stringResource(R.string.unit_m_s2),
             axisColor = MaterialTheme.colorScheme.primary,
             expanded = expanded
         )
@@ -226,12 +228,12 @@ fun GyroscopeCard(
         expanded = expanded,
         icon = Icons.Rounded.Explore,
         iconBackgroundColor = MaterialTheme.colorScheme.secondaryContainer,
-        title = "Gyroscope",
+        title = stringResource(R.string.gyroscope),
         onClick = onClick
     ) {
         TriAxisSensorContent(
             data = data,
-            unit = "rad/s",
+            unit = stringResource(R.string.unit_rad_s),
             axisColor = MaterialTheme.colorScheme.secondary,
             expanded = expanded
         )
@@ -250,12 +252,12 @@ fun MagnetometerCard(
         expanded = expanded,
         icon = Icons.Rounded.Explore,
         iconBackgroundColor = MaterialTheme.colorScheme.tertiaryContainer,
-        title = "Magnetometer",
+        title = stringResource(R.string.magnetometer),
         onClick = onClick
     ) {
         TriAxisSensorContent(
             data = data,
-            unit = "μT",
+            unit = stringResource(R.string.unit_micro_t),
             axisColor = MaterialTheme.colorScheme.tertiary,
             expanded = expanded
         )
@@ -274,11 +276,11 @@ fun ProximityCard(
         expanded = expanded,
         icon = Icons.Rounded.NearMe,
         iconBackgroundColor = MaterialTheme.colorScheme.primaryContainer,
-        title = "Proximity",
+        title = stringResource(R.string.proximity),
         onClick = onClick
     ) {
         if (data != null) {
-            val displayText = if (data.value < 5f) "Near" else "Far"
+            val displayText = if (data.value < 5f) stringResource(R.string.proximity_near) else stringResource(R.string.proximity_far)
             val displayValue = String.format(Locale.US, "%.1f cm", data.value)
             SingleValueSensorContent(
                 data = data,
@@ -289,7 +291,7 @@ fun ProximityCard(
             )
         } else {
             Text(
-                text = "No data",
+                text = stringResource(R.string.no_data),
                 style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Bold),
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -309,12 +311,12 @@ fun RotationVectorCard(
         expanded = expanded,
         icon = Icons.Rounded.ScreenRotation,
         iconBackgroundColor = MaterialTheme.colorScheme.secondaryContainer,
-        title = "Rotation Vector",
+        title = stringResource(R.string.rotation_vector),
         onClick = onClick
     ) {
         TriAxisSensorContent(
             data = data,
-            unit = "dimensionless",
+            unit = stringResource(R.string.unit_dimensionless),
             axisColor = MaterialTheme.colorScheme.secondary,
             expanded = expanded
         )
@@ -333,7 +335,7 @@ fun BarometerCard(
         expanded = expanded,
         icon = Icons.Rounded.Sensors,
         iconBackgroundColor = MaterialTheme.colorScheme.tertiaryContainer,
-        title = "Barometer",
+        title = stringResource(R.string.barometer),
         onClick = onClick
     ) {
         if (data != null) {
@@ -341,13 +343,13 @@ fun BarometerCard(
             SingleValueSensorContent(
                 data = data,
                 displayValue = displayValue,
-                unit = "hPa",
+                unit = stringResource(R.string.unit_hpa),
                 valueColor = MaterialTheme.colorScheme.tertiary,
                 expanded = expanded
             )
         } else {
             Text(
-                text = "No data",
+                text = stringResource(R.string.no_data),
                 style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Bold),
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -367,7 +369,7 @@ fun AmbientTemperatureCard(
         expanded = expanded,
         icon = Icons.Rounded.Thermostat,
         iconBackgroundColor = MaterialTheme.colorScheme.errorContainer,
-        title = "Temperature",
+        title = stringResource(R.string.temperature_label),
         onClick = onClick
     ) {
         if (data != null) {
@@ -375,13 +377,13 @@ fun AmbientTemperatureCard(
             SingleValueSensorContent(
                 data = data,
                 displayValue = displayValue,
-                unit = "°C",
+                unit = stringResource(R.string.unit_celsius),
                 valueColor = MaterialTheme.colorScheme.error,
                 expanded = expanded
             )
         } else {
             Text(
-                text = "No data",
+                text = stringResource(R.string.no_data),
                 style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Bold),
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -401,7 +403,7 @@ fun HumidityCard(
         expanded = expanded,
         icon = Icons.Rounded.WaterDrop,
         iconBackgroundColor = MaterialTheme.colorScheme.primaryContainer,
-        title = "Humidity",
+        title = stringResource(R.string.humidity),
         onClick = onClick
     ) {
         if (data != null) {
@@ -409,13 +411,13 @@ fun HumidityCard(
             SingleValueSensorContent(
                 data = data,
                 displayValue = displayValue,
-                unit = "%",
+                unit = stringResource(R.string.unit_percent),
                 valueColor = MaterialTheme.colorScheme.primary,
                 expanded = expanded
             )
         } else {
             Text(
-                text = "No data",
+                text = stringResource(R.string.no_data),
                 style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Bold),
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -435,12 +437,12 @@ fun LinearAccelerationCard(
         expanded = expanded,
         icon = Icons.Rounded.Speed,
         iconBackgroundColor = MaterialTheme.colorScheme.primaryContainer,
-        title = "Linear Accel",
+        title = stringResource(R.string.linear_accel),
         onClick = onClick
     ) {
         TriAxisSensorContent(
             data = data,
-            unit = "m/s²",
+            unit = stringResource(R.string.unit_m_s2),
             axisColor = MaterialTheme.colorScheme.primary,
             expanded = expanded
         )

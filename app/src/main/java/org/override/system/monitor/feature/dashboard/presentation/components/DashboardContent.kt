@@ -21,8 +21,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import org.override.system.monitor.R
 import org.override.system.monitor.core.ui.Destination
 import org.override.system.monitor.feature.dashboard.presentation.DashboardState
 
@@ -362,7 +364,7 @@ private fun LiveSensorsHeader() {
         )
         Spacer(modifier = Modifier.width(8.dp))
         Text(
-            text = "Live Sensors",
+            text = stringResource(R.string.live_sensors),
             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.ExtraBold),
             color = MaterialTheme.colorScheme.onSurface
         )

@@ -8,8 +8,10 @@ import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import org.override.system.monitor.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -17,10 +19,10 @@ fun SensorDetailScreen(viewModel: SensorViewModel) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Sensors", style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)) },
+                title = { Text(stringResource(R.string.sensors), style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)) },
                 navigationIcon = {
                     IconButton(onClick = { viewModel.processAction(SensorAction.NavigateBack) }) {
-                        Icon(Icons.AutoMirrored.Rounded.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Rounded.ArrowBack, contentDescription = stringResource(R.string.back))
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surface)
@@ -42,12 +44,12 @@ fun SensorDetailScreen(viewModel: SensorViewModel) {
                             color = MaterialTheme.colorScheme.primary
                         )
                         Text(
-                            "Vendor: ${sensor.vendor}",
+                            stringResource(R.string.vendor_label, sensor.vendor),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Text(
-                            "Power: ${sensor.power} mA",
+                            stringResource(R.string.power_label, sensor.power.toString()),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )

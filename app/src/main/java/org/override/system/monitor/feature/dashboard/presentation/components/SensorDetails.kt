@@ -10,120 +10,122 @@ import androidx.compose.material.icons.rounded.Thermostat
 import androidx.compose.material.icons.rounded.WaterDrop
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import org.override.system.monitor.R
 
 @Composable
 fun getAccelerometerSensorDetail(data: SensorData?): SensorDetail = SensorDetail(
-    name = "Accelerometer",
+    name = stringResource(R.string.accelerometer),
     icon = Icons.Rounded.Speed,
     iconColor = MaterialTheme.colorScheme.onPrimaryContainer,
     iconBackgroundColor = MaterialTheme.colorScheme.primaryContainer,
-    unit = "m/s²",
-    description = "Measures the acceleration force applied to the device on all three physical axes (x, y, and z), including gravity.",
-    howItWorks = "Uses a micro-electromechanical system (MEMS) with a proof mass that deflects when acceleration is applied. The deflection is measured electrically to determine acceleration.",
+    unit = stringResource(R.string.unit_m_s2),
+    description = stringResource(R.string.desc_accelerometer),
+    howItWorks = stringResource(R.string.how_accelerometer),
     data = data,
     isTriAxis = true
 )
 
 @Composable
 fun getGyroscopeSensorDetail(data: SensorData?): SensorDetail = SensorDetail(
-    name = "Gyroscope",
+    name = stringResource(R.string.gyroscope),
     icon = Icons.Rounded.Explore,
     iconColor = MaterialTheme.colorScheme.onSecondaryContainer,
     iconBackgroundColor = MaterialTheme.colorScheme.secondaryContainer,
-    unit = "rad/s",
-    description = "Measures the rate of rotation around the x, y, and z axes. It detects how fast the device is spinning.",
-    howItWorks = "Uses the Coriolis effect on a vibrating mass. When the device rotates, the vibration pattern changes, and this change is measured to calculate rotational velocity.",
+    unit = stringResource(R.string.unit_rad_s),
+    description = stringResource(R.string.desc_gyroscope),
+    howItWorks = stringResource(R.string.how_gyroscope),
     data = data,
     isTriAxis = true
 )
 
 @Composable
 fun getMagnetometerSensorDetail(data: SensorData?): SensorDetail = SensorDetail(
-    name = "Magnetometer",
+    name = stringResource(R.string.magnetometer),
     icon = Icons.Rounded.Explore,
     iconColor = MaterialTheme.colorScheme.onTertiaryContainer,
     iconBackgroundColor = MaterialTheme.colorScheme.tertiaryContainer,
-    unit = "μT",
-    description = "Measures the ambient magnetic field in the x, y, and z axes. It's commonly used as a digital compass.",
-    howItWorks = "Uses a Hall effect sensor or magnetoresistive material that changes its electrical resistance when exposed to a magnetic field.",
+    unit = stringResource(R.string.unit_micro_t),
+    description = stringResource(R.string.desc_magnetometer),
+    howItWorks = stringResource(R.string.how_magnetometer),
     data = data,
     isTriAxis = true
 )
 
 @Composable
 fun getProximitySensorDetail(data: SensorData?): SensorDetail = SensorDetail(
-    name = "Proximity",
+    name = stringResource(R.string.proximity),
     icon = Icons.Rounded.NearMe,
     iconColor = MaterialTheme.colorScheme.onPrimaryContainer,
     iconBackgroundColor = MaterialTheme.colorScheme.primaryContainer,
-    unit = "cm",
-    description = "Measures the distance of an object from the front of the device. Most sensors return only 'near' or 'far' values.",
-    howItWorks = "Uses an infrared LED that emits light and a receiver that detects reflections. The time or intensity of the reflection indicates distance.",
+    unit = stringResource(R.string.unit_cm),
+    description = stringResource(R.string.desc_proximity),
+    howItWorks = stringResource(R.string.how_proximity),
     data = data,
     isTriAxis = false
 )
 
 @Composable
 fun getRotationVectorSensorDetail(data: SensorData?): SensorDetail = SensorDetail(
-    name = "Rotation Vector",
+    name = stringResource(R.string.rotation_vector),
     icon = Icons.Rounded.ScreenRotation,
     iconColor = MaterialTheme.colorScheme.onSecondaryContainer,
     iconBackgroundColor = MaterialTheme.colorScheme.secondaryContainer,
-    unit = "dimensionless",
-    description = "Represents the orientation of the device as a combination of an axis and an angle. It's more stable than using accelerometer alone.",
-    howItWorks = "Fuses data from accelerometer, gyroscope, and magnetometer using sensor fusion algorithms to provide accurate device orientation in 3D space.",
+    unit = stringResource(R.string.unit_dimensionless),
+    description = stringResource(R.string.desc_rotation_vector),
+    howItWorks = stringResource(R.string.how_rotation_vector),
     data = data,
     isTriAxis = true
 )
 
 @Composable
 fun getBarometerSensorDetail(data: SensorData?): SensorDetail = SensorDetail(
-    name = "Barometer",
+    name = stringResource(R.string.barometer),
     icon = Icons.Rounded.Sensors,
     iconColor = MaterialTheme.colorScheme.onTertiaryContainer,
     iconBackgroundColor = MaterialTheme.colorScheme.tertiaryContainer,
-    unit = "hPa",
-    description = "Measures atmospheric pressure. It's used to determine altitude and can help predict weather changes.",
-    howItWorks = "Uses a MEMS piezoresistive sensor with a membrane that deflects with pressure changes. The deflection changes resistance, which is measured electrically.",
+    unit = stringResource(R.string.unit_hpa),
+    description = stringResource(R.string.desc_barometer),
+    howItWorks = stringResource(R.string.how_barometer),
     data = data,
     isTriAxis = false
 )
 
 @Composable
 fun getAmbientTemperatureSensorDetail(data: SensorData?): SensorDetail = SensorDetail(
-    name = "Temperature",
+    name = stringResource(R.string.temperature_label),
     icon = Icons.Rounded.Thermostat,
     iconColor = MaterialTheme.colorScheme.onErrorContainer,
     iconBackgroundColor = MaterialTheme.colorScheme.errorContainer,
-    unit = "°C",
-    description = "Measures the ambient (environmental) air temperature around the device.",
-    howItWorks = "Uses a thermistor or RTD (resistance temperature detector) that changes resistance based on temperature. Not available on most smartphones.",
+    unit = stringResource(R.string.unit_celsius),
+    description = stringResource(R.string.desc_temperature),
+    howItWorks = stringResource(R.string.how_temperature),
     data = data,
     isTriAxis = false
 )
 
 @Composable
 fun getHumiditySensorDetail(data: SensorData?): SensorDetail = SensorDetail(
-    name = "Humidity",
+    name = stringResource(R.string.humidity),
     icon = Icons.Rounded.WaterDrop,
     iconColor = MaterialTheme.colorScheme.onPrimaryContainer,
     iconBackgroundColor = MaterialTheme.colorScheme.primaryContainer,
-    unit = "%",
-    description = "Measures the relative humidity of the surrounding air as a percentage.",
-    howItWorks = "Uses a capacitive sensor with a moisture-absorbing dielectric. Capacitance changes with humidity levels, which is measured electrically.",
+    unit = stringResource(R.string.unit_percent),
+    description = stringResource(R.string.desc_humidity),
+    howItWorks = stringResource(R.string.how_humidity),
     data = data,
     isTriAxis = false
 )
 
 @Composable
 fun getLinearAccelerationSensorDetail(data: SensorData?): SensorDetail = SensorDetail(
-    name = "Linear Acceleration",
+    name = stringResource(R.string.linear_accel),
     icon = Icons.Rounded.Speed,
     iconColor = MaterialTheme.colorScheme.onPrimaryContainer,
     iconBackgroundColor = MaterialTheme.colorScheme.primaryContainer,
-    unit = "m/s²",
-    description = "Measures the acceleration force applied to the device without gravity. Shows the pure motion of the device.",
-    howItWorks = "Same MEMS technology as the accelerometer, but the system automatically subtracts the gravitational component (9.81 m/s²) to show only linear motion.",
+    unit = stringResource(R.string.unit_m_s2),
+    description = stringResource(R.string.desc_linear_accel),
+    howItWorks = stringResource(R.string.how_linear_accel),
     data = data,
     isTriAxis = true
 )

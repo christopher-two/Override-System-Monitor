@@ -1,36 +1,37 @@
 package org.override.system.monitor.feature.sensor.domain.model
 
 import android.hardware.Sensor
+import org.override.system.monitor.R
 
 data class MissingSensorInfo(
     val sensorType: Int,
-    val sensorName: String,
-    val explanation: String
+    val sensorNameResId: Int,
+    val explanationResId: Int
 )
 
 object SensorExplanations {
     private val explanations = mapOf(
-        Sensor.TYPE_MAGNETIC_FIELD to "El magnetómetro requiere hardware dedicado (brújula). Muchos dispositivos modernos de gama media/alta no lo incluyen para reducir costos o espacio interno.",
-        Sensor.TYPE_PROXIMITY to "El sensor de proximidad usa un LED infrarrojo y detector. Algunos dispositivos usan soluciones alternativas (software) o no lo incluyen.",
-        Sensor.TYPE_ROTATION_VECTOR to "El vector de rotación combina acelerómetro, giroscopio y magnetómetro. Si alguno falta, este sensor no estará disponible.",
-        Sensor.TYPE_PRESSURE to "El barómetro (sensor de presión) es raro en smartphones. Se encuentra principalmente en dispositivos de gama alta o tablets diseñadas para uso profesional.",
-        Sensor.TYPE_AMBIENT_TEMPERATURE to "Este sensor mide la temperatura ambiental real del entorno. La mayoría de smartphones no lo incluyen porque usan sensores de temperatura de batería/procesador.",
-        Sensor.TYPE_RELATIVE_HUMIDITY to "El sensor de humedad relativa generalmente solo está en dispositivos rugged (resistentes) o de gama alta con enfoque en salud/aventura.",
-        Sensor.TYPE_LINEAR_ACCELERATION to "Similar al acelerómetro pero sin gravedad. Si el acelerómetro base no está disponible, este tampoco lo estará."
+        Sensor.TYPE_MAGNETIC_FIELD to R.string.missing_magnetometer_explanation,
+        Sensor.TYPE_PROXIMITY to R.string.missing_proximity_explanation,
+        Sensor.TYPE_ROTATION_VECTOR to R.string.missing_rotation_vector_explanation,
+        Sensor.TYPE_PRESSURE to R.string.missing_barometer_explanation,
+        Sensor.TYPE_AMBIENT_TEMPERATURE to R.string.missing_temperature_explanation,
+        Sensor.TYPE_RELATIVE_HUMIDITY to R.string.missing_humidity_explanation,
+        Sensor.TYPE_LINEAR_ACCELERATION to R.string.missing_linear_accel_explanation
     )
 
-    fun getExplanation(sensorType: Int): String =
-        explanations[sensorType] ?: "Este sensor no está disponible en tu dispositivo."
+    fun getExplanationResId(sensorType: Int): Int =
+        explanations[sensorType] ?: R.string.sensor_not_available
 
-    fun getSensorName(sensorType: Int): String = when (sensorType) {
-        Sensor.TYPE_MAGNETIC_FIELD -> "Magnetómetro"
-        Sensor.TYPE_PROXIMITY -> "Proximidad"
-        Sensor.TYPE_ROTATION_VECTOR -> "Vector de Rotación"
-        Sensor.TYPE_PRESSURE -> "Barómetro"
-        Sensor.TYPE_AMBIENT_TEMPERATURE -> "Temperatura Ambiental"
-        Sensor.TYPE_RELATIVE_HUMIDITY -> "Humedad"
-        Sensor.TYPE_LINEAR_ACCELERATION -> "Aceleración Lineal"
-        else -> "Sensor Desconocido"
+    fun getSensorNameResId(sensorType: Int): Int = when (sensorType) {
+        Sensor.TYPE_MAGNETIC_FIELD -> R.string.magnetometer
+        Sensor.TYPE_PROXIMITY -> R.string.proximity
+        Sensor.TYPE_ROTATION_VECTOR -> R.string.rotation_vector
+        Sensor.TYPE_PRESSURE -> R.string.barometer
+        Sensor.TYPE_AMBIENT_TEMPERATURE -> R.string.temperature_label
+        Sensor.TYPE_RELATIVE_HUMIDITY -> R.string.humidity
+        Sensor.TYPE_LINEAR_ACCELERATION -> R.string.linear_accel
+        else -> R.string.sensor_not_available
     }
 
     val allNewSensorTypes = listOf(

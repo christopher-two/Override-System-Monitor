@@ -34,8 +34,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import org.override.system.monitor.R
 import org.override.system.monitor.feature.network.data.datasource.NetworkType
 import org.override.system.monitor.feature.network.domain.model.NetworkData
 
@@ -90,12 +92,12 @@ fun NetworkDetailBottomSheet(
                 Spacer(modifier = Modifier.width(12.dp))
                 Column {
                     Text(
-                        text = "Network Diagnostics",
+                        text = stringResource(R.string.network_diagnostics),
                         style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
                         color = MaterialTheme.colorScheme.onSurface
                     )
                     Text(
-                        text = if (data?.isConnected == true) "Connected & active" else "Offline / No connection",
+                        text = if (data?.isConnected == true) stringResource(R.string.connected_active) else stringResource(R.string.offline_no_connection),
                         style = MaterialTheme.typography.bodyMedium,
                         color = if (data?.isConnected == true) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error
                     )
@@ -121,14 +123,14 @@ fun NetworkDetailBottomSheet(
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(
-                                text = "Permission Required",
+                                text = stringResource(R.string.permission_required),
                                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                                 color = MaterialTheme.colorScheme.onErrorContainer
                             )
                         }
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            text = "Location and Wi-Fi permissions are required to scan for exact network names (SSID) and perform full signal level diagnostics.",
+                            text = stringResource(R.string.permission_description),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onErrorContainer
                         )
@@ -142,7 +144,7 @@ fun NetworkDetailBottomSheet(
                             shape = RoundedCornerShape(8.dp),
                             modifier = Modifier.fillMaxWidth()
                         ) {
-                            Text("Grant Permission", fontWeight = FontWeight.Bold)
+                            Text(stringResource(R.string.grant_permission), fontWeight = FontWeight.Bold)
                         }
                     }
                 }
@@ -167,7 +169,7 @@ fun NetworkDetailBottomSheet(
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = "Permissions granted and working perfectly!",
+                            text = stringResource(R.string.permissions_working),
                             style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
                             color = MaterialTheme.colorScheme.onPrimaryContainer
                         )
@@ -187,34 +189,34 @@ fun NetworkDetailBottomSheet(
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         Text(
-                            text = "Detected Wi-Fi Parameters",
+                            text = stringResource(R.string.detected_wifi_parameters),
                             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                             color = MaterialTheme.colorScheme.onSurface,
                             modifier = Modifier.padding(bottom = 12.dp)
                         )
 
-                        DetailRow("SSID (Network Name)", data.wifiSsid ?: "Hidden / Unknown")
-                        DetailRow("Frequency Band", data.wifiBand)
-                        DetailRow("Frequency", "${data.wifiFrequency} MHz")
-                        DetailRow("Link Speed", "${data.wifiLinkSpeed} Mbps")
-                        DetailRow("Signal Strength", "${data.wifiSignalStrength}%")
-                        DetailRow("Active Download", data.formattedDownloadSpeed)
-                        DetailRow("Active Upload", data.formattedUploadSpeed)
+                        DetailRow(stringResource(R.string.ssid_network_name), data.wifiSsid ?: stringResource(R.string.hidden_unknown))
+                        DetailRow(stringResource(R.string.frequency_band), data.wifiBand)
+                        DetailRow(stringResource(R.string.frequency), "${data.wifiFrequency} MHz")
+                        DetailRow(stringResource(R.string.link_speed), "${data.wifiLinkSpeed} Mbps")
+                        DetailRow(stringResource(R.string.signal_strength), "${data.wifiSignalStrength}%")
+                        DetailRow(stringResource(R.string.active_download), data.formattedDownloadSpeed)
+                        DetailRow(stringResource(R.string.active_upload), data.formattedUploadSpeed)
                     }
                 }
                 Spacer(modifier = Modifier.height(20.dp))
 
                 // Explanations of what is being detected
                 Text(
-                    text = "Understanding the metrics:",
+                    text = stringResource(R.string.understanding_metrics),
                     style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
                     color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
-                InfoItem("SSID", "The service set identifier is the public name of your wireless network.")
-                InfoItem("Frequency Band", "2.4 GHz offers longer range but slower speeds, while 5 GHz offers higher speeds but shorter range.")
-                InfoItem("Link Speed", "The maximum theoretical rate at which data can be transferred between your device and the Wi-Fi router.")
-                InfoItem("Active Speed", "Calculated in real-time by analyzing the delta of bytes received (↓) and transmitted (↑) over the network interfaces.")
+                InfoItem(stringResource(R.string.ssid_info))
+                InfoItem(stringResource(R.string.frequency_band_info))
+                InfoItem(stringResource(R.string.link_speed_info))
+                InfoItem(stringResource(R.string.active_speed_info))
             } else if (data?.networkType == NetworkType.CELLULAR) {
                 Card(
                     modifier = Modifier.fillMaxWidth(),
@@ -225,22 +227,22 @@ fun NetworkDetailBottomSheet(
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         Text(
-                            text = "Detected Cellular Parameters",
+                            text = stringResource(R.string.detected_cellular_parameters),
                             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                             color = MaterialTheme.colorScheme.onSurface,
                             modifier = Modifier.padding(bottom = 12.dp)
                         )
 
-                        DetailRow("Operator", data.cellularOperator ?: "Unknown")
-                        DetailRow("Network Type", data.cellularNetworkType ?: "Unknown")
-                        DetailRow("Signal Level", "${data.cellularSignalStrength}/4")
-                        DetailRow("Active Download", data.formattedDownloadSpeed)
-                        DetailRow("Active Upload", data.formattedUploadSpeed)
+                        DetailRow(stringResource(R.string.operator), data.cellularOperator ?: stringResource(R.string.network_type_unknown))
+                        DetailRow(stringResource(R.string.network_type), data.cellularNetworkType ?: stringResource(R.string.network_type_unknown))
+                        DetailRow(stringResource(R.string.signal_level), "${data.cellularSignalStrength}/4")
+                        DetailRow(stringResource(R.string.active_download), data.formattedDownloadSpeed)
+                        DetailRow(stringResource(R.string.active_upload), data.formattedUploadSpeed)
                     }
                 }
             } else {
                 Text(
-                    text = "Not connected to any wireless network. Please connect to Wi-Fi or Cellular network to start diagnostics.",
+                    text = stringResource(R.string.not_connected_wireless),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -271,7 +273,7 @@ private fun DetailRow(label: String, value: String) {
 }
 
 @Composable
-private fun InfoItem(title: String, description: String) {
+private fun InfoItem(text: String) {
     Row(
         modifier = Modifier.padding(vertical = 4.dp),
         verticalAlignment = Alignment.Top
@@ -285,17 +287,10 @@ private fun InfoItem(title: String, description: String) {
                 .padding(top = 2.dp)
         )
         Spacer(modifier = Modifier.width(8.dp))
-        Column {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                color = MaterialTheme.colorScheme.onSurface
-            )
-            Text(
-                text = description,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        }
+        Text(
+            text = text,
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
     }
 }

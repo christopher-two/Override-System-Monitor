@@ -26,8 +26,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import org.override.system.monitor.R
 import java.util.Locale
 
 data class SensorDetail(
@@ -96,7 +98,7 @@ fun SensorDetailBottomSheet(
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text(
-                        text = "Current State",
+                        text = stringResource(R.string.current_state),
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -131,7 +133,7 @@ fun SensorDetailBottomSheet(
                         }
                     } else {
                         Text(
-                            text = "No data available",
+                            text = stringResource(R.string.no_data_available),
                             style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -143,7 +145,7 @@ fun SensorDetailBottomSheet(
 
             // What is it section
             InfoSection(
-                title = "What is it?",
+                title = stringResource(R.string.what_is_it),
                 content = sensorDetail.description
             )
 
@@ -151,7 +153,7 @@ fun SensorDetailBottomSheet(
 
             // How it works section
             InfoSection(
-                title = "How it works",
+                title = stringResource(R.string.how_it_works),
                 content = sensorDetail.howItWorks
             )
         }

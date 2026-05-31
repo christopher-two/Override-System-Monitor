@@ -1,0 +1,191 @@
+<resources>
+    <!-- App -->
+    <string name="app_name">Override System Monitor</string>
+
+    <!-- Dashboard -->
+    <string name="system_monitor">Monitor del Sistema</string>
+    <string name="missing_sensors">Sensores Faltantes</string>
+    <string name="settings">Configuración</string>
+    <string name="live_sensors">Sensores en Vivo</string>
+
+    <!-- Device Card -->
+    <string name="device">Dispositivo</string>
+    <string name="android_version">Android %1$s</string>
+    <string name="api_level">API %1$s</string>
+
+    <!-- Memory Card -->
+    <string name="memory">Memoria</string>
+    <string name="gb_unit">GB</string>
+
+    <!-- Storage Card -->
+    <string name="storage">Almacenamiento</string>
+
+    <!-- Battery Card -->
+    <string name="battery">Batería</string>
+    <string name="health_label">salud: %1$s</string>
+    <string name="percentage">Porcentaje</string>
+    <string name="status">Estado</string>
+    <string name="temperature">Temperatura</string>
+    <string name="voltage">Voltaje</string>
+    <string name="health">Salud</string>
+    <string name="charging">Cargando</string>
+
+    <!-- Battery Status -->
+    <string name="battery_status_charging">Cargando</string>
+    <string name="battery_status_discharging">Descargando</string>
+    <string name="battery_status_full">Completa</string>
+    <string name="battery_status_not_charging">No Cargando</string>
+    <string name="battery_status_unknown">Desconocido</string>
+
+    <!-- Battery Health -->
+    <string name="battery_health_cold">Fría</string>
+    <string name="battery_health_dead">Muerta</string>
+    <string name="battery_health_good">Buena</string>
+    <string name="battery_health_overheat">Sobrecalentada</string>
+    <string name="battery_health_over_voltage">Sobre Voltaje</string>
+    <string name="battery_health_unspecified_failure">Fallo No Especificado</string>
+    <string name="battery_health_unknown">Desconocido</string>
+
+    <!-- Network Card -->
+    <string name="wifi">Wi-Fi</string>
+    <string name="cellular">Celular</string>
+    <string name="ethernet">Ethernet</string>
+    <string name="offline">Sin Conexión</string>
+    <string name="not_connected">No conectado</string>
+    <string name="no_connection">Sin conexión</string>
+    <string name="link">Enlace</string>
+    <string name="signal">Señal</string>
+
+    <!-- Network Detail Bottom Sheet -->
+    <string name="network_diagnostics">Diagnóstico de Red</string>
+    <string name="connected_active">Conectado y activo</string>
+    <string name="offline_no_connection">Sin conexión</string>
+    <string name="permission_required">Permiso Requerido</string>
+    <string name="permission_description">Se requieren permisos de ubicación y Wi-Fi para escanear nombres exactos de redes (SSID) y realizar diagnósticos completos del nivel de señal.</string>
+    <string name="grant_permission">Conceder Permiso</string>
+    <string name="permissions_working">¡Permisos concedidos y funcionando perfectamente!</string>
+    <string name="detected_wifi_parameters">Parámetros Wi-Fi Detectados</string>
+    <string name="ssid_network_name">SSID (Nombre de Red)</string>
+    <string name="frequency_band">Banda de Frecuencia</string>
+    <string name="frequency">Frecuencia</string>
+    <string name="link_speed">Velocidad de Enlace</string>
+    <string name="signal_strength">Intensidad de Señal</string>
+    <string name="active_download">Descarga Activa</string>
+    <string name="active_upload">Subida Activa</string>
+    <string name="understanding_metrics">Entendiendo las métricas:</string>
+    <string name="ssid_info">SSID — El identificador de servicio es el nombre público de tu red inalámbrica.</string>
+    <string name="frequency_band_info">Banda de Frecuencia — 2.4 GHz ofrece mayor alcance pero velocidades más lentas, mientras 5 GHz ofrece velocidades más altas pero menor alcance.</string>
+    <string name="link_speed_info">Velocidad de Enlace — La tasa teórica máxima a la que se pueden transferir datos entre tu dispositivo y el router Wi-Fi.</string>
+    <string name="active_speed_info">Velocidad Activa — Calculada en tiempo real analizando el delta de bytes recibidos (↓) y transmitidos (↑) en las interfaces de red.</string>
+    <string name="detected_cellular_parameters">Parámetros Celulares Detectados</string>
+    <string name="operator">Operador</string>
+    <string name="network_type">Tipo de Red</string>
+    <string name="signal_level">Nivel de Señal</string>
+    <string name="not_connected_wireless">No conectado a ninguna red inalámbrica. Por favor conéctate a Wi-Fi o red Celular para iniciar el diagnóstico.</string>
+    <string name="hidden_unknown">Oculto / Desconocido</string>
+
+    <!-- Network Types -->
+    <string name="network_type_gprs">GPRS</string>
+    <string name="network_type_edge">EDGE</string>
+    <string name="network_type_umts">UMTS</string>
+    <string name="network_type_cdma">CDMA</string>
+    <string name="network_type_evdo_0">EVDO 0</string>
+    <string name="network_type_evdo_a">EVDO A</string>
+    <string name="network_type_1xrtt">1xRTT</string>
+    <string name="network_type_hsdpa">HSDPA</string>
+    <string name="network_type_hsupa">HSUPA</string>
+    <string name="network_type_hspa">HSPA</string>
+    <string name="network_type_evdo_b">EVDO B</string>
+    <string name="network_type_ehrpd">eHRPD</string>
+    <string name="network_type_hspa_plus">HSPA+</string>
+    <string name="network_type_lte">LTE</string>
+    <string name="network_type_5g_nr">5G NR</string>
+    <string name="network_type_unknown">Desconocido</string>
+
+    <!-- Frequency Bands -->
+    <string name="frequency_24_ghz">2.4 GHz</string>
+    <string name="frequency_5_ghz">5 GHz</string>
+    <string name="frequency_6_ghz">6 GHz</string>
+    <string name="not_applicable">N/D</string>
+
+    <!-- Missing Sensors Bottom Sheet -->
+    <string name="sensors_not_available">Sensores No Disponibles</string>
+    <string name="sensors_not_available_description">Tu dispositivo no tiene los siguientes sensores:</string>
+
+    <!-- Sensor Detail Bottom Sheet -->
+    <string name="current_state">Estado Actual</string>
+    <string name="no_data_available">Sin datos disponibles</string>
+    <string name="what_is_it">¿Qué es?</string>
+    <string name="how_it_works">Cómo funciona</string>
+
+    <!-- Sensor Labels -->
+    <string name="accelerometer">Acelerómetro</string>
+    <string name="gyroscope">Giroscopio</string>
+    <string name="magnetometer">Magnetómetro</string>
+    <string name="proximity">Proximidad</string>
+    <string name="rotation_vector">Vector de Rotación</string>
+    <string name="barometer">Barómetro</string>
+    <string name="temperature_label">Temperatura</string>
+    <string name="humidity">Humedad</string>
+    <string name="linear_accel">Aceleración Lineal</string>
+
+    <!-- Sensor Units -->
+    <string name="unit_m_s2">m/s²</string>
+    <string name="unit_rad_s">rad/s</string>
+    <string name="unit_micro_t">μT</string>
+    <string name="unit_cm">cm</string>
+    <string name="unit_dimensionless">adimensional</string>
+    <string name="unit_hpa">hPa</string>
+    <string name="unit_celsius">°C</string>
+    <string name="unit_percent">%</string>
+
+    <!-- Proximity Values -->
+    <string name="proximity_near">Cerca</string>
+    <string name="proximity_far">Lejos</string>
+
+    <!-- Sensor Descriptions -->
+    <string name="desc_accelerometer">Mide la fuerza de aceleración aplicada al dispositivo en los tres ejes físicos (x, y, z), incluyendo la gravedad.</string>
+    <string name="desc_gyroscope">Mide la velocidad de rotación alrededor de los ejes x, y, z. Detecta qué tan rápido gira el dispositivo.</string>
+    <string name="desc_magnetometer">Mide el campo magnético ambiental en los ejes x, y, z. Comúnmente se usa como brújula digital.</string>
+    <string name="desc_proximity">Mide la distancia de un objeto desde el frente del dispositivo. La mayoría de sensores solo retornan valores \'cerca\' o \'lejos\'.</string>
+    <string name="desc_rotation_vector">Representa la orientación del dispositivo como una combinación de un eje y un ángulo. Es más estable que usar solo el acelerómetro.</string>
+    <string name="desc_barometer">Mide la presión atmosférica. Se usa para determinar altitud y puede ayudar a predecir cambios climáticos.</string>
+    <string name="desc_temperature">Mide la temperatura del aire ambiental alrededor del dispositivo.</string>
+    <string name="desc_humidity">Mide la humedad relativa del aire circundante como un porcentaje.</string>
+    <string name="desc_linear_accel">Mide la fuerza de aceleración aplicada al dispositivo sin gravedad. Muestra el movimiento puro del dispositivo.</string>
+
+    <!-- Sensor How It Works -->
+    <string name="how_accelerometer">Usa un sistema micro-electromecánico (MEMS) con una masa de prueba que se desvía cuando se aplica aceleración. La desviación se mide eléctricamente para determinar la aceleración.</string>
+    <string name="how_gyroscope">Usa el efecto Coriolis en una masa vibrante. Cuando el dispositivo gira, el patrón de vibración cambia, y este cambio se mide para calcular la velocidad rotacional.</string>
+    <string name="how_magnetometer">Usa un sensor de efecto Hall o material magnetorresistivo que cambia su resistencia eléctrica cuando se expone a un campo magnético.</string>
+    <string name="how_proximity">Usa un LED infrarrojo que emite luz y un receptor que detecta las reflexiones. El tiempo o intensidad de la reflexión indica la distancia.</string>
+    <string name="how_rotation_vector">Fusiona datos del acelerómetro, giroscopio y magnetómetro usando algoritmos de fusión de sensores para proporcionar orientación precisa del dispositivo en espacio 3D.</string>
+    <string name="how_barometer">Usa un sensor piezorresistivo MEMS con una membrana que se desvía con los cambios de presión. La desviación cambia la resistencia, que se mide eléctricamente.</string>
+    <string name="how_temperature">Usa un termistor o RTD (detector de temperatura resistivo) que cambia su resistencia según la temperatura. No disponible en la mayoría de smartphones.</string>
+    <string name="how_humidity">Usa un sensor capacitivo con un dieléctrico que absorbe humedad. La capacitancia cambia con los niveles de humedad, que se mide eléctricamente.</string>
+    <string name="how_linear_accel">La misma tecnología MEMS que el acelerómetro, pero el sistema automáticamente resta el componente gravitacional (9.81 m/s²) para mostrar solo el movimiento lineal.</string>
+
+    <!-- Missing Sensor Explanations -->
+    <string name="missing_magnetometer_explanation">El magnetómetro requiere hardware dedicado (brújula). Muchos dispositivos modernos de gama media/alta no lo incluyen para reducir costos o espacio interno.</string>
+    <string name="missing_proximity_explanation">El sensor de proximidad usa un LED infrarrojo y detector. Algunos dispositivos usan soluciones alternativas (software) o no lo incluyen.</string>
+    <string name="missing_rotation_vector_explanation">El vector de rotación combina acelerómetro, giroscopio y magnetómetro. Si alguno falta, este sensor no estará disponible.</string>
+    <string name="missing_barometer_explanation">El barómetro (sensor de presión) es raro en smartphones. Se encuentra principalmente en dispositivos de gama alta o tablets diseñadas para uso profesional.</string>
+    <string name="missing_temperature_explanation">Este sensor mide la temperatura ambiental real del entorno. La mayoría de smartphones no lo incluyen porque usan sensores de temperatura de batería/procesador.</string>
+    <string name="missing_humidity_explanation">El sensor de humedad relativa generalmente solo está en dispositivos rugged (resistentes) o de gama alta con enfoque en salud/aventura.</string>
+    <string name="missing_linear_accel_explanation">Similar al acelerómetro pero sin gravedad. Si el acelerómetro base no está disponible, este tampoco lo estará.</string>
+    <string name="sensor_not_available">Este sensor no está disponible en tu dispositivo.</string>
+
+    <!-- Detail Screens -->
+    <string name="back">Atrás</string>
+    <string name="sensors">Sensores</string>
+    <string name="vendor_label">Fabricante: %1$s</string>
+    <string name="power_label">Consumo: %1$s mA</string>
+
+    <!-- Settings Screen -->
+    <string name="app_version">Versión de App: %1$s</string>
+    <string name="design_language">Lenguaje de Diseño: Material 3</string>
+    <string name="reset_dashboard">REINICIAR DASHBOARD</string>
+
+    <!-- No Data -->
+    <string name="no_data">Sin datos</string>
+</resources>

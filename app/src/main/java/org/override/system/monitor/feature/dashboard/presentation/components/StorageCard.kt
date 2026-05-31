@@ -19,8 +19,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import org.override.system.monitor.R
 import java.util.Locale
 
 @Composable
@@ -55,7 +57,7 @@ fun StorageCard(
             Spacer(modifier = Modifier.height(12.dp))
 
             Text(
-                "Storage",
+                stringResource(R.string.storage),
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                 color = MaterialTheme.colorScheme.onSurface
             )
@@ -72,7 +74,7 @@ fun StorageCard(
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    text = "GB",
+                    text = stringResource(R.string.gb_unit),
                     style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

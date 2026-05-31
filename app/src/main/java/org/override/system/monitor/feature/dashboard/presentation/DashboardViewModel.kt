@@ -82,8 +82,8 @@ class DashboardViewModel(
         val missingSensorInfoList = missingSensorTypes.map { sensorType ->
             MissingSensorInfo(
                 sensorType = sensorType,
-                sensorName = SensorExplanations.getSensorName(sensorType),
-                explanation = SensorExplanations.getExplanation(sensorType)
+                sensorNameResId = SensorExplanations.getSensorNameResId(sensorType),
+                explanationResId = SensorExplanations.getExplanationResId(sensorType)
             )
         }
         _state.update { it.copy(missingSensors = missingSensorInfoList) }

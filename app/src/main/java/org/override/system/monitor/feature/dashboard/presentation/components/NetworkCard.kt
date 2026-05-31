@@ -21,8 +21,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import org.override.system.monitor.R
 import org.override.system.monitor.feature.network.data.datasource.NetworkType
 import org.override.system.monitor.feature.network.domain.model.NetworkData
 
@@ -71,17 +73,17 @@ fun NetworkCard(data: NetworkData?, onClick: () -> Unit) {
                 Column {
                     Text(
                         text = when (data?.networkType) {
-                            NetworkType.WIFI -> "Wi-Fi"
-                            NetworkType.CELLULAR -> data.cellularNetworkType ?: "Cellular"
-                            NetworkType.ETHERNET -> "Ethernet"
-                            else -> "Offline"
+                            NetworkType.WIFI -> stringResource(R.string.wifi)
+                            NetworkType.CELLULAR -> data.cellularNetworkType ?: stringResource(R.string.cellular)
+                            NetworkType.ETHERNET -> stringResource(R.string.ethernet)
+                            else -> stringResource(R.string.offline)
                         },
                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                         color = MaterialTheme.colorScheme.onSurface
                     )
                     if (data?.networkType == NetworkType.WIFI) {
                         Text(
-                            text = data.wifiSsid ?: "Not connected",
+                            text = data.wifiSsid ?: stringResource(R.string.not_connected),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -129,7 +131,7 @@ fun NetworkCard(data: NetworkData?, onClick: () -> Unit) {
                     if (data.networkType == NetworkType.WIFI) {
                         Column(horizontalAlignment = Alignment.End) {
                             Text(
-                                text = "Link",
+                                text = stringResource(R.string.link),
                                 style = MaterialTheme.typography.labelSmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -143,7 +145,7 @@ fun NetworkCard(data: NetworkData?, onClick: () -> Unit) {
                     if (data.networkType == NetworkType.CELLULAR && data.cellularSignalStrength > 0) {
                         Column(horizontalAlignment = Alignment.End) {
                             Text(
-                                text = "Signal",
+                                text = stringResource(R.string.signal),
                                 style = MaterialTheme.typography.labelSmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -157,7 +159,7 @@ fun NetworkCard(data: NetworkData?, onClick: () -> Unit) {
                 }
             } else {
                 Text(
-                    text = "No connection",
+                    text = stringResource(R.string.no_connection),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.error
                 )
