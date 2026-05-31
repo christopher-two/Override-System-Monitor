@@ -12,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import org.override.system.monitor.R
+import org.override.system.monitor.core.common.model.SensorData
 
 @Composable
 fun getAccelerometerSensorDetail(data: SensorData?): SensorDetail = SensorDetail(

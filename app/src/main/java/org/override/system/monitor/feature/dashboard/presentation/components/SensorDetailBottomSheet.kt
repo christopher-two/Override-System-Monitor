@@ -30,6 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.override.system.monitor.R
+import org.override.system.monitor.core.common.model.SensorData
 import java.util.Locale
 
 data class SensorDetail(

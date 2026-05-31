@@ -32,9 +32,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import org.override.system.monitor.R
+import org.override.system.monitor.core.common.model.SensorData
 import java.util.Locale
 
-data class SensorData(val x: Float = 0f, val y: Float = 0f, val z: Float = 0f, val value: Float = 0f)
+
 
 // Sensor-specific icon background and text colors using Material 3 color roles
 private object SensorColors {
@@ -133,10 +134,10 @@ private fun BaseSensorCard(
                 content()
             }
         } else {
-            Row(
+            Column(
                 modifier = Modifier.fillMaxSize().padding(16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     IconContainer(
@@ -158,6 +159,7 @@ private fun BaseSensorCard(
                         color = MaterialTheme.colorScheme.onSurface
                     )
                 }
+                Spacer(modifier = Modifier.height(8.dp))
                 content()
             }
         }
@@ -185,7 +187,11 @@ private fun TriAxisSensorContent(
                 SensorAxis(label = "Z", value = String.format(Locale.US, "%.2f", data.z), color = axisColor)
             }
         } else {
-            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 SensorAxis(label = "X", value = String.format(Locale.US, "%.2f", data.x), color = axisColor)
                 SensorAxis(label = "Y", value = String.format(Locale.US, "%.2f", data.y), color = axisColor)
                 SensorAxis(label = "Z", value = String.format(Locale.US, "%.2f", data.z), color = axisColor)
@@ -218,7 +224,7 @@ private fun SingleValueSensorContent(
                 )
             }
         } else {
-            Column(horizontalAlignment = Alignment.End) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
                     text = displayValue,
                     style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
@@ -232,11 +238,13 @@ private fun SingleValueSensorContent(
             }
         }
     } else {
-        Text(
-            text = stringResource(R.string.no_data),
-            style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Bold),
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Text(
+                text = stringResource(R.string.no_data),
+                style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
     }
 }
 
@@ -246,9 +254,14 @@ private fun SingleValueSensorContent(
 fun AccelerometerCard(
     data: SensorData?,
     expanded: Boolean = false,
+    isTablet: Boolean = true,
     onClick: () -> Unit = {}
 ) {
-    val height: Dp = if (expanded) 160.dp else 100.dp
+    val height: Dp = when {
+        expanded -> 160.dp
+        isTablet -> 120.dp
+        else -> 160.dp
+    }
     val colors = SensorColors.accelerometer()
     BaseSensorCard(
         modifier = Modifier.height(height),
@@ -272,9 +285,14 @@ fun AccelerometerCard(
 fun GyroscopeCard(
     data: SensorData?,
     expanded: Boolean = false,
+    isTablet: Boolean = true,
     onClick: () -> Unit = {}
 ) {
-    val height: Dp = if (expanded) 160.dp else 100.dp
+    val height: Dp = when {
+        expanded -> 160.dp
+        isTablet -> 120.dp
+        else -> 160.dp
+    }
     val colors = SensorColors.gyroscope()
     BaseSensorCard(
         modifier = Modifier.height(height),
@@ -298,9 +316,14 @@ fun GyroscopeCard(
 fun MagnetometerCard(
     data: SensorData?,
     expanded: Boolean = false,
+    isTablet: Boolean = true,
     onClick: () -> Unit = {}
 ) {
-    val height: Dp = if (expanded) 160.dp else 100.dp
+    val height: Dp = when {
+        expanded -> 160.dp
+        isTablet -> 120.dp
+        else -> 160.dp
+    }
     val colors = SensorColors.magnetometer()
     BaseSensorCard(
         modifier = Modifier.height(height),
@@ -348,11 +371,13 @@ fun ProximityCard(
                 expanded = expanded
             )
         } else {
-            Text(
-                text = stringResource(R.string.no_data),
-                style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Bold),
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(
+                    text = stringResource(R.string.no_data),
+                    style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
         }
     }
 }
@@ -361,9 +386,14 @@ fun ProximityCard(
 fun RotationVectorCard(
     data: SensorData?,
     expanded: Boolean = false,
+    isTablet: Boolean = true,
     onClick: () -> Unit = {}
 ) {
-    val height: Dp = if (expanded) 160.dp else 100.dp
+    val height: Dp = when {
+        expanded -> 160.dp
+        isTablet -> 120.dp
+        else -> 160.dp
+    }
     val colors = SensorColors.gyroscope()
     BaseSensorCard(
         modifier = Modifier.height(height),
@@ -410,11 +440,13 @@ fun BarometerCard(
                 expanded = expanded
             )
         } else {
-            Text(
-                text = stringResource(R.string.no_data),
-                style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Bold),
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(
+                    text = stringResource(R.string.no_data),
+                    style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
         }
     }
 }
@@ -446,11 +478,13 @@ fun AmbientTemperatureCard(
                 expanded = expanded
             )
         } else {
-            Text(
-                text = stringResource(R.string.no_data),
-                style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Bold),
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(
+                    text = stringResource(R.string.no_data),
+                    style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
         }
     }
 }
@@ -495,9 +529,14 @@ fun HumidityCard(
 fun LinearAccelerationCard(
     data: SensorData?,
     expanded: Boolean = false,
+    isTablet: Boolean = true,
     onClick: () -> Unit = {}
 ) {
-    val height: Dp = if (expanded) 160.dp else 100.dp
+    val height: Dp = when {
+        expanded -> 160.dp
+        isTablet -> 120.dp
+        else -> 160.dp
+    }
     val colors = SensorColors.accelerometer()
     BaseSensorCard(
         modifier = Modifier.height(height),

@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -25,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.override.system.monitor.R
+import org.override.system.monitor.core.common.model.SensorData
 import org.override.system.monitor.core.ui.Destination
 import org.override.system.monitor.feature.dashboard.presentation.DashboardState
 
@@ -199,14 +199,16 @@ fun MobileDashboardContent(
 ) {
     val sensorDetails = rememberSensorDetails(state)
 
-    LazyColumn(
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(1),
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
         contentPadding = PaddingValues(bottom = 16.dp)
     ) {
-        item {
+        item(span = { GridItemSpan(1) }) {
             state.batteryData?.let { battery ->
                 BatteryCard(
                     percentage = battery.percentage,
@@ -218,7 +220,7 @@ fun MobileDashboardContent(
             }
         }
 
-        item {
+        item(span = { GridItemSpan(1) }) {
             state.memoryData?.let { ram ->
                 MemoryCard(
                     usedMemory = ram.usedMemory,
@@ -229,7 +231,7 @@ fun MobileDashboardContent(
             }
         }
 
-        item {
+        item(span = { GridItemSpan(1) }) {
             state.storageData?.let { storage ->
                 StorageCard(
                     usedStorage = storage.usedStorage,
@@ -240,101 +242,106 @@ fun MobileDashboardContent(
             }
         }
 
-        item {
+        item(span = { GridItemSpan(1) }) {
             NetworkCard(data = state.networkData, onClick = onNetworkClick)
         }
 
-        item {
+        item(span = { GridItemSpan(1) }) {
             LiveSensorsHeader()
         }
 
-        item {
+        item(span = { GridItemSpan(1) }) {
             AccelerometerCard(
                 data = sensorDetails.accelerometerData,
-                expanded = true,
+                expanded = false,
+                isTablet = false,
                 onClick = { onSensorClick(sensorDetails.accelerometerDetail) }
             )
         }
 
-        item {
+        item(span = { GridItemSpan(1) }) {
             GyroscopeCard(
                 data = sensorDetails.gyroscopeData,
-                expanded = true,
+                expanded = false,
+                isTablet = false,
                 onClick = { onSensorClick(sensorDetails.gyroscopeDetail) }
             )
         }
 
         if (!state.missingSensors.any { it.sensorType == android.hardware.Sensor.TYPE_MAGNETIC_FIELD }) {
-            item {
+            item(span = { GridItemSpan(1) }) {
                 MagnetometerCard(
                     data = sensorDetails.magnetometerData,
-                    expanded = true,
+                    expanded = false,
+                    isTablet = false,
                     onClick = { onSensorClick(sensorDetails.magnetometerDetail) }
                 )
             }
         }
 
         if (!state.missingSensors.any { it.sensorType == android.hardware.Sensor.TYPE_PROXIMITY }) {
-            item {
+            item(span = { GridItemSpan(1) }) {
                 ProximityCard(
                     data = sensorDetails.proximityData,
-                    expanded = true,
+                    expanded = false,
                     onClick = { onSensorClick(sensorDetails.proximityDetail) }
                 )
             }
         }
 
         if (!state.missingSensors.any { it.sensorType == android.hardware.Sensor.TYPE_ROTATION_VECTOR }) {
-            item {
+            item(span = { GridItemSpan(1) }) {
                 RotationVectorCard(
                     data = sensorDetails.rotationVectorData,
-                    expanded = true,
+                    expanded = false,
+                    isTablet = false,
                     onClick = { onSensorClick(sensorDetails.rotationVectorDetail) }
                 )
             }
         }
 
         if (!state.missingSensors.any { it.sensorType == android.hardware.Sensor.TYPE_PRESSURE }) {
-            item {
+            item(span = { GridItemSpan(1) }) {
                 BarometerCard(
                     data = sensorDetails.barometerData,
-                    expanded = true,
+                    expanded = false,
                     onClick = { onSensorClick(sensorDetails.barometerDetail) }
                 )
             }
         }
 
         if (!state.missingSensors.any { it.sensorType == android.hardware.Sensor.TYPE_AMBIENT_TEMPERATURE }) {
-            item {
+            item(span = { GridItemSpan(1) }) {
                 AmbientTemperatureCard(
                     data = sensorDetails.temperatureData,
-                    expanded = true,
+                    expanded = false,
                     onClick = { onSensorClick(sensorDetails.temperatureDetail) }
                 )
             }
         }
 
         if (!state.missingSensors.any { it.sensorType == android.hardware.Sensor.TYPE_RELATIVE_HUMIDITY }) {
-            item {
+            item(span = { GridItemSpan(1) }) {
                 HumidityCard(
                     data = sensorDetails.humidityData,
-                    expanded = true,
+                    expanded = false,
                     onClick = { onSensorClick(sensorDetails.humidityDetail) }
                 )
             }
         }
 
         if (!state.missingSensors.any { it.sensorType == android.hardware.Sensor.TYPE_LINEAR_ACCELERATION }) {
-            item {
+            item(span = { GridItemSpan(1) }) {
                 LinearAccelerationCard(
                     data = sensorDetails.linearAccelData,
-                    expanded = true,
+                    expanded = false,
+                    isTablet = false,
                     onClick = { onSensorClick(sensorDetails.linearAccelDetail) }
                 )
             }
         }
 
-        item {
+        item(span = { GridItemSpan(1) }) {
             state.systemIdentityData?.let { sys ->
                 DeviceCard(
                     manufacturer = sys.manufacturer,
