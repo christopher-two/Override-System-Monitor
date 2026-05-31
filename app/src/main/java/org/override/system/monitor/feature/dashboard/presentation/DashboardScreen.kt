@@ -40,10 +40,16 @@ import org.override.system.monitor.feature.dashboard.presentation.components.Mob
 import org.override.system.monitor.feature.dashboard.presentation.components.SensorDetailBottomSheet
 import org.override.system.monitor.feature.dashboard.presentation.components.TabletDashboardContent
 
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
+import androidx.compose.ui.platform.LocalContext
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DashboardScreen(viewModel: DashboardViewModel) {
     val state by viewModel.state.collectAsState()
+    val context = LocalContext.current
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     var showMissingSensorsSheet by remember { mutableStateOf(false) }
     var showSensorDetail by remember { mutableStateOf(false) }
@@ -101,6 +107,24 @@ fun DashboardScreen(viewModel: DashboardViewModel) {
                     permissions.add(Manifest.permission.READ_PHONE_STATE)
                 }
                 networkPermissionLauncher.launch(permissions.toTypedArray())
+            },
+            onOpenSettings = {
+                try {
+                    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                        data = Uri.fromParts("package", context.packageName, null)
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    }
+                    context.startActivity(intent)
+                } catch (e: Exception) {
+                    try {
+                        val intent = Intent(Settings.ACTION_SETTINGS).apply {
+                            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        }
+                        context.startActivity(intent)
+                    } catch (ex: Exception) {
+                        // Fallback
+                    }
+                }
             },
             onDismiss = { showNetworkDetail = false }
         )

@@ -63,6 +63,8 @@
     <string name="permission_required">Permission Required</string>
     <string name="permission_description">Location and Wi-Fi permissions are required to scan for exact network names (SSID) and perform full signal level diagnostics.</string>
     <string name="grant_permission">Grant Permission</string>
+    <string name="open_settings">Open Settings</string>
+    <string name="permission_denied_permanently">Permissions are disabled. Please enable Location and Wi-Fi permissions in App Settings.</string>
     <string name="permissions_working">Permissions granted and working perfectly!</string>
     <string name="detected_wifi_parameters">Detected Wi-Fi Parameters</string>
     <string name="ssid_network_name">SSID (Network Name)</string>

@@ -63,6 +63,8 @@
     <string name="permission_required">Permiso Requerido</string>
     <string name="permission_description">Se requieren permisos de ubicación y Wi-Fi para escanear nombres exactos de redes (SSID) y realizar diagnósticos completos del nivel de señal.</string>
     <string name="grant_permission">Conceder Permiso</string>
+    <string name="open_settings">Abrir Ajustes</string>
+    <string name="permission_denied_permanently">Los permisos están desactivados. Por favor activa los permisos de Ubicación y Wi-Fi en los Ajustes de la Aplicación.</string>
     <string name="permissions_working">¡Permisos concedidos y funcionando perfectamente!</string>
     <string name="detected_wifi_parameters">Parámetros Wi-Fi Detectados</string>
     <string name="ssid_network_name">SSID (Nombre de Red)</string>
