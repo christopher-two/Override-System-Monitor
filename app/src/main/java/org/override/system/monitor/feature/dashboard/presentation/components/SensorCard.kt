@@ -36,6 +36,58 @@ import java.util.Locale
 
 data class SensorData(val x: Float = 0f, val y: Float = 0f, val z: Float = 0f, val value: Float = 0f)
 
+// Sensor-specific icon background and text colors using Material 3 color roles
+private object SensorColors {
+    @Composable
+    fun accelerometer() = ColorPair(
+        container = MaterialTheme.colorScheme.primary.copy(alpha = 0.15f),
+        icon = MaterialTheme.colorScheme.primary,
+        axis = MaterialTheme.colorScheme.primary
+    )
+    @Composable
+    fun gyroscope() = ColorPair(
+        container = MaterialTheme.colorScheme.secondary.copy(alpha = 0.15f),
+        icon = MaterialTheme.colorScheme.secondary,
+        axis = MaterialTheme.colorScheme.secondary
+    )
+    @Composable
+    fun magnetometer() = ColorPair(
+        container = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.15f),
+        icon = MaterialTheme.colorScheme.tertiary,
+        axis = MaterialTheme.colorScheme.tertiary
+    )
+    @Composable
+    fun proximity() = ColorPair(
+        container = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f),
+        icon = MaterialTheme.colorScheme.primary.copy(alpha = 0.85f),
+        axis = MaterialTheme.colorScheme.primary.copy(alpha = 0.85f)
+    )
+    @Composable
+    fun barometer() = ColorPair(
+        container = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.8f),
+        icon = MaterialTheme.colorScheme.onSurfaceVariant,
+        axis = MaterialTheme.colorScheme.onSurfaceVariant
+    )
+    @Composable
+    fun temperature() = ColorPair(
+        container = MaterialTheme.colorScheme.error.copy(alpha = 0.15f),
+        icon = MaterialTheme.colorScheme.error,
+        axis = MaterialTheme.colorScheme.error
+    )
+    @Composable
+    fun humidity() = ColorPair(
+        container = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f),
+        icon = MaterialTheme.colorScheme.primary.copy(alpha = 0.85f),
+        axis = MaterialTheme.colorScheme.primary.copy(alpha = 0.85f)
+    )
+
+    data class ColorPair(
+        val container: Color,
+        val icon: Color,
+        val axis: Color
+    )
+}
+
 // ============== BASE SENSOR CARD COMPOSABLES ==============
 
 @Composable
@@ -197,18 +249,20 @@ fun AccelerometerCard(
     onClick: () -> Unit = {}
 ) {
     val height: Dp = if (expanded) 160.dp else 100.dp
+    val colors = SensorColors.accelerometer()
     BaseSensorCard(
         modifier = Modifier.height(height),
         expanded = expanded,
         icon = Icons.Rounded.Speed,
-        iconBackgroundColor = MaterialTheme.colorScheme.primaryContainer,
+        iconBackgroundColor = colors.container,
+        iconColor = colors.icon,
         title = stringResource(R.string.accelerometer),
         onClick = onClick
     ) {
         TriAxisSensorContent(
             data = data,
             unit = stringResource(R.string.unit_m_s2),
-            axisColor = MaterialTheme.colorScheme.primary,
+            axisColor = colors.axis,
             expanded = expanded
         )
     }
@@ -221,18 +275,20 @@ fun GyroscopeCard(
     onClick: () -> Unit = {}
 ) {
     val height: Dp = if (expanded) 160.dp else 100.dp
+    val colors = SensorColors.gyroscope()
     BaseSensorCard(
         modifier = Modifier.height(height),
         expanded = expanded,
         icon = Icons.Rounded.Explore,
-        iconBackgroundColor = MaterialTheme.colorScheme.secondaryContainer,
+        iconBackgroundColor = colors.container,
+        iconColor = colors.icon,
         title = stringResource(R.string.gyroscope),
         onClick = onClick
     ) {
         TriAxisSensorContent(
             data = data,
             unit = stringResource(R.string.unit_rad_s),
-            axisColor = MaterialTheme.colorScheme.secondary,
+            axisColor = colors.axis,
             expanded = expanded
         )
     }
@@ -245,18 +301,20 @@ fun MagnetometerCard(
     onClick: () -> Unit = {}
 ) {
     val height: Dp = if (expanded) 160.dp else 100.dp
+    val colors = SensorColors.magnetometer()
     BaseSensorCard(
         modifier = Modifier.height(height),
         expanded = expanded,
         icon = Icons.Rounded.Explore,
-        iconBackgroundColor = MaterialTheme.colorScheme.tertiaryContainer,
+        iconBackgroundColor = colors.container,
+        iconColor = colors.icon,
         title = stringResource(R.string.magnetometer),
         onClick = onClick
     ) {
         TriAxisSensorContent(
             data = data,
             unit = stringResource(R.string.unit_micro_t),
-            axisColor = MaterialTheme.colorScheme.tertiary,
+            axisColor = colors.axis,
             expanded = expanded
         )
     }
@@ -269,11 +327,13 @@ fun ProximityCard(
     onClick: () -> Unit = {}
 ) {
     val height: Dp = if (expanded) 140.dp else 100.dp
+    val colors = SensorColors.proximity()
     BaseSensorCard(
         modifier = Modifier.height(height),
         expanded = expanded,
         icon = Icons.Rounded.NearMe,
-        iconBackgroundColor = MaterialTheme.colorScheme.primaryContainer,
+        iconBackgroundColor = colors.container,
+        iconColor = colors.icon,
         title = stringResource(R.string.proximity),
         onClick = onClick
     ) {
@@ -284,7 +344,7 @@ fun ProximityCard(
                 data = data,
                 displayValue = displayText,
                 unit = displayValue,
-                valueColor = MaterialTheme.colorScheme.primary,
+                valueColor = colors.axis,
                 expanded = expanded
             )
         } else {
@@ -304,18 +364,20 @@ fun RotationVectorCard(
     onClick: () -> Unit = {}
 ) {
     val height: Dp = if (expanded) 160.dp else 100.dp
+    val colors = SensorColors.gyroscope()
     BaseSensorCard(
         modifier = Modifier.height(height),
         expanded = expanded,
         icon = Icons.Rounded.ScreenRotation,
-        iconBackgroundColor = MaterialTheme.colorScheme.secondaryContainer,
+        iconBackgroundColor = colors.container,
+        iconColor = colors.icon,
         title = stringResource(R.string.rotation_vector),
         onClick = onClick
     ) {
         TriAxisSensorContent(
             data = data,
             unit = stringResource(R.string.unit_dimensionless),
-            axisColor = MaterialTheme.colorScheme.secondary,
+            axisColor = colors.axis,
             expanded = expanded
         )
     }
@@ -328,11 +390,13 @@ fun BarometerCard(
     onClick: () -> Unit = {}
 ) {
     val height: Dp = if (expanded) 140.dp else 100.dp
+    val colors = SensorColors.barometer()
     BaseSensorCard(
         modifier = Modifier.height(height),
         expanded = expanded,
         icon = Icons.Rounded.Sensors,
-        iconBackgroundColor = MaterialTheme.colorScheme.tertiaryContainer,
+        iconBackgroundColor = colors.container,
+        iconColor = colors.icon,
         title = stringResource(R.string.barometer),
         onClick = onClick
     ) {
@@ -342,7 +406,7 @@ fun BarometerCard(
                 data = data,
                 displayValue = displayValue,
                 unit = stringResource(R.string.unit_hpa),
-                valueColor = MaterialTheme.colorScheme.tertiary,
+                valueColor = colors.axis,
                 expanded = expanded
             )
         } else {
@@ -362,11 +426,13 @@ fun AmbientTemperatureCard(
     onClick: () -> Unit = {}
 ) {
     val height: Dp = if (expanded) 140.dp else 100.dp
+    val colors = SensorColors.temperature()
     BaseSensorCard(
         modifier = Modifier.height(height),
         expanded = expanded,
         icon = Icons.Rounded.Thermostat,
-        iconBackgroundColor = MaterialTheme.colorScheme.errorContainer,
+        iconBackgroundColor = colors.container,
+        iconColor = colors.icon,
         title = stringResource(R.string.temperature_label),
         onClick = onClick
     ) {
@@ -376,7 +442,7 @@ fun AmbientTemperatureCard(
                 data = data,
                 displayValue = displayValue,
                 unit = stringResource(R.string.unit_celsius),
-                valueColor = MaterialTheme.colorScheme.error,
+                valueColor = colors.axis,
                 expanded = expanded
             )
         } else {
@@ -396,11 +462,13 @@ fun HumidityCard(
     onClick: () -> Unit = {}
 ) {
     val height: Dp = if (expanded) 140.dp else 100.dp
+    val colors = SensorColors.humidity()
     BaseSensorCard(
         modifier = Modifier.height(height),
         expanded = expanded,
         icon = Icons.Rounded.WaterDrop,
-        iconBackgroundColor = MaterialTheme.colorScheme.primaryContainer,
+        iconBackgroundColor = colors.container,
+        iconColor = colors.icon,
         title = stringResource(R.string.humidity),
         onClick = onClick
     ) {
@@ -410,7 +478,7 @@ fun HumidityCard(
                 data = data,
                 displayValue = displayValue,
                 unit = stringResource(R.string.unit_percent),
-                valueColor = MaterialTheme.colorScheme.primary,
+                valueColor = colors.axis,
                 expanded = expanded
             )
         } else {
@@ -430,18 +498,20 @@ fun LinearAccelerationCard(
     onClick: () -> Unit = {}
 ) {
     val height: Dp = if (expanded) 160.dp else 100.dp
+    val colors = SensorColors.accelerometer()
     BaseSensorCard(
         modifier = Modifier.height(height),
         expanded = expanded,
         icon = Icons.Rounded.Speed,
-        iconBackgroundColor = MaterialTheme.colorScheme.primaryContainer,
+        iconBackgroundColor = colors.container,
+        iconColor = colors.icon,
         title = stringResource(R.string.linear_accel),
         onClick = onClick
     ) {
         TriAxisSensorContent(
             data = data,
             unit = stringResource(R.string.unit_m_s2),
-            axisColor = MaterialTheme.colorScheme.primary,
+            axisColor = colors.axis,
             expanded = expanded
         )
     }
