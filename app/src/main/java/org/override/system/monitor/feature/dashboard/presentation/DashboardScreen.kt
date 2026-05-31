@@ -40,6 +40,7 @@ import org.override.system.monitor.feature.dashboard.presentation.components.Bat
 import org.override.system.monitor.feature.dashboard.presentation.components.DeviceCard
 import org.override.system.monitor.feature.dashboard.presentation.components.GyroscopeCard
 import org.override.system.monitor.feature.dashboard.presentation.components.MemoryCard
+import org.override.system.monitor.feature.dashboard.presentation.components.SensorData
 import org.override.system.monitor.feature.dashboard.presentation.components.StorageCard
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -141,15 +142,15 @@ fun DashboardScreen(viewModel: DashboardViewModel) {
             }
 
             item {
-                state.accelerometerData?.let { data ->
-                    AccelerometerCard(x = data.x, y = data.y, z = data.z)
-                }
+                AccelerometerCard(
+                    data = state.accelerometerData?.let { SensorData(it.x, it.y, it.z) }
+                )
             }
 
             item {
-                state.gyroscopeData?.let { data ->
-                    GyroscopeCard(x = data.x, y = data.y, z = data.z)
-                }
+                GyroscopeCard(
+                    data = state.gyroscopeData?.let { SensorData(it.x, it.y, it.z) }
+                )
             }
 
             item(span = { GridItemSpan(2) }) {

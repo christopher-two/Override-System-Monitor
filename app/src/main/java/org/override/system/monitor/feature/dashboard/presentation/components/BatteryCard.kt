@@ -146,6 +146,8 @@ fun BatteryCard(
                 color = batteryColor,
                 modifier = Modifier.fillMaxWidth().height(8.dp)
             )
+
+            Spacer(modifier = Modifier.weight(1f))
         }
     }
 }

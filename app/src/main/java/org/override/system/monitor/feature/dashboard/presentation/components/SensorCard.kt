@@ -24,10 +24,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import java.util.Locale
 
-@Composable
-fun AccelerometerCard(x: Float, y: Float, z: Float) {
-    val sensorColor = MaterialTheme.colorScheme.primary
+data class SensorData(val x: Float, val y: Float, val z: Float)
 
+@Composable
+fun AccelerometerCard(data: SensorData?) {
     ExpressiveCard(
         modifier = Modifier.height(140.dp),
         containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -55,24 +55,24 @@ fun AccelerometerCard(x: Float, y: Float, z: Float) {
                 )
             }
 
-            Spacer(modifier = Modifier.height(12.dp))
+            if (data != null) {
+                Spacer(modifier = Modifier.height(12.dp))
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                SensorAxis(label = "X", value = String.format(Locale.US, "%.2f", x), color = sensorColor)
-                SensorAxis(label = "Y", value = String.format(Locale.US, "%.2f", y), color = sensorColor)
-                SensorAxis(label = "Z", value = String.format(Locale.US, "%.2f", z), color = sensorColor)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    SensorAxis(label = "X", value = String.format(Locale.US, "%.2f", data.x), color = MaterialTheme.colorScheme.primary)
+                    SensorAxis(label = "Y", value = String.format(Locale.US, "%.2f", data.y), color = MaterialTheme.colorScheme.primary)
+                    SensorAxis(label = "Z", value = String.format(Locale.US, "%.2f", data.z), color = MaterialTheme.colorScheme.primary)
+                }
             }
         }
     }
 }
 
 @Composable
-fun GyroscopeCard(x: Float, y: Float, z: Float) {
-    val gyroColor = MaterialTheme.colorScheme.secondary
-
+fun GyroscopeCard(data: SensorData?) {
     ExpressiveCard(
         modifier = Modifier.height(140.dp),
         containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -100,15 +100,17 @@ fun GyroscopeCard(x: Float, y: Float, z: Float) {
                 )
             }
 
-            Spacer(modifier = Modifier.height(12.dp))
+            if (data != null) {
+                Spacer(modifier = Modifier.height(12.dp))
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                SensorAxis(label = "X", value = String.format(Locale.US, "%.2f", x), color = gyroColor)
-                SensorAxis(label = "Y", value = String.format(Locale.US, "%.2f", y), color = gyroColor)
-                SensorAxis(label = "Z", value = String.format(Locale.US, "%.2f", z), color = gyroColor)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    SensorAxis(label = "X", value = String.format(Locale.US, "%.2f", data.x), color = MaterialTheme.colorScheme.secondary)
+                    SensorAxis(label = "Y", value = String.format(Locale.US, "%.2f", data.y), color = MaterialTheme.colorScheme.secondary)
+                    SensorAxis(label = "Z", value = String.format(Locale.US, "%.2f", data.z), color = MaterialTheme.colorScheme.secondary)
+                }
             }
         }
     }

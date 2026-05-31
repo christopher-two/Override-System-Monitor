@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Storage
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearWavyProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -85,11 +86,14 @@ fun StorageCard(
 
             Spacer(modifier = Modifier.weight(1f))
 
-            ExpressiveProgress(
-                progress = percentageUsed / 100f,
+            LinearWavyProgressIndicator(
+                modifier = Modifier.fillMaxWidth(),
                 color = storageColor,
-                modifier = Modifier.fillMaxWidth().height(6.dp)
+                trackColor = MaterialTheme.colorScheme.surfaceContainerHighest,
+                progress = { percentageUsed / 100f }
             )
+
+            Spacer(modifier = Modifier.weight(1f))
         }
     }
 }
