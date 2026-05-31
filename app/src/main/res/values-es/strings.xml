@@ -191,6 +191,32 @@
     <string name="app_version">Versión de App: %1$s</string>
     <string name="design_language">Lenguaje de Diseño: Material 3</string>
     <string name="reset_dashboard">REINICIAR DASHBOARD</string>
+    <string name="settings_title">Configuración</string>
+    <string name="general_settings">General</string>
+    <string name="monitoring_settings">Monitoreo</string>
+    <string name="appearance">Apariencia</string>
+    <string name="about">Acerca de</string>
+    <string name="dark_mode">Modo Oscuro</string>
+    <string name="dark_mode_description">Activar tema oscuro para la aplicación</string>
+    <string name="auto_refresh">Auto Actualizar</string>
+    <string name="auto_refresh_description">Actualizar automáticamente los datos de sensores</string>
+    <string name="refresh_interval">Intervalo de Actualización</string>
+    <string name="high_precision">Modo Alta Precisión</string>
+    <string name="high_precision_description">Mostrar más decimales en los valores de sensores</string>
+    <string name="show_units">Mostrar Unidades</string>
+    <string name="show_units_description">Mostrar unidades de sensores junto a los valores</string>
+    <string name="vibration_feedback">Vibración</string>
+    <string name="vibration_feedback_description">Vibrar en alertas de sensores</string>
+    <string name="terms_and_conditions">Términos y Condiciones</string>
+    <string name="privacy_policy">Política de Privacidad</string>
+    <string name="developed_by">Desarrollado por Override</string>
+    <string name="seconds_unit">%1$s segundos</string>
+    <string name="reset_dashboard_confirm">¿Estás seguro de que quieres reiniciar el dashboard?</string>
+    <string name="cancel">Cancelar</string>
+    <string name="confirm">Confirmar</string>
+    <string name="dashboard_reset_success">Dashboard reiniciado exitosamente</string>
+    <string name="about_app">Acerca de la App</string>
+    <string name="about_app_description">Override System Monitor proporciona monitoreo en tiempo real de los sensores de tu dispositivo, red, batería e información del sistema.</string>
 
     <!-- No Data -->
     <string name="no_data">Sin datos</string>
