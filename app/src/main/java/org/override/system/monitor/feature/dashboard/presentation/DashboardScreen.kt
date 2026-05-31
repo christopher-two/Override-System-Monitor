@@ -1,6 +1,7 @@
 package org.override.system.monitor.feature.dashboard.presentation
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,6 +17,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Sensors
 import androidx.compose.material.icons.rounded.Settings
+import androidx.compose.material.icons.rounded.Warning
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
@@ -28,6 +30,9 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,11 +41,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.override.system.monitor.core.ui.Destination
 import org.override.system.monitor.feature.dashboard.presentation.components.AccelerometerCard
+import org.override.system.monitor.feature.dashboard.presentation.components.AmbientTemperatureCard
+import org.override.system.monitor.feature.dashboard.presentation.components.BarometerCard
 import org.override.system.monitor.feature.dashboard.presentation.components.BatteryCard
 import org.override.system.monitor.feature.dashboard.presentation.components.DeviceCard
 import org.override.system.monitor.feature.dashboard.presentation.components.GyroscopeCard
+import org.override.system.monitor.feature.dashboard.presentation.components.HumidityCard
+import org.override.system.monitor.feature.dashboard.presentation.components.LinearAccelerationCard
+import org.override.system.monitor.feature.dashboard.presentation.components.MagnetometerCard
 import org.override.system.monitor.feature.dashboard.presentation.components.MemoryCard
+import org.override.system.monitor.feature.dashboard.presentation.components.MissingSensorsBottomSheet
+import org.override.system.monitor.feature.dashboard.presentation.components.ProximityCard
+import org.override.system.monitor.feature.dashboard.presentation.components.RotationVectorCard
 import org.override.system.monitor.feature.dashboard.presentation.components.SensorData
+import org.override.system.monitor.feature.dashboard.presentation.components.StepCounterCard
 import org.override.system.monitor.feature.dashboard.presentation.components.StorageCard
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -48,6 +62,14 @@ import org.override.system.monitor.feature.dashboard.presentation.components.Sto
 fun DashboardScreen(viewModel: DashboardViewModel) {
     val state by viewModel.state.collectAsState()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
+    var showMissingSensorsSheet by remember { mutableStateOf(false) }
+
+    if (showMissingSensorsSheet) {
+        MissingSensorsBottomSheet(
+            missingSensors = state.missingSensors,
+            onDismiss = { showMissingSensorsSheet = false }
+        )
+    }
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -62,6 +84,17 @@ fun DashboardScreen(viewModel: DashboardViewModel) {
                     )
                 },
                 actions = {
+                    if (state.missingSensors.isNotEmpty()) {
+                        FilledTonalIconButton(
+                            onClick = { showMissingSensorsSheet = true }
+                        ) {
+                            Icon(
+                                Icons.Rounded.Warning,
+                                contentDescription = "Missing Sensors",
+                                tint = MaterialTheme.colorScheme.error
+                            )
+                        }
+                    }
                     FilledTonalIconButton(
                         onClick = { viewModel.processAction(DashboardAction.Navigate(Destination.Settings)) }
                     ) {
@@ -141,6 +174,7 @@ fun DashboardScreen(viewModel: DashboardViewModel) {
                 }
             }
 
+            // Existing sensors (always show)
             item {
                 AccelerometerCard(
                     data = state.accelerometerData?.let { SensorData(it.x, it.y, it.z) }
@@ -151,6 +185,73 @@ fun DashboardScreen(viewModel: DashboardViewModel) {
                 GyroscopeCard(
                     data = state.gyroscopeData?.let { SensorData(it.x, it.y, it.z) }
                 )
+            }
+
+            // Position& Orientation sensors - only show if NOT missing
+            if (!state.missingSensors.any { it.sensorType == android.hardware.Sensor.TYPE_MAGNETIC_FIELD }) {
+                item {
+                    MagnetometerCard(
+                        data = state.magnetometerData?.let { SensorData(it.x, it.y, it.z) }
+                    )
+                }
+            }
+
+            if (!state.missingSensors.any { it.sensorType == android.hardware.Sensor.TYPE_PROXIMITY }) {
+                item {
+                    ProximityCard(
+                        data = state.proximityData?.let { SensorData(0f, 0f, it.value) }
+                    )
+                }
+            }
+
+            if (!state.missingSensors.any { it.sensorType == android.hardware.Sensor.TYPE_ROTATION_VECTOR }) {
+                item {
+                    RotationVectorCard(
+                        data = state.rotationVectorData?.let { SensorData(it.x, it.y, it.z) }
+                    )
+                }
+            }
+
+            // Environmental sensors - only show if NOT missing
+            if (!state.missingSensors.any { it.sensorType == android.hardware.Sensor.TYPE_PRESSURE }) {
+                item {
+                    BarometerCard(
+                        data = state.barometerData?.let { SensorData(0f, 0f, it.value) }
+                    )
+                }
+            }
+
+            if (!state.missingSensors.any { it.sensorType == android.hardware.Sensor.TYPE_AMBIENT_TEMPERATURE }) {
+                item {
+                    AmbientTemperatureCard(
+                        data = state.ambientTemperatureData?.let { SensorData(0f, 0f, it.value) }
+                    )
+                }
+            }
+
+            if (!state.missingSensors.any { it.sensorType == android.hardware.Sensor.TYPE_RELATIVE_HUMIDITY }) {
+                item {
+                    HumidityCard(
+                        data = state.humidityData?.let { SensorData(0f, 0f, it.value) }
+                    )
+                }
+            }
+
+            // Motion & Health sensors - only show if NOT missing
+            if (!state.missingSensors.any { it.sensorType == android.hardware.Sensor.TYPE_STEP_COUNTER }) {
+                item {
+                    StepCounterCard(
+                        data = state.stepCounterData?.let { SensorData(0f, 0f, it.value) }
+                    )
+                }
+            }
+
+            if (!state.missingSensors.any { it.sensorType == android.hardware.Sensor.TYPE_LINEAR_ACCELERATION }) {
+                item {
+                    LinearAccelerationCard(
+                        data = state.linearAccelerationData?.let { SensorData(it.x, it.y, it.z) }
+                    )
+                }
             }
 
             item(span = { GridItemSpan(2) }) {

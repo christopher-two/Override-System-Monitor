@@ -44,4 +44,9 @@ class SensorDataSource(context: Context) {
     }
 
     fun getAllSensors(): List<Sensor> = sensorManager.getSensorList(Sensor.TYPE_ALL)
+
+    fun isSensorAvailable(sensorType: Int): Boolean = sensorManager.getDefaultSensor(sensorType) != null
+
+    fun getMissingSensors(requestedSensorTypes: List<Int>): List<Int> =
+        requestedSensorTypes.filter { !isSensorAvailable(it) }
 }
