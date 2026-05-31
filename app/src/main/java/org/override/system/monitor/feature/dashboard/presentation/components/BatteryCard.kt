@@ -22,7 +22,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -60,7 +59,7 @@ fun BatteryCard(
                         Icon(
                             Icons.Rounded.BatteryChargingFull,
                             contentDescription = null,
-                            tint = batteryColor,
+                            tint = MaterialTheme.colorScheme.onPrimaryContainer,
                             modifier = Modifier.size(24.dp)
                         )
                     }
@@ -145,7 +144,7 @@ fun BatteryCard(
             ExpressiveProgress(
                 progress = percentage / 100f,
                 color = batteryColor,
-                modifier = Modifier.fillMaxWidth().height(8.dp).clip(RoundedCornerShape(4.dp))
+                modifier = Modifier.fillMaxWidth().height(8.dp)
             )
         }
     }

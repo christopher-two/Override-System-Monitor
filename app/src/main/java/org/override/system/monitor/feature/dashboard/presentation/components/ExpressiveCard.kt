@@ -1,16 +1,15 @@
 package org.override.system.monitor.feature.dashboard.presentation.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LinearWavyProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -45,22 +44,10 @@ fun ExpressiveProgress(
     color: Color,
     modifier: Modifier = Modifier
 ) {
-    val animatedProgress = androidx.compose.animation.core.animateFloatAsState(
-        targetValue = progress.coerceIn(0f, 1f),
-        animationSpec = androidx.compose.animation.core.tween(durationMillis = 500),
-        label = "progress"
+    LinearWavyProgressIndicator(
+        modifier = modifier.fillMaxWidth(),
+        color = color,
+        trackColor = MaterialTheme.colorScheme.surfaceContainerHighest,
+        progress = { progress.coerceIn(0f, 1f) }
     )
-
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surfaceContainerHighest)
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxWidth(animatedProgress.value)
-                .background(color)
-        )
-    }
 }

@@ -53,7 +53,7 @@ fun DeviceCard(
                         Icon(
                             Icons.Rounded.Smartphone,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.primary,
+                            tint = MaterialTheme.colorScheme.onPrimaryContainer,
                             modifier = Modifier.size(24.dp)
                         )
                     }

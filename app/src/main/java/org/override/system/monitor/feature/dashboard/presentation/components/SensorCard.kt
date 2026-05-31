@@ -42,7 +42,7 @@ fun AccelerometerCard(x: Float, y: Float, z: Float) {
                         Icon(
                             Icons.Rounded.Speed,
                             contentDescription = null,
-                            tint = sensorColor,
+                            tint = MaterialTheme.colorScheme.onPrimaryContainer,
                             modifier = Modifier.size(18.dp)
                         )
                     }
@@ -87,7 +87,7 @@ fun GyroscopeCard(x: Float, y: Float, z: Float) {
                         Icon(
                             Icons.Rounded.Explore,
                             contentDescription = null,
-                            tint = gyroColor,
+                            tint = MaterialTheme.colorScheme.onSecondaryContainer,
                             modifier = Modifier.size(18.dp)
                         )
                     }
