@@ -1,5 +1,6 @@
 package org.override.system.monitor.di
 
+import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
@@ -9,6 +10,9 @@ import org.override.system.monitor.feature.battery.domain.repository.BatteryRepo
 import org.override.system.monitor.feature.memory.data.datasource.MemoryDataSource
 import org.override.system.monitor.feature.memory.data.repository.MemoryRepositoryImpl
 import org.override.system.monitor.feature.memory.domain.repository.MemoryRepository
+import org.override.system.monitor.feature.network.data.datasource.NetworkDataSource
+import org.override.system.monitor.feature.network.data.repository.NetworkRepositoryImpl
+import org.override.system.monitor.feature.network.domain.repository.NetworkRepository
 import org.override.system.monitor.feature.sensor.data.datasource.SensorDataSource
 import org.override.system.monitor.feature.sensor.data.repository.SensorRepositoryImpl
 import org.override.system.monitor.feature.sensor.domain.repository.SensorRepository
@@ -25,10 +29,12 @@ val dataModule = module {
     singleOf(::StorageDataSource)
     singleOf(::SensorDataSource)
     singleOf(::SystemIdentityDataSource)
+    single { NetworkDataSource(androidContext()) }
 
     singleOf(::BatteryRepositoryImpl) bind BatteryRepository::class
     singleOf(::MemoryRepositoryImpl) bind MemoryRepository::class
     singleOf(::StorageRepositoryImpl) bind StorageRepository::class
     singleOf(::SensorRepositoryImpl) bind SensorRepository::class
     singleOf(::SystemIdentityRepositoryImpl) bind SystemIdentityRepository::class
+    singleOf(::NetworkRepositoryImpl) bind NetworkRepository::class
 }

@@ -3,6 +3,7 @@ package org.override.system.monitor.feature.dashboard.presentation
 import org.override.system.monitor.core.common.model.SensorData
 import org.override.system.monitor.feature.battery.domain.model.BatteryData
 import org.override.system.monitor.feature.memory.domain.model.MemoryData
+import org.override.system.monitor.feature.network.domain.model.NetworkData
 import org.override.system.monitor.feature.sensor.domain.model.MissingSensorInfo
 import org.override.system.monitor.feature.storage.domain.model.StorageData
 import org.override.system.monitor.feature.systemidentity.domain.model.SystemIdentityData
@@ -25,6 +26,9 @@ data class DashboardState(
     val humidityData: SensorData? = null,
     // Motion & Health
     val linearAccelerationData: SensorData? = null,
+    // Network
+    val networkData: NetworkData? = null,
+    val hasNetworkPermission: Boolean = false,
     // Missing sensors
     val missingSensors: List<MissingSensorInfo> = emptyList(),
     val isLoading: Boolean = true

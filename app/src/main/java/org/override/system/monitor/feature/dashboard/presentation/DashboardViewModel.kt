@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.override.system.monitor.feature.battery.domain.usecase.GetBatteryDataUseCase
 import org.override.system.monitor.feature.memory.domain.usecase.GetMemoryDataUseCase
+import org.override.system.monitor.feature.network.domain.usecase.GetNetworkDataUseCase
 import org.override.system.monitor.feature.navigation.navigator.AppNavigator
 import org.override.system.monitor.feature.sensor.domain.model.MissingSensorInfo
 import org.override.system.monitor.feature.sensor.domain.model.SensorExplanations
@@ -47,7 +48,9 @@ class DashboardViewModel(
     // Motion & Health
     private val getLinearAccelerationDataUseCase: GetLinearAccelerationDataUseCase,
     // Missing sensors
-    private val getMissingSensorsUseCase: GetMissingSensorsUseCase
+    private val getMissingSensorsUseCase: GetMissingSensorsUseCase,
+    // Network
+    private val getNetworkDataUseCase: GetNetworkDataUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(DashboardState())
@@ -61,7 +64,12 @@ class DashboardViewModel(
         when (action) {
             is DashboardAction.LoadData -> loadData()
             is DashboardAction.Navigate -> navigate(action.destination)
+            is DashboardAction.RefreshNetworkPermission -> refreshNetworkPermission()
         }
+    }
+
+    private fun refreshNetworkPermission() {
+        _state.update { it.copy(hasNetworkPermission = getNetworkDataUseCase.hasNetworkPermissions()) }
     }
 
     private fun navigate(destination: Destination) {
@@ -151,6 +159,15 @@ class DashboardViewModel(
         viewModelScope.launch {
             getLinearAccelerationDataUseCase().collect { data ->
                 _state.update { it.copy(linearAccelerationData = data) }
+            }
+        }
+        // Network
+        viewModelScope.launch {
+            _state.update { it.copy(hasNetworkPermission = getNetworkDataUseCase.hasNetworkPermissions()) }
+        }
+        viewModelScope.launch {
+            getNetworkDataUseCase().collect { data ->
+                _state.update { it.copy(networkData = data) }
             }
         }
     }

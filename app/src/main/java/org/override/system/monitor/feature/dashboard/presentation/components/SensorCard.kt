@@ -11,77 +11,72 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Explore
+import androidx.compose.material.icons.rounded.NearMe
+import androidx.compose.material.icons.rounded.Sensors
+import androidx.compose.material.icons.rounded.ScreenRotation
 import androidx.compose.material.icons.rounded.Speed
 import androidx.compose.material.icons.rounded.Thermostat
 import androidx.compose.material.icons.rounded.WaterDrop
-import androidx.compose.material.icons.rounded.ScreenRotation
-import androidx.compose.material.icons.rounded.NearMe
-import androidx.compose.material.icons.rounded.Sensors
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import java.util.Locale
 
 data class SensorData(val x: Float = 0f, val y: Float = 0f, val z: Float = 0f, val value: Float = 0f)
 
+// ============== BASE SENSOR CARD COMPOSABLES ==============
+
 @Composable
-fun AccelerometerCard(
-    data: SensorData?,
-    expanded: Boolean = false,
-    onClick: () -> Unit = {}
+private fun BaseSensorCard(
+    modifier: Modifier = Modifier,
+    expanded: Boolean,
+    icon: ImageVector,
+    iconBackgroundColor: Color,
+    iconColor: Color = MaterialTheme.colorScheme.onPrimaryContainer,
+    title: String,
+    onClick: () -> Unit,
+    content: @Composable () -> Unit
 ) {
     ExpressiveCard(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(if (expanded) 160.dp else 100.dp),
+        modifier = modifier.fillMaxWidth(),
+        onClick = onClick,
         containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-        shape = MaterialTheme.shapes.extraLarge,
-        onClick = onClick
+        shape = MaterialTheme.shapes.extraLarge
     ) {
         if (expanded) {
             Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     IconContainer(
-                        shape = RoundedCornerShape(10.dp),
-                        color = MaterialTheme.colorScheme.primaryContainer,
+                        shape = CircleShape,
+                        color = iconBackgroundColor,
                         icon = {
                             Icon(
-                                Icons.Rounded.Speed,
+                                imageVector = icon,
                                 contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                                tint = iconColor,
                                 modifier = Modifier.size(20.dp)
                             )
                         }
                     )
                     Spacer(modifier = Modifier.width(12.dp))
                     Text(
-                        "Accelerometer",
+                        text = title,
                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                         color = MaterialTheme.colorScheme.onSurface
                     )
                 }
                 Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    "m/s²",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                Row {
-                    SensorAxis(label = "X", value = String.format(Locale.US, "%.2f", data?.x ?: 0f), color = MaterialTheme.colorScheme.primary)
-                    Spacer(modifier = Modifier.width(24.dp))
-                    SensorAxis(label = "Y", value = String.format(Locale.US, "%.2f", data?.y ?: 0f), color = MaterialTheme.colorScheme.primary)
-                    Spacer(modifier = Modifier.width(24.dp))
-                    SensorAxis(label = "Z", value = String.format(Locale.US, "%.2f", data?.z ?: 0f), color = MaterialTheme.colorScheme.primary)
-                }
+                content()
             }
         } else {
             Row(
@@ -91,35 +86,131 @@ fun AccelerometerCard(
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     IconContainer(
-                        shape = RoundedCornerShape(10.dp),
-                        color = MaterialTheme.colorScheme.primaryContainer,
+                        shape = CircleShape,
+                        color = iconBackgroundColor,
                         icon = {
                             Icon(
-                                Icons.Rounded.Speed,
+                                imageVector = icon,
                                 contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                                tint = iconColor,
                                 modifier = Modifier.size(18.dp)
                             )
                         }
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        "Accelerometer",
+                        text = title,
                         style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
                         color = MaterialTheme.colorScheme.onSurface
                     )
                 }
-                if (data != null) {
-                    Column(horizontalAlignment = Alignment.End) {
-                        Row {
-                            SensorAxis(label = "X", value = String.format(Locale.US, "%.2f", data.x), color = MaterialTheme.colorScheme.primary)
-                            SensorAxis(label = "Y", value = String.format(Locale.US, "%.2f", data.y), color = MaterialTheme.colorScheme.primary)
-                            SensorAxis(label = "Z", value = String.format(Locale.US, "%.2f", data.z), color = MaterialTheme.colorScheme.primary)
-                        }
-                    }
-                }
+                content()
             }
         }
+    }
+}
+
+@Composable
+private fun TriAxisSensorContent(
+    data: SensorData?,
+    unit: String,
+    axisColor: Color,
+    expanded: Boolean
+) {
+    if (data != null) {
+        if (expanded) {
+            Text(
+                text = unit,
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Row {
+                SensorAxis(label = "X", value = String.format(Locale.US, "%.2f", data.x), color = axisColor)
+                Spacer(modifier = Modifier.width(24.dp))
+                SensorAxis(label = "Y", value = String.format(Locale.US, "%.2f", data.y), color = axisColor)
+                Spacer(modifier = Modifier.width(24.dp))
+                SensorAxis(label = "Z", value = String.format(Locale.US, "%.2f", data.z), color = axisColor)
+            }
+        } else {
+            Row {
+                SensorAxis(label = "X", value = String.format(Locale.US, "%.2f", data.x), color = axisColor)
+                SensorAxis(label = "Y", value = String.format(Locale.US, "%.2f", data.y), color = axisColor)
+                SensorAxis(label = "Z", value = String.format(Locale.US, "%.2f", data.z), color = axisColor)
+            }
+        }
+    }
+}
+
+@Composable
+private fun SingleValueSensorContent(
+    data: SensorData?,
+    displayValue: String,
+    unit: String,
+    valueColor: Color,
+    expanded: Boolean
+) {
+    if (data != null) {
+        if (expanded) {
+            Row(verticalAlignment = Alignment.Bottom) {
+                Text(
+                    text = displayValue,
+                    style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Bold),
+                    color = valueColor
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = unit,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        } else {
+            Column(horizontalAlignment = Alignment.End) {
+                Text(
+                    text = displayValue,
+                    style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
+                    color = valueColor
+                )
+                Text(
+                    text = unit,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        }
+    } else {
+        Text(
+            text = "No data",
+            style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Bold),
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+    }
+}
+
+// ============== SENSOR CARDS ==============
+
+@Composable
+fun AccelerometerCard(
+    data: SensorData?,
+    expanded: Boolean = false,
+    onClick: () -> Unit = {}
+) {
+    val height: Dp = if (expanded) 160.dp else 100.dp
+    BaseSensorCard(
+        modifier = Modifier.height(height),
+        expanded = expanded,
+        icon = Icons.Rounded.Speed,
+        iconBackgroundColor = MaterialTheme.colorScheme.primaryContainer,
+        title = "Accelerometer",
+        onClick = onClick
+    ) {
+        TriAxisSensorContent(
+            data = data,
+            unit = "m/s²",
+            axisColor = MaterialTheme.colorScheme.primary,
+            expanded = expanded
+        )
     }
 }
 
@@ -129,88 +220,21 @@ fun GyroscopeCard(
     expanded: Boolean = false,
     onClick: () -> Unit = {}
 ) {
-    ExpressiveCard(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(if (expanded) 160.dp else 100.dp),
-        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-        shape = MaterialTheme.shapes.extraLarge,
+    val height: Dp = if (expanded) 160.dp else 100.dp
+    BaseSensorCard(
+        modifier = Modifier.height(height),
+        expanded = expanded,
+        icon = Icons.Rounded.Explore,
+        iconBackgroundColor = MaterialTheme.colorScheme.secondaryContainer,
+        title = "Gyroscope",
         onClick = onClick
     ) {
-        if (expanded) {
-            Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    IconContainer(
-                        shape = CircleShape,
-                        color = MaterialTheme.colorScheme.secondaryContainer,
-                        icon = {
-                            Icon(
-                                Icons.Rounded.Explore,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onSecondaryContainer,
-                                modifier = Modifier.size(20.dp)
-                            )
-                        }
-                    )
-                    Spacer(modifier = Modifier.width(12.dp))
-                    Text(
-                        "Gyroscope",
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                }
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    "rad/s",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                Row {
-                    SensorAxis(label = "X", value = String.format(Locale.US, "%.2f", data?.x ?: 0f), color = MaterialTheme.colorScheme.secondary)
-                    Spacer(modifier = Modifier.width(24.dp))
-                    SensorAxis(label = "Y", value = String.format(Locale.US, "%.2f", data?.y ?: 0f), color = MaterialTheme.colorScheme.secondary)
-                    Spacer(modifier = Modifier.width(24.dp))
-                    SensorAxis(label = "Z", value = String.format(Locale.US, "%.2f", data?.z ?: 0f), color = MaterialTheme.colorScheme.secondary)
-                }
-            }
-        } else {
-            Row(
-                modifier = Modifier.fillMaxSize().padding(16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    IconContainer(
-                        shape = CircleShape,
-                        color = MaterialTheme.colorScheme.secondaryContainer,
-                        icon = {
-                            Icon(
-                                Icons.Rounded.Explore,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onSecondaryContainer,
-                                modifier = Modifier.size(18.dp)
-                            )
-                        }
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        "Gyroscope",
-                        style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                }
-                if (data != null) {
-                    Column(horizontalAlignment = Alignment.End) {
-                        Row {
-                            SensorAxis(label = "X", value = String.format(Locale.US, "%.2f", data.x), color = MaterialTheme.colorScheme.secondary)
-                            SensorAxis(label = "Y", value = String.format(Locale.US, "%.2f", data.y), color = MaterialTheme.colorScheme.secondary)
-                            SensorAxis(label = "Z", value = String.format(Locale.US, "%.2f", data.z), color = MaterialTheme.colorScheme.secondary)
-                        }
-                    }
-                }
-            }
-        }
+        TriAxisSensorContent(
+            data = data,
+            unit = "rad/s",
+            axisColor = MaterialTheme.colorScheme.secondary,
+            expanded = expanded
+        )
     }
 }
 
@@ -220,88 +244,21 @@ fun MagnetometerCard(
     expanded: Boolean = false,
     onClick: () -> Unit = {}
 ) {
-    ExpressiveCard(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(if (expanded) 160.dp else 100.dp),
-        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-        shape = MaterialTheme.shapes.extraLarge,
+    val height: Dp = if (expanded) 160.dp else 100.dp
+    BaseSensorCard(
+        modifier = Modifier.height(height),
+        expanded = expanded,
+        icon = Icons.Rounded.Explore,
+        iconBackgroundColor = MaterialTheme.colorScheme.tertiaryContainer,
+        title = "Magnetometer",
         onClick = onClick
     ) {
-        if (expanded) {
-            Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    IconContainer(
-                        shape = CircleShape,
-                        color = MaterialTheme.colorScheme.tertiaryContainer,
-                        icon = {
-                            Icon(
-                                Icons.Rounded.Explore,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onTertiaryContainer,
-                                modifier = Modifier.size(20.dp)
-                            )
-                        }
-                    )
-                    Spacer(modifier = Modifier.width(12.dp))
-                    Text(
-                        "Magnetometer",
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                }
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    "μT",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                Row {
-                    SensorAxis(label = "X", value = String.format(Locale.US, "%.2f", data?.x ?: 0f), color = MaterialTheme.colorScheme.tertiary)
-                    Spacer(modifier = Modifier.width(24.dp))
-                    SensorAxis(label = "Y", value = String.format(Locale.US, "%.2f", data?.y ?: 0f), color = MaterialTheme.colorScheme.tertiary)
-                    Spacer(modifier = Modifier.width(24.dp))
-                    SensorAxis(label = "Z", value = String.format(Locale.US, "%.2f", data?.z ?: 0f), color = MaterialTheme.colorScheme.tertiary)
-                }
-            }
-        } else {
-            Row(
-                modifier = Modifier.fillMaxSize().padding(16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    IconContainer(
-                        shape = CircleShape,
-                        color = MaterialTheme.colorScheme.tertiaryContainer,
-                        icon = {
-                            Icon(
-                                Icons.Rounded.Explore,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onTertiaryContainer,
-                                modifier = Modifier.size(18.dp)
-                            )
-                        }
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        "Magnetometer",
-                        style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                }
-                if (data != null) {
-                    Column(horizontalAlignment = Alignment.End) {
-                        Row {
-                            SensorAxis(label = "X", value = String.format(Locale.US, "%.2f", data.x), color = MaterialTheme.colorScheme.tertiary)
-                            SensorAxis(label = "Y", value = String.format(Locale.US, "%.2f", data.y), color = MaterialTheme.colorScheme.tertiary)
-                            SensorAxis(label = "Z", value = String.format(Locale.US, "%.2f", data.z), color = MaterialTheme.colorScheme.tertiary)
-                        }
-                    }
-                }
-            }
-        }
+        TriAxisSensorContent(
+            data = data,
+            unit = "μT",
+            axisColor = MaterialTheme.colorScheme.tertiary,
+            expanded = expanded
+        )
     }
 }
 
@@ -311,97 +268,31 @@ fun ProximityCard(
     expanded: Boolean = false,
     onClick: () -> Unit = {}
 ) {
-    ExpressiveCard(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(if (expanded) 140.dp else 100.dp),
-        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-        shape = MaterialTheme.shapes.extraLarge,
+    val height: Dp = if (expanded) 140.dp else 100.dp
+    BaseSensorCard(
+        modifier = Modifier.height(height),
+        expanded = expanded,
+        icon = Icons.Rounded.NearMe,
+        iconBackgroundColor = MaterialTheme.colorScheme.primaryContainer,
+        title = "Proximity",
         onClick = onClick
     ) {
-        if (expanded) {
-            Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    IconContainer(
-                        shape = CircleShape,
-                        color = MaterialTheme.colorScheme.primaryContainer,
-                        icon = {
-                            Icon(
-                                Icons.Rounded.NearMe,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                                modifier = Modifier.size(20.dp)
-                            )
-                        }
-                    )
-                    Spacer(modifier = Modifier.width(12.dp))
-                    Text(
-                        "Proximity",
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                }
-                Spacer(modifier = Modifier.height(8.dp))
-                if (data != null) {
-                    Text(
-                        text = if (data.value < 5f) "Near" else "Far",
-                        style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Bold),
-                        color = MaterialTheme.colorScheme.primary
-                    )
-                    Text(
-                        text = String.format(Locale.US, "%.1f cm", data.value),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                } else {
-                    Text(
-                        text = "No data",
-                        style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Bold),
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
+        if (data != null) {
+            val displayText = if (data.value < 5f) "Near" else "Far"
+            val displayValue = String.format(Locale.US, "%.1f cm", data.value)
+            SingleValueSensorContent(
+                data = data,
+                displayValue = displayText,
+                unit = displayValue,
+                valueColor = MaterialTheme.colorScheme.primary,
+                expanded = expanded
+            )
         } else {
-            Row(
-                modifier = Modifier.fillMaxSize().padding(16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    IconContainer(
-                        shape = CircleShape,
-                        color = MaterialTheme.colorScheme.primaryContainer,
-                        icon = {
-                            Icon(
-                                Icons.Rounded.NearMe,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                                modifier = Modifier.size(18.dp)
-                            )
-                        }
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        "Proximity",
-                        style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                }
-                if (data != null) {
-                    Column(horizontalAlignment = Alignment.End) {
-                        Text(
-                            text = if (data.value < 5f) "Near" else "Far",
-                            style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                        Text(
-                            text = String.format(Locale.US, "%.1f cm", data.value),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                }
-            }
+            Text(
+                text = "No data",
+                style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Bold),
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
     }
 }
@@ -412,88 +303,21 @@ fun RotationVectorCard(
     expanded: Boolean = false,
     onClick: () -> Unit = {}
 ) {
-    ExpressiveCard(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(if (expanded) 160.dp else 100.dp),
-        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-        shape = MaterialTheme.shapes.extraLarge,
+    val height: Dp = if (expanded) 160.dp else 100.dp
+    BaseSensorCard(
+        modifier = Modifier.height(height),
+        expanded = expanded,
+        icon = Icons.Rounded.ScreenRotation,
+        iconBackgroundColor = MaterialTheme.colorScheme.secondaryContainer,
+        title = "Rotation Vector",
         onClick = onClick
     ) {
-        if (expanded) {
-            Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    IconContainer(
-                        shape = CircleShape,
-                        color = MaterialTheme.colorScheme.secondaryContainer,
-                        icon = {
-                            Icon(
-                                Icons.Rounded.ScreenRotation,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onSecondaryContainer,
-                                modifier = Modifier.size(20.dp)
-                            )
-                        }
-                    )
-                    Spacer(modifier = Modifier.width(12.dp))
-                    Text(
-                        "Rotation Vector",
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                }
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    "dimensionless",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                Row {
-                    SensorAxis(label = "X", value = String.format(Locale.US, "%.2f", data?.x ?: 0f), color = MaterialTheme.colorScheme.secondary)
-                    Spacer(modifier = Modifier.width(24.dp))
-                    SensorAxis(label = "Y", value = String.format(Locale.US, "%.2f", data?.y ?: 0f), color = MaterialTheme.colorScheme.secondary)
-                    Spacer(modifier = Modifier.width(24.dp))
-                    SensorAxis(label = "Z", value = String.format(Locale.US, "%.2f", data?.z ?: 0f), color = MaterialTheme.colorScheme.secondary)
-                }
-            }
-        } else {
-            Row(
-                modifier = Modifier.fillMaxSize().padding(16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    IconContainer(
-                        shape = CircleShape,
-                        color = MaterialTheme.colorScheme.secondaryContainer,
-                        icon = {
-                            Icon(
-                                Icons.Rounded.ScreenRotation,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onSecondaryContainer,
-                                modifier = Modifier.size(18.dp)
-                            )
-                        }
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        "Rotation Vector",
-                        style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                }
-                if (data != null) {
-                    Column(horizontalAlignment = Alignment.End) {
-                        Row {
-                            SensorAxis(label = "X", value = String.format(Locale.US, "%.2f", data.x), color = MaterialTheme.colorScheme.secondary)
-                            SensorAxis(label = "Y", value = String.format(Locale.US, "%.2f", data.y), color = MaterialTheme.colorScheme.secondary)
-                            SensorAxis(label = "Z", value = String.format(Locale.US, "%.2f", data.z), color = MaterialTheme.colorScheme.secondary)
-                        }
-                    }
-                }
-            }
-        }
+        TriAxisSensorContent(
+            data = data,
+            unit = "dimensionless",
+            axisColor = MaterialTheme.colorScheme.secondary,
+            expanded = expanded
+        )
     }
 }
 
@@ -503,100 +327,30 @@ fun BarometerCard(
     expanded: Boolean = false,
     onClick: () -> Unit = {}
 ) {
-    ExpressiveCard(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(if (expanded) 140.dp else 100.dp),
-        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-        shape = MaterialTheme.shapes.extraLarge,
+    val height: Dp = if (expanded) 140.dp else 100.dp
+    BaseSensorCard(
+        modifier = Modifier.height(height),
+        expanded = expanded,
+        icon = Icons.Rounded.Sensors,
+        iconBackgroundColor = MaterialTheme.colorScheme.tertiaryContainer,
+        title = "Barometer",
         onClick = onClick
     ) {
-        if (expanded) {
-            Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    IconContainer(
-                        shape = CircleShape,
-                        color = MaterialTheme.colorScheme.tertiaryContainer,
-                        icon = {
-                            Icon(
-                                Icons.Rounded.Sensors,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onTertiaryContainer,
-                                modifier = Modifier.size(20.dp)
-                            )
-                        }
-                    )
-                    Spacer(modifier = Modifier.width(12.dp))
-                    Text(
-                        "Barometer",
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                }
-                Spacer(modifier = Modifier.height(8.dp))
-                if (data != null) {
-                    Row(verticalAlignment = Alignment.Bottom) {
-                        Text(
-                            text = String.format(Locale.US, "%.1f", data.value),
-                            style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Bold),
-                            color = MaterialTheme.colorScheme.tertiary
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = "hPa",
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                } else {
-                    Text(
-                        text = "No data",
-                        style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Bold),
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
+        if (data != null) {
+            val displayValue = String.format(Locale.US, "%.1f", data.value)
+            SingleValueSensorContent(
+                data = data,
+                displayValue = displayValue,
+                unit = "hPa",
+                valueColor = MaterialTheme.colorScheme.tertiary,
+                expanded = expanded
+            )
         } else {
-            Row(
-                modifier = Modifier.fillMaxSize().padding(16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    IconContainer(
-                        shape = CircleShape,
-                        color = MaterialTheme.colorScheme.tertiaryContainer,
-                        icon = {
-                            Icon(
-                                Icons.Rounded.Sensors,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onTertiaryContainer,
-                                modifier = Modifier.size(18.dp)
-                            )
-                        }
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        "Barometer",
-                        style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                }
-                if (data != null) {
-                    Column(horizontalAlignment = Alignment.End) {
-                        Text(
-                            text = String.format(Locale.US, "%.1f", data.value),
-                            style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
-                            color = MaterialTheme.colorScheme.tertiary
-                        )
-                        Text(
-                            text = "hPa",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                }
-            }
+            Text(
+                text = "No data",
+                style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Bold),
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
     }
 }
@@ -607,100 +361,30 @@ fun AmbientTemperatureCard(
     expanded: Boolean = false,
     onClick: () -> Unit = {}
 ) {
-    ExpressiveCard(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(if (expanded) 140.dp else 100.dp),
-        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-        shape = MaterialTheme.shapes.extraLarge,
+    val height: Dp = if (expanded) 140.dp else 100.dp
+    BaseSensorCard(
+        modifier = Modifier.height(height),
+        expanded = expanded,
+        icon = Icons.Rounded.Thermostat,
+        iconBackgroundColor = MaterialTheme.colorScheme.errorContainer,
+        title = "Temperature",
         onClick = onClick
     ) {
-        if (expanded) {
-            Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    IconContainer(
-                        shape = CircleShape,
-                        color = MaterialTheme.colorScheme.errorContainer,
-                        icon = {
-                            Icon(
-                                Icons.Rounded.Thermostat,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onErrorContainer,
-                                modifier = Modifier.size(20.dp)
-                            )
-                        }
-                    )
-                    Spacer(modifier = Modifier.width(12.dp))
-                    Text(
-                        "Temperature",
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                }
-                Spacer(modifier = Modifier.height(8.dp))
-                if (data != null) {
-                    Row(verticalAlignment = Alignment.Bottom) {
-                        Text(
-                            text = String.format(Locale.US, "%.1f", data.value),
-                            style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Bold),
-                            color = MaterialTheme.colorScheme.error
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = "°C",
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                } else {
-                    Text(
-                        text = "No data",
-                        style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Bold),
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
+        if (data != null) {
+            val displayValue = String.format(Locale.US, "%.1f", data.value)
+            SingleValueSensorContent(
+                data = data,
+                displayValue = displayValue,
+                unit = "°C",
+                valueColor = MaterialTheme.colorScheme.error,
+                expanded = expanded
+            )
         } else {
-            Row(
-                modifier = Modifier.fillMaxSize().padding(16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    IconContainer(
-                        shape = CircleShape,
-                        color = MaterialTheme.colorScheme.errorContainer,
-                        icon = {
-                            Icon(
-                                Icons.Rounded.Thermostat,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onErrorContainer,
-                                modifier = Modifier.size(18.dp)
-                            )
-                        }
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        "Temperature",
-                        style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                }
-                if (data != null) {
-                    Column(horizontalAlignment = Alignment.End) {
-                        Text(
-                            text = String.format(Locale.US, "%.1f", data.value),
-                            style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
-                            color = MaterialTheme.colorScheme.error
-                        )
-                        Text(
-                            text = "°C",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                }
-            }
+            Text(
+                text = "No data",
+                style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Bold),
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
     }
 }
@@ -711,100 +395,30 @@ fun HumidityCard(
     expanded: Boolean = false,
     onClick: () -> Unit = {}
 ) {
-    ExpressiveCard(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(if (expanded) 140.dp else 100.dp),
-        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-        shape = MaterialTheme.shapes.extraLarge,
+    val height: Dp = if (expanded) 140.dp else 100.dp
+    BaseSensorCard(
+        modifier = Modifier.height(height),
+        expanded = expanded,
+        icon = Icons.Rounded.WaterDrop,
+        iconBackgroundColor = MaterialTheme.colorScheme.primaryContainer,
+        title = "Humidity",
         onClick = onClick
     ) {
-        if (expanded) {
-            Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    IconContainer(
-                        shape = CircleShape,
-                        color = MaterialTheme.colorScheme.primaryContainer,
-                        icon = {
-                            Icon(
-                                Icons.Rounded.WaterDrop,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                                modifier = Modifier.size(20.dp)
-                            )
-                        }
-                    )
-                    Spacer(modifier = Modifier.width(12.dp))
-                    Text(
-                        "Humidity",
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                }
-                Spacer(modifier = Modifier.height(8.dp))
-                if (data != null) {
-                    Row(verticalAlignment = Alignment.Bottom) {
-                        Text(
-                            text = String.format(Locale.US, "%.1f", data.value),
-                            style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Bold),
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = "%",
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                } else {
-                    Text(
-                        text = "No data",
-                        style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Bold),
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
+        if (data != null) {
+            val displayValue = String.format(Locale.US, "%.1f", data.value)
+            SingleValueSensorContent(
+                data = data,
+                displayValue = displayValue,
+                unit = "%",
+                valueColor = MaterialTheme.colorScheme.primary,
+                expanded = expanded
+            )
         } else {
-            Row(
-                modifier = Modifier.fillMaxSize().padding(16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    IconContainer(
-                        shape = CircleShape,
-                        color = MaterialTheme.colorScheme.primaryContainer,
-                        icon = {
-                            Icon(
-                                Icons.Rounded.WaterDrop,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                                modifier = Modifier.size(18.dp)
-                            )
-                        }
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        "Humidity",
-                        style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                }
-                if (data != null) {
-                    Column(horizontalAlignment = Alignment.End) {
-                        Text(
-                            text = String.format(Locale.US, "%.1f", data.value),
-                            style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                        Text(
-                            text = "%",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                }
-            }
+            Text(
+                text = "No data",
+                style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Bold),
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
     }
 }
@@ -815,87 +429,20 @@ fun LinearAccelerationCard(
     expanded: Boolean = false,
     onClick: () -> Unit = {}
 ) {
-    ExpressiveCard(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(if (expanded) 160.dp else 100.dp),
-        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-        shape = MaterialTheme.shapes.extraLarge,
+    val height: Dp = if (expanded) 160.dp else 100.dp
+    BaseSensorCard(
+        modifier = Modifier.height(height),
+        expanded = expanded,
+        icon = Icons.Rounded.Speed,
+        iconBackgroundColor = MaterialTheme.colorScheme.primaryContainer,
+        title = "Linear Accel",
         onClick = onClick
     ) {
-        if (expanded) {
-            Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    IconContainer(
-                        shape = RoundedCornerShape(10.dp),
-                        color = MaterialTheme.colorScheme.primaryContainer,
-                        icon = {
-                            Icon(
-                                Icons.Rounded.Speed,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                                modifier = Modifier.size(20.dp)
-                            )
-                        }
-                    )
-                    Spacer(modifier = Modifier.width(12.dp))
-                    Text(
-                        "Linear Accel",
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                }
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    "m/s²",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                Row {
-                    SensorAxis(label = "X", value = String.format(Locale.US, "%.2f", data?.x ?: 0f), color = MaterialTheme.colorScheme.primary)
-                    Spacer(modifier = Modifier.width(24.dp))
-                    SensorAxis(label = "Y", value = String.format(Locale.US, "%.2f", data?.y ?: 0f), color = MaterialTheme.colorScheme.primary)
-                    Spacer(modifier = Modifier.width(24.dp))
-                    SensorAxis(label = "Z", value = String.format(Locale.US, "%.2f", data?.z ?: 0f), color = MaterialTheme.colorScheme.primary)
-                }
-            }
-        } else {
-            Row(
-                modifier = Modifier.fillMaxSize().padding(16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    IconContainer(
-                        shape = RoundedCornerShape(10.dp),
-                        color = MaterialTheme.colorScheme.primaryContainer,
-                        icon = {
-                            Icon(
-                                Icons.Rounded.Speed,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                                modifier = Modifier.size(18.dp)
-                            )
-                        }
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        "Linear Accel",
-                        style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                }
-                if (data != null) {
-                    Column(horizontalAlignment = Alignment.End) {
-                        Row {
-                            SensorAxis(label = "X", value = String.format(Locale.US, "%.2f", data.x), color = MaterialTheme.colorScheme.primary)
-                            SensorAxis(label = "Y", value = String.format(Locale.US, "%.2f", data.y), color = MaterialTheme.colorScheme.primary)
-                            SensorAxis(label = "Z", value = String.format(Locale.US, "%.2f", data.z), color = MaterialTheme.colorScheme.primary)
-                        }
-                    }
-                }
-            }
-        }
+        TriAxisSensorContent(
+            data = data,
+            unit = "m/s²",
+            axisColor = MaterialTheme.colorScheme.primary,
+            expanded = expanded
+        )
     }
 }

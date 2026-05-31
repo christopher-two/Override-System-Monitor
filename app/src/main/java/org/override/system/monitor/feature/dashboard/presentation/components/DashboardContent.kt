@@ -1,6 +1,7 @@
 package org.override.system.monitor.feature.dashboard.presentation.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -31,15 +32,7 @@ fun TabletDashboardContent(
     onNavigate: (Destination) -> Unit,
     onSensorClick: (SensorDetail) -> Unit
 ) {
-    val accelerometerDetail = getAccelerometerSensorDetail(state.accelerometerData?.let { SensorData(it.x, it.y, it.z) })
-    val gyroscopeDetail = getGyroscopeSensorDetail(state.gyroscopeData?.let { SensorData(it.x, it.y, it.z) })
-    val magnetometerDetail = getMagnetometerSensorDetail(state.magnetometerData?.let { SensorData(it.x, it.y, it.z) })
-    val proximityDetail = getProximitySensorDetail(state.proximityData?.let { SensorData(0f, 0f, it.value) })
-    val rotationVectorDetail = getRotationVectorSensorDetail(state.rotationVectorData?.let { SensorData(it.x, it.y, it.z) })
-    val barometerDetail = getBarometerSensorDetail(state.barometerData?.let { SensorData(0f, 0f, it.value) })
-    val temperatureDetail = getAmbientTemperatureSensorDetail(state.ambientTemperatureData?.let { SensorData(0f, 0f, it.value) })
-    val humidityDetail = getHumiditySensorDetail(state.humidityData?.let { SensorData(0f, 0f, it.value) })
-    val linearAccelDetail = getLinearAccelerationSensorDetail(state.linearAccelerationData?.let { SensorData(it.x, it.y, it.z) })
+    val sensorDetails = rememberSensorDetails(state)
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -84,32 +77,36 @@ fun TabletDashboardContent(
             }
         }
 
+        item {
+            NetworkCard(data = state.networkData)
+        }
+
         item(span = { GridItemSpan(2) }) {
             LiveSensorsHeader()
         }
 
         item {
             AccelerometerCard(
-                data = state.accelerometerData?.let { SensorData(it.x, it.y, it.z) },
+                data = sensorDetails.accelerometerData,
                 expanded = false,
-                onClick = { onSensorClick(accelerometerDetail) }
+                onClick = { onSensorClick(sensorDetails.accelerometerDetail) }
             )
         }
 
         item {
             GyroscopeCard(
-                data = state.gyroscopeData?.let { SensorData(it.x, it.y, it.z) },
+                data = sensorDetails.gyroscopeData,
                 expanded = false,
-                onClick = { onSensorClick(gyroscopeDetail) }
+                onClick = { onSensorClick(sensorDetails.gyroscopeDetail) }
             )
         }
 
         if (!state.missingSensors.any { it.sensorType == android.hardware.Sensor.TYPE_MAGNETIC_FIELD }) {
             item {
                 MagnetometerCard(
-                    data = state.magnetometerData?.let { SensorData(it.x, it.y, it.z) },
+                    data = sensorDetails.magnetometerData,
                     expanded = false,
-                    onClick = { onSensorClick(magnetometerDetail) }
+                    onClick = { onSensorClick(sensorDetails.magnetometerDetail) }
                 )
             }
         }
@@ -117,9 +114,9 @@ fun TabletDashboardContent(
         if (!state.missingSensors.any { it.sensorType == android.hardware.Sensor.TYPE_PROXIMITY }) {
             item {
                 ProximityCard(
-                    data = state.proximityData?.let { SensorData(0f, 0f, it.value) },
+                    data = sensorDetails.proximityData,
                     expanded = false,
-                    onClick = { onSensorClick(proximityDetail) }
+                    onClick = { onSensorClick(sensorDetails.proximityDetail) }
                 )
             }
         }
@@ -127,9 +124,9 @@ fun TabletDashboardContent(
         if (!state.missingSensors.any { it.sensorType == android.hardware.Sensor.TYPE_ROTATION_VECTOR }) {
             item {
                 RotationVectorCard(
-                    data = state.rotationVectorData?.let { SensorData(it.x, it.y, it.z) },
+                    data = sensorDetails.rotationVectorData,
                     expanded = false,
-                    onClick = { onSensorClick(rotationVectorDetail) }
+                    onClick = { onSensorClick(sensorDetails.rotationVectorDetail) }
                 )
             }
         }
@@ -137,9 +134,9 @@ fun TabletDashboardContent(
         if (!state.missingSensors.any { it.sensorType == android.hardware.Sensor.TYPE_PRESSURE }) {
             item {
                 BarometerCard(
-                    data = state.barometerData?.let { SensorData(0f, 0f, it.value) },
+                    data = sensorDetails.barometerData,
                     expanded = false,
-                    onClick = { onSensorClick(barometerDetail) }
+                    onClick = { onSensorClick(sensorDetails.barometerDetail) }
                 )
             }
         }
@@ -147,9 +144,9 @@ fun TabletDashboardContent(
         if (!state.missingSensors.any { it.sensorType == android.hardware.Sensor.TYPE_AMBIENT_TEMPERATURE }) {
             item {
                 AmbientTemperatureCard(
-                    data = state.ambientTemperatureData?.let { SensorData(0f, 0f, it.value) },
+                    data = sensorDetails.temperatureData,
                     expanded = false,
-                    onClick = { onSensorClick(temperatureDetail) }
+                    onClick = { onSensorClick(sensorDetails.temperatureDetail) }
                 )
             }
         }
@@ -157,9 +154,9 @@ fun TabletDashboardContent(
         if (!state.missingSensors.any { it.sensorType == android.hardware.Sensor.TYPE_RELATIVE_HUMIDITY }) {
             item {
                 HumidityCard(
-                    data = state.humidityData?.let { SensorData(0f, 0f, it.value) },
+                    data = sensorDetails.humidityData,
                     expanded = false,
-                    onClick = { onSensorClick(humidityDetail) }
+                    onClick = { onSensorClick(sensorDetails.humidityDetail) }
                 )
             }
         }
@@ -167,9 +164,9 @@ fun TabletDashboardContent(
         if (!state.missingSensors.any { it.sensorType == android.hardware.Sensor.TYPE_LINEAR_ACCELERATION }) {
             item {
                 LinearAccelerationCard(
-                    data = state.linearAccelerationData?.let { SensorData(it.x, it.y, it.z) },
+                    data = sensorDetails.linearAccelData,
                     expanded = false,
-                    onClick = { onSensorClick(linearAccelDetail) }
+                    onClick = { onSensorClick(sensorDetails.linearAccelDetail) }
                 )
             }
         }
@@ -196,15 +193,7 @@ fun MobileDashboardContent(
     onNavigate: (Destination) -> Unit,
     onSensorClick: (SensorDetail) -> Unit
 ) {
-    val accelerometerDetail = getAccelerometerSensorDetail(state.accelerometerData?.let { SensorData(it.x, it.y, it.z) })
-    val gyroscopeDetail = getGyroscopeSensorDetail(state.gyroscopeData?.let { SensorData(it.x, it.y, it.z) })
-    val magnetometerDetail = getMagnetometerSensorDetail(state.magnetometerData?.let { SensorData(it.x, it.y, it.z) })
-    val proximityDetail = getProximitySensorDetail(state.proximityData?.let { SensorData(0f, 0f, it.value) })
-    val rotationVectorDetail = getRotationVectorSensorDetail(state.rotationVectorData?.let { SensorData(it.x, it.y, it.z) })
-    val barometerDetail = getBarometerSensorDetail(state.barometerData?.let { SensorData(0f, 0f, it.value) })
-    val temperatureDetail = getAmbientTemperatureSensorDetail(state.ambientTemperatureData?.let { SensorData(0f, 0f, it.value) })
-    val humidityDetail = getHumiditySensorDetail(state.humidityData?.let { SensorData(0f, 0f, it.value) })
-    val linearAccelDetail = getLinearAccelerationSensorDetail(state.linearAccelerationData?.let { SensorData(it.x, it.y, it.z) })
+    val sensorDetails = rememberSensorDetails(state)
 
     LazyColumn(
         modifier = Modifier
@@ -248,31 +237,35 @@ fun MobileDashboardContent(
         }
 
         item {
+            NetworkCard(data = state.networkData)
+        }
+
+        item {
             LiveSensorsHeader()
         }
 
         item {
             AccelerometerCard(
-                data = state.accelerometerData?.let { SensorData(it.x, it.y, it.z) },
+                data = sensorDetails.accelerometerData,
                 expanded = true,
-                onClick = { onSensorClick(accelerometerDetail) }
+                onClick = { onSensorClick(sensorDetails.accelerometerDetail) }
             )
         }
 
         item {
             GyroscopeCard(
-                data = state.gyroscopeData?.let { SensorData(it.x, it.y, it.z) },
+                data = sensorDetails.gyroscopeData,
                 expanded = true,
-                onClick = { onSensorClick(gyroscopeDetail) }
+                onClick = { onSensorClick(sensorDetails.gyroscopeDetail) }
             )
         }
 
         if (!state.missingSensors.any { it.sensorType == android.hardware.Sensor.TYPE_MAGNETIC_FIELD }) {
             item {
                 MagnetometerCard(
-                    data = state.magnetometerData?.let { SensorData(it.x, it.y, it.z) },
+                    data = sensorDetails.magnetometerData,
                     expanded = true,
-                    onClick = { onSensorClick(magnetometerDetail) }
+                    onClick = { onSensorClick(sensorDetails.magnetometerDetail) }
                 )
             }
         }
@@ -280,9 +273,9 @@ fun MobileDashboardContent(
         if (!state.missingSensors.any { it.sensorType == android.hardware.Sensor.TYPE_PROXIMITY }) {
             item {
                 ProximityCard(
-                    data = state.proximityData?.let { SensorData(0f, 0f, it.value) },
+                    data = sensorDetails.proximityData,
                     expanded = true,
-                    onClick = { onSensorClick(proximityDetail) }
+                    onClick = { onSensorClick(sensorDetails.proximityDetail) }
                 )
             }
         }
@@ -290,9 +283,9 @@ fun MobileDashboardContent(
         if (!state.missingSensors.any { it.sensorType == android.hardware.Sensor.TYPE_ROTATION_VECTOR }) {
             item {
                 RotationVectorCard(
-                    data = state.rotationVectorData?.let { SensorData(it.x, it.y, it.z) },
+                    data = sensorDetails.rotationVectorData,
                     expanded = true,
-                    onClick = { onSensorClick(rotationVectorDetail) }
+                    onClick = { onSensorClick(sensorDetails.rotationVectorDetail) }
                 )
             }
         }
@@ -300,9 +293,9 @@ fun MobileDashboardContent(
         if (!state.missingSensors.any { it.sensorType == android.hardware.Sensor.TYPE_PRESSURE }) {
             item {
                 BarometerCard(
-                    data = state.barometerData?.let { SensorData(0f, 0f, it.value) },
+                    data = sensorDetails.barometerData,
                     expanded = true,
-                    onClick = { onSensorClick(barometerDetail) }
+                    onClick = { onSensorClick(sensorDetails.barometerDetail) }
                 )
             }
         }
@@ -310,9 +303,9 @@ fun MobileDashboardContent(
         if (!state.missingSensors.any { it.sensorType == android.hardware.Sensor.TYPE_AMBIENT_TEMPERATURE }) {
             item {
                 AmbientTemperatureCard(
-                    data = state.ambientTemperatureData?.let { SensorData(0f, 0f, it.value) },
+                    data = sensorDetails.temperatureData,
                     expanded = true,
-                    onClick = { onSensorClick(temperatureDetail) }
+                    onClick = { onSensorClick(sensorDetails.temperatureDetail) }
                 )
             }
         }
@@ -320,9 +313,9 @@ fun MobileDashboardContent(
         if (!state.missingSensors.any { it.sensorType == android.hardware.Sensor.TYPE_RELATIVE_HUMIDITY }) {
             item {
                 HumidityCard(
-                    data = state.humidityData?.let { SensorData(0f, 0f, it.value) },
+                    data = sensorDetails.humidityData,
                     expanded = true,
-                    onClick = { onSensorClick(humidityDetail) }
+                    onClick = { onSensorClick(sensorDetails.humidityDetail) }
                 )
             }
         }
@@ -330,9 +323,9 @@ fun MobileDashboardContent(
         if (!state.missingSensors.any { it.sensorType == android.hardware.Sensor.TYPE_LINEAR_ACCELERATION }) {
             item {
                 LinearAccelerationCard(
-                    data = state.linearAccelerationData?.let { SensorData(it.x, it.y, it.z) },
+                    data = sensorDetails.linearAccelData,
                     expanded = true,
-                    onClick = { onSensorClick(linearAccelDetail) }
+                    onClick = { onSensorClick(sensorDetails.linearAccelDetail) }
                 )
             }
         }
@@ -372,4 +365,49 @@ private fun LiveSensorsHeader() {
             color = MaterialTheme.colorScheme.onSurface
         )
     }
+}
+
+private data class SensorDetailsBundle(
+    val accelerometerData: SensorData?,
+    val accelerometerDetail: SensorDetail,
+    val gyroscopeData: SensorData?,
+    val gyroscopeDetail: SensorDetail,
+    val magnetometerData: SensorData?,
+    val magnetometerDetail: SensorDetail,
+    val proximityData: SensorData?,
+    val proximityDetail: SensorDetail,
+    val rotationVectorData: SensorData?,
+    val rotationVectorDetail: SensorDetail,
+    val barometerData: SensorData?,
+    val barometerDetail: SensorDetail,
+    val temperatureData: SensorData?,
+    val temperatureDetail: SensorDetail,
+    val humidityData: SensorData?,
+    val humidityDetail: SensorDetail,
+    val linearAccelData: SensorData?,
+    val linearAccelDetail: SensorDetail
+)
+
+@Composable
+private fun rememberSensorDetails(state: DashboardState): SensorDetailsBundle {
+    return SensorDetailsBundle(
+        accelerometerData = state.accelerometerData?.let { SensorData(it.x, it.y, it.z) },
+        accelerometerDetail = getAccelerometerSensorDetail(state.accelerometerData?.let { SensorData(it.x, it.y, it.z) }),
+        gyroscopeData = state.gyroscopeData?.let { SensorData(it.x, it.y, it.z) },
+        gyroscopeDetail = getGyroscopeSensorDetail(state.gyroscopeData?.let { SensorData(it.x, it.y, it.z) }),
+        magnetometerData = state.magnetometerData?.let { SensorData(it.x, it.y, it.z) },
+        magnetometerDetail = getMagnetometerSensorDetail(state.magnetometerData?.let { SensorData(it.x, it.y, it.z) }),
+        proximityData = state.proximityData?.let { SensorData(0f, 0f, it.value) },
+        proximityDetail = getProximitySensorDetail(state.proximityData?.let { SensorData(0f, 0f, it.value) }),
+        rotationVectorData = state.rotationVectorData?.let { SensorData(it.x, it.y, it.z) },
+        rotationVectorDetail = getRotationVectorSensorDetail(state.rotationVectorData?.let { SensorData(it.x, it.y, it.z) }),
+        barometerData = state.barometerData?.let { SensorData(0f, 0f, it.value) },
+        barometerDetail = getBarometerSensorDetail(state.barometerData?.let { SensorData(0f, 0f, it.value) }),
+        temperatureData = state.ambientTemperatureData?.let { SensorData(0f, 0f, it.value) },
+        temperatureDetail = getAmbientTemperatureSensorDetail(state.ambientTemperatureData?.let { SensorData(0f, 0f, it.value) }),
+        humidityData = state.humidityData?.let { SensorData(0f, 0f, it.value) },
+        humidityDetail = getHumiditySensorDetail(state.humidityData?.let { SensorData(0f, 0f, it.value) }),
+        linearAccelData = state.linearAccelerationData?.let { SensorData(it.x, it.y, it.z) },
+        linearAccelDetail = getLinearAccelerationSensorDetail(state.linearAccelerationData?.let { SensorData(it.x, it.y, it.z) })
+    )
 }

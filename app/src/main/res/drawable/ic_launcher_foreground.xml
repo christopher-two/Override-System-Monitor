@@ -7,14 +7,14 @@
     <!-- Neon Blue Ring ('O') -->
     <path
         android:pathData="M 54,26 A 28,28 0 1,0 54,82 A 28,28 0 1,0 54,26"
-        android:strokeColor="#00E5FF"
+        android:strokeColor="#FFFFFF"
         android:strokeWidth="5"
         android:strokeLineCap="round" />
 
     <!-- Neon Green Pulse Wave -->
     <path
         android:pathData="M 36,54 H 44 L 49,38 L 59,70 L 64,54 H 72"
-        android:strokeColor="#00FF00"
+        android:strokeColor="#FFFFFF"
         android:strokeWidth="5"
         android:strokeLineCap="round"
         android:strokeLineJoin="round" />

@@ -4,6 +4,7 @@ import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 import org.override.system.monitor.feature.battery.domain.usecase.GetBatteryDataUseCase
 import org.override.system.monitor.feature.memory.domain.usecase.GetMemoryDataUseCase
+import org.override.system.monitor.feature.network.domain.usecase.GetNetworkDataUseCase
 import org.override.system.monitor.feature.sensor.domain.usecase.GetAccelerometerDataUseCase
 import org.override.system.monitor.feature.sensor.domain.usecase.GetGyroscopeDataUseCase
 import org.override.system.monitor.feature.sensor.domain.usecase.GetLightDataUseCase
@@ -38,4 +39,6 @@ val domainModule = module {
     factoryOf(::GetLinearAccelerationDataUseCase)
     // Missing sensors
     factoryOf(::GetMissingSensorsUseCase)
+    // Network
+    factoryOf(::GetNetworkDataUseCase)
 }
