@@ -30,7 +30,8 @@ import org.override.system.monitor.feature.dashboard.presentation.DashboardState
 fun TabletDashboardContent(
     state: DashboardState,
     onNavigate: (Destination) -> Unit,
-    onSensorClick: (SensorDetail) -> Unit
+    onSensorClick: (SensorDetail) -> Unit,
+    onNetworkClick: () -> Unit
 ) {
     val sensorDetails = rememberSensorDetails(state)
 
@@ -78,7 +79,7 @@ fun TabletDashboardContent(
         }
 
         item {
-            NetworkCard(data = state.networkData)
+            NetworkCard(data = state.networkData, onClick = onNetworkClick)
         }
 
         item(span = { GridItemSpan(2) }) {
@@ -191,7 +192,8 @@ fun TabletDashboardContent(
 fun MobileDashboardContent(
     state: DashboardState,
     onNavigate: (Destination) -> Unit,
-    onSensorClick: (SensorDetail) -> Unit
+    onSensorClick: (SensorDetail) -> Unit,
+    onNetworkClick: () -> Unit
 ) {
     val sensorDetails = rememberSensorDetails(state)
 
@@ -237,7 +239,7 @@ fun MobileDashboardContent(
         }
 
         item {
-            NetworkCard(data = state.networkData)
+            NetworkCard(data = state.networkData, onClick = onNetworkClick)
         }
 
         item {

@@ -45,6 +45,7 @@ fun DashboardScreen(viewModel: DashboardViewModel) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     var showMissingSensorsSheet by remember { mutableStateOf(false) }
     var showSensorDetail by remember { mutableStateOf(false) }
+    var showNetworkDetail by remember { mutableStateOf(false) }
     var selectedSensorDetail by remember { mutableStateOf<org.override.system.monitor.feature.dashboard.presentation.components.SensorDetail?>(null) }
     var hasRequestedNetworkPermission by remember { mutableStateOf(false) }
 
@@ -82,6 +83,24 @@ fun DashboardScreen(viewModel: DashboardViewModel) {
                 showSensorDetail = false
                 selectedSensorDetail = null
             }
+        )
+    }
+
+    if (showNetworkDetail) {
+        org.override.system.monitor.feature.dashboard.presentation.components.NetworkDetailBottomSheet(
+            data = state.networkData,
+            hasPermissions = state.hasNetworkPermission,
+            onRequestPermission = {
+                val permissions = mutableListOf(
+                    Manifest.permission.ACCESS_WIFI_STATE,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                )
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    permissions.add(Manifest.permission.READ_PHONE_STATE)
+                }
+                networkPermissionLauncher.launch(permissions.toTypedArray())
+            },
+            onDismiss = { showNetworkDetail = false }
         )
     }
 
@@ -134,7 +153,8 @@ fun DashboardScreen(viewModel: DashboardViewModel) {
                     onSensorClick = { detail ->
                         selectedSensorDetail = detail
                         showSensorDetail = true
-                    }
+                    },
+                    onNetworkClick = { showNetworkDetail = true }
                 )
             } else {
                 TabletDashboardContent(
@@ -143,7 +163,8 @@ fun DashboardScreen(viewModel: DashboardViewModel) {
                     onSensorClick = { detail ->
                         selectedSensorDetail = detail
                         showSensorDetail = true
-                    }
+                    },
+                    onNetworkClick = { showNetworkDetail = true }
                 )
             }
         }

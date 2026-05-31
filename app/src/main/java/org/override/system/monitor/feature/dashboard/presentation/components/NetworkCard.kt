@@ -27,11 +27,12 @@ import org.override.system.monitor.feature.network.data.datasource.NetworkType
 import org.override.system.monitor.feature.network.domain.model.NetworkData
 
 @Composable
-fun NetworkCard(data: NetworkData?) {
+fun NetworkCard(data: NetworkData?, onClick: () -> Unit) {
     ExpressiveCard(
         modifier = Modifier
             .fillMaxWidth()
             .height(140.dp),
+        onClick = onClick,
         containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
         shape = MaterialTheme.shapes.extraLarge
     ) {
