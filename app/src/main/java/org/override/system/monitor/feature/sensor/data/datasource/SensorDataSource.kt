@@ -5,14 +5,10 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.combine
 import org.override.system.monitor.core.common.model.SensorData
 import org.override.system.monitor.core.preferences.PreferencesRepository
 
@@ -21,18 +17,6 @@ class SensorDataSource(
     private val preferencesRepository: PreferencesRepository
 ) {
     private val sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
-    private val scope = CoroutineScope(Dispatchers.Main + Job())
-    private var collectJob: Job? = null
-
-    private var currentDelayMs: Long = 1000L
-
-    init {
-        collectJob = scope.launch {
-            preferencesRepository.preferencesFlow.collect { prefs ->
-                currentDelayMs = prefs.refreshInterval * 1000L
-            }
-        }
-    }
 
     fun getSensorFlow(sensorType: Int): Flow<SensorData> = callbackFlow {
         val sensor = sensorManager.getDefaultSensor(sensorType)
@@ -43,6 +27,7 @@ class SensorDataSource(
 
         val listener = object : SensorEventListener {
             private var lastEmitTime = 0L
+            private var currentDelayMs: Long = 1000L
 
             override fun onSensorChanged(event: SensorEvent) {
                 val currentTime = System.currentTimeMillis()
@@ -68,6 +53,8 @@ class SensorDataSource(
         awaitClose {
             sensorManager.unregisterListener(listener)
         }
+    }.combine(preferencesRepository.preferencesFlow) { sensorData, prefs ->
+        sensorData
     }
 
     fun getAllSensors(): List<Sensor> = sensorManager.getSensorList(Sensor.TYPE_ALL)
@@ -76,8 +63,4 @@ class SensorDataSource(
 
     fun getMissingSensors(requestedSensorTypes: List<Int>): List<Int> =
         requestedSensorTypes.filter { !isSensorAvailable(it) }
-
-    fun cleanup() {
-        collectJob?.cancelChildren()
-    }
 }

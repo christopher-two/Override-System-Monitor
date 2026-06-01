@@ -21,7 +21,19 @@ data class AppPreferences(
     val isVibrationFeedback: Boolean = true
 )
 
-class PreferencesRepository(private val context: Context) {
+interface IPreferencesRepository {
+    val preferencesFlow: Flow<AppPreferences>
+    val themeModeFlow: Flow<ThemeMode>
+    suspend fun updateThemeMode(mode: ThemeMode)
+    suspend fun updateAutoRefresh(enabled: Boolean)
+    suspend fun updateRefreshInterval(interval: Int)
+    suspend fun updateHighPrecision(enabled: Boolean)
+    suspend fun updateShowUnits(enabled: Boolean)
+    suspend fun updateVibrationFeedback(enabled: Boolean)
+    suspend fun resetPreferences()
+}
+
+class PreferencesRepository(private val context: Context) : IPreferencesRepository {
 
     private object PreferencesKeys {
         val THEME_MODE = stringPreferencesKey("theme_mode")
@@ -33,9 +45,9 @@ class PreferencesRepository(private val context: Context) {
     }
 
     private val _themeModeFlow = MutableStateFlow(ThemeMode.SYSTEM)
-    val themeModeFlow: StateFlow<ThemeMode> = _themeModeFlow.asStateFlow()
+    override val themeModeFlow: StateFlow<ThemeMode> = _themeModeFlow.asStateFlow()
 
-    val preferencesFlow: Flow<AppPreferences> = context.dataStore.data.map { preferences ->
+    override val preferencesFlow: Flow<AppPreferences> = context.dataStore.data.map { preferences ->
         val themeModeStr = preferences[PreferencesKeys.THEME_MODE] ?: ThemeMode.SYSTEM.name
         val themeMode = try {
             ThemeMode.valueOf(themeModeStr)
@@ -53,44 +65,44 @@ class PreferencesRepository(private val context: Context) {
         )
     }
 
-    suspend fun updateThemeMode(mode: ThemeMode) {
+    override suspend fun updateThemeMode(mode: ThemeMode) {
         context.dataStore.edit { preferences ->
             preferences[PreferencesKeys.THEME_MODE] = mode.name
             _themeModeFlow.value = mode
         }
     }
 
-    suspend fun updateAutoRefresh(enabled: Boolean) {
+    override suspend fun updateAutoRefresh(enabled: Boolean) {
         context.dataStore.edit { preferences ->
             preferences[PreferencesKeys.AUTO_REFRESH] = enabled
         }
     }
 
-    suspend fun updateRefreshInterval(interval: Int) {
+    override suspend fun updateRefreshInterval(interval: Int) {
         context.dataStore.edit { preferences ->
             preferences[PreferencesKeys.REFRESH_INTERVAL] = interval
         }
     }
 
-    suspend fun updateHighPrecision(enabled: Boolean) {
+    override suspend fun updateHighPrecision(enabled: Boolean) {
         context.dataStore.edit { preferences ->
             preferences[PreferencesKeys.HIGH_PRECISION] = enabled
         }
     }
 
-    suspend fun updateShowUnits(enabled: Boolean) {
+    override suspend fun updateShowUnits(enabled: Boolean) {
         context.dataStore.edit { preferences ->
             preferences[PreferencesKeys.SHOW_UNITS] = enabled
         }
     }
 
-    suspend fun updateVibrationFeedback(enabled: Boolean) {
+    override suspend fun updateVibrationFeedback(enabled: Boolean) {
         context.dataStore.edit { preferences ->
             preferences[PreferencesKeys.VIBRATION_FEEDBACK] = enabled
         }
     }
 
-    suspend fun resetPreferences() {
+    override suspend fun resetPreferences() {
         context.dataStore.edit { preferences ->
             preferences.clear()
         }

@@ -25,7 +25,7 @@ import org.override.system.monitor.feature.systemidentity.domain.repository.Syst
 
 val dataModule = module {
     singleOf(::BatteryDataSource)
-    singleOf(::MemoryDataSource)
+    single { MemoryDataSource(androidContext(), get()) }
     singleOf(::StorageDataSource)
     single { SensorDataSource(androidContext(), get()) }
     singleOf(::SystemIdentityDataSource)

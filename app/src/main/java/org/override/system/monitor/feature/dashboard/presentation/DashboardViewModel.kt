@@ -8,22 +8,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.override.system.monitor.feature.battery.domain.usecase.GetBatteryDataUseCase
+import org.override.system.monitor.feature.dashboard.domain.usecase.DashboardSensorUseCase
 import org.override.system.monitor.feature.memory.domain.usecase.GetMemoryDataUseCase
 import org.override.system.monitor.feature.network.domain.usecase.GetNetworkDataUseCase
 import org.override.system.monitor.feature.navigation.navigator.AppNavigator
-import org.override.system.monitor.feature.sensor.domain.model.MissingSensorInfo
-import org.override.system.monitor.feature.sensor.domain.model.SensorExplanations
-import org.override.system.monitor.feature.sensor.domain.usecase.GetAccelerometerDataUseCase
-import org.override.system.monitor.feature.sensor.domain.usecase.GetGyroscopeDataUseCase
-import org.override.system.monitor.feature.sensor.domain.usecase.GetLightDataUseCase
-import org.override.system.monitor.feature.sensor.domain.usecase.GetMagnetometerDataUseCase
-import org.override.system.monitor.feature.sensor.domain.usecase.GetProximityDataUseCase
-import org.override.system.monitor.feature.sensor.domain.usecase.GetRotationVectorDataUseCase
-import org.override.system.monitor.feature.sensor.domain.usecase.GetBarometerDataUseCase
-import org.override.system.monitor.feature.sensor.domain.usecase.GetAmbientTemperatureDataUseCase
-import org.override.system.monitor.feature.sensor.domain.usecase.GetHumidityDataUseCase
-import org.override.system.monitor.feature.sensor.domain.usecase.GetLinearAccelerationDataUseCase
-import org.override.system.monitor.feature.sensor.domain.usecase.GetMissingSensorsUseCase
 import org.override.system.monitor.feature.storage.domain.usecase.GetStorageDataUseCase
 import org.override.system.monitor.feature.systemidentity.domain.usecase.GetSystemIdentityDataUseCase
 import org.override.system.monitor.core.ui.Destination
@@ -34,22 +22,7 @@ class DashboardViewModel(
     private val getMemoryDataUseCase: GetMemoryDataUseCase,
     private val getStorageDataUseCase: GetStorageDataUseCase,
     private val getSystemIdentityDataUseCase: GetSystemIdentityDataUseCase,
-    private val getAccelerometerDataUseCase: GetAccelerometerDataUseCase,
-    private val getGyroscopeDataUseCase: GetGyroscopeDataUseCase,
-    private val getLightDataUseCase: GetLightDataUseCase,
-    // Position& Orientation
-    private val getMagnetometerDataUseCase: GetMagnetometerDataUseCase,
-    private val getProximityDataUseCase: GetProximityDataUseCase,
-    private val getRotationVectorDataUseCase: GetRotationVectorDataUseCase,
-    // Environmental
-    private val getBarometerDataUseCase: GetBarometerDataUseCase,
-    private val getAmbientTemperatureDataUseCase: GetAmbientTemperatureDataUseCase,
-    private val getHumidityDataUseCase: GetHumidityDataUseCase,
-    // Motion & Health
-    private val getLinearAccelerationDataUseCase: GetLinearAccelerationDataUseCase,
-    // Missing sensors
-    private val getMissingSensorsUseCase: GetMissingSensorsUseCase,
-    // Network
+    private val dashboardSensorUseCase: DashboardSensorUseCase,
     private val getNetworkDataUseCase: GetNetworkDataUseCase
 ) : ViewModel() {
 
@@ -77,16 +50,8 @@ class DashboardViewModel(
     }
 
     private fun loadData() {
-        // Check for missing sensors once
-        val missingSensorTypes = getMissingSensorsUseCase(SensorExplanations.allNewSensorTypes)
-        val missingSensorInfoList = missingSensorTypes.map { sensorType ->
-            MissingSensorInfo(
-                sensorType = sensorType,
-                sensorNameResId = SensorExplanations.getSensorNameResId(sensorType),
-                explanationResId = SensorExplanations.getExplanationResId(sensorType)
-            )
-        }
-        _state.update { it.copy(missingSensors = missingSensorInfoList) }
+        val missingSensors = dashboardSensorUseCase.getMissingSensorsInfo()
+        _state.update { it.copy(missingSensors = missingSensors) }
 
         viewModelScope.launch {
             getBatteryDataUseCase().collect { data ->
@@ -108,60 +73,16 @@ class DashboardViewModel(
                 _state.update { it.copy(systemIdentityData = data) }
             }
         }
-        viewModelScope.launch {
-            getAccelerometerDataUseCase().collect { data ->
-                _state.update { it.copy(accelerometerData = data) }
-            }
-        }
-        viewModelScope.launch {
-            getGyroscopeDataUseCase().collect { data ->
-                _state.update { it.copy(gyroscopeData = data) }
-            }
-        }
-        viewModelScope.launch {
-            getLightDataUseCase().collect { data ->
-                _state.update { it.copy(lightData = data) }
-            }
-        }
-        // Position& Orientation
-        viewModelScope.launch {
-            getMagnetometerDataUseCase().collect { data ->
-                _state.update { it.copy(magnetometerData = data) }
-            }
-        }
-        viewModelScope.launch {
-            getProximityDataUseCase().collect { data ->
-                _state.update { it.copy(proximityData = data) }
-            }
-        }
-        viewModelScope.launch {
-            getRotationVectorDataUseCase().collect { data ->
-                _state.update { it.copy(rotationVectorData = data) }
-            }
-        }
-        // Environmental
-        viewModelScope.launch {
-            getBarometerDataUseCase().collect { data ->
-                _state.update { it.copy(barometerData = data) }
-            }
-        }
-        viewModelScope.launch {
-            getAmbientTemperatureDataUseCase().collect { data ->
-                _state.update { it.copy(ambientTemperatureData = data) }
-            }
-        }
-        viewModelScope.launch {
-            getHumidityDataUseCase().collect { data ->
-                _state.update { it.copy(humidityData = data) }
-            }
-        }
-        // Motion & Health
-        viewModelScope.launch {
-            getLinearAccelerationDataUseCase().collect { data ->
-                _state.update { it.copy(linearAccelerationData = data) }
-            }
-        }
-        // Network
+        launchSensorCollection(dashboardSensorUseCase.getAccelerometerFlow()) { data -> _state.update { it.copy(accelerometerData = data) } }
+        launchSensorCollection(dashboardSensorUseCase.getGyroscopeFlow()) { data -> _state.update { it.copy(gyroscopeData = data) } }
+        launchSensorCollection(dashboardSensorUseCase.getLightFlow()) { data -> _state.update { it.copy(lightData = data) } }
+        launchSensorCollection(dashboardSensorUseCase.getMagnetometerFlow()) { data -> _state.update { it.copy(magnetometerData = data) } }
+        launchSensorCollection(dashboardSensorUseCase.getProximityFlow()) { data -> _state.update { it.copy(proximityData = data) } }
+        launchSensorCollection(dashboardSensorUseCase.getRotationVectorFlow()) { data -> _state.update { it.copy(rotationVectorData = data) } }
+        launchSensorCollection(dashboardSensorUseCase.getBarometerFlow()) { data -> _state.update { it.copy(barometerData = data) } }
+        launchSensorCollection(dashboardSensorUseCase.getAmbientTemperatureFlow()) { data -> _state.update { it.copy(ambientTemperatureData = data) } }
+        launchSensorCollection(dashboardSensorUseCase.getHumidityFlow()) { data -> _state.update { it.copy(humidityData = data) } }
+        launchSensorCollection(dashboardSensorUseCase.getLinearAccelerationFlow()) { data -> _state.update { it.copy(linearAccelerationData = data) } }
         viewModelScope.launch {
             _state.update { it.copy(hasNetworkPermission = getNetworkDataUseCase.hasNetworkPermissions()) }
         }
@@ -169,6 +90,12 @@ class DashboardViewModel(
             getNetworkDataUseCase().collect { data ->
                 _state.update { it.copy(networkData = data) }
             }
+        }
+    }
+
+    private fun launchSensorCollection(flow: kotlinx.coroutines.flow.Flow<org.override.system.monitor.core.common.model.SensorData>, update: (org.override.system.monitor.core.common.model.SensorData) -> Unit) {
+        viewModelScope.launch {
+            flow.collect { data -> update(data) }
         }
     }
 }

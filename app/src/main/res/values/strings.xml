@@ -221,6 +221,8 @@
     <string name="vibration_feedback">Vibration Feedback</string>
     <string name="vibration_feedback_description">Vibrate on sensor alerts</string>
     <string name="terms_and_conditions">Terms and Conditions</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="dark_mode_description">Enable dark theme for the application</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="developed_by">Developed by Override</string>
     <string name="seconds_unit">%1$s seconds</string>
