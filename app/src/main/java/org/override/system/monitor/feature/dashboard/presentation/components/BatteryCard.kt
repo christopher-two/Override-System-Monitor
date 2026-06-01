@@ -47,7 +47,7 @@ fun BatteryCard(
             .height(200.dp),
         onClick = onClick,
         containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-        shape = RoundedCornerShape(28.dp)
+        shape = MaterialTheme.shapes.extraExtraLarge
     ) {
         Column(modifier = Modifier.fillMaxSize().padding(20.dp)) {
             Row(
@@ -73,18 +73,10 @@ fun BatteryCard(
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Spacer(modifier = Modifier.weight(1f))
-                AssistChip(
-                    onClick = {},
-                    label = {
-                        Text(
-                            status.uppercase(),
-                            style = MaterialTheme.typography.labelSmall,
-                            fontWeight = FontWeight.Bold
-                        )
-                    },
-                    colors = AssistChipDefaults.assistChipColors(
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer
-                    )
+                Text(
+                    stringResource(R.string.health_label, health.uppercase()),
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
 
@@ -110,11 +102,6 @@ fun BatteryCard(
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
-                    Text(
-                        stringResource(R.string.health_label, health.uppercase()),
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
                 }
                 Column(horizontalAlignment = Alignment.End) {
                     val tempColor = if (temperature > 40f)

@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import org.override.system.monitor.R
 import androidx.compose.foundation.layout.Box
 import org.override.system.monitor.core.preferences.ThemeMode
+import androidx.core.net.toUri
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -179,14 +180,16 @@ fun SettingsScreen(
                 SettingsClickableRow(
                     title = stringResource(R.string.terms_and_conditions),
                     onClick = {
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://monitor.override.com.mx/terms"))
+                        val intent =
+                            Intent(Intent.ACTION_VIEW, "https://monitor.override.com.mx/terms".toUri())
                         context.startActivity(intent)
                     }
                 )
                 SettingsClickableRow(
                     title = stringResource(R.string.privacy_policy),
                     onClick = {
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://monitor.override.com.mx/privacy"))
+                        val intent = Intent(Intent.ACTION_VIEW,
+                            "https://monitor.override.com.mx/privacy".toUri())
                         context.startActivity(intent)
                     }
                 )

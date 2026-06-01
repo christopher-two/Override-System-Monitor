@@ -33,10 +33,10 @@ fun NetworkCard(data: NetworkData?, onClick: () -> Unit) {
     ExpressiveCard(
         modifier = Modifier
             .fillMaxWidth()
-            .height(140.dp),
+            .height(180.dp),
         onClick = onClick,
         containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-        shape = MaterialTheme.shapes.extraLarge
+        shape = MaterialTheme.shapes.extraExtraLarge
     ) {
         Column(
             modifier = Modifier
