@@ -24,6 +24,9 @@ class BatteryDataSource(private val context: Context) {
                 val statusInt = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
                 val healthInt = intent.getIntExtra(BatteryManager.EXTRA_HEALTH, -1)
 
+                val batteryManager = context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
+                val currentNow = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW)
+
                 val status = when (statusInt) {
                     BatteryManager.BATTERY_STATUS_CHARGING -> "Charging"
                     BatteryManager.BATTERY_STATUS_DISCHARGING -> "Discharging"
