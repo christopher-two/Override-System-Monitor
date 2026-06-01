@@ -3,7 +3,7 @@
 
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/logo_app_override_background</item>
-        <item name="windowSplashScreenAnimatedIcon">@mipmap/logo_app_override</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/logo_app_override</item>
         <item name="postSplashScreenTheme">@style/Theme.OverrideSystemMonitor</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLightNavigationBar">true</item>
