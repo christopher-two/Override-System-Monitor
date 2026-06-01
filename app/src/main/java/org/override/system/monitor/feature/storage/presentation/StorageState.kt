@@ -6,7 +6,3 @@ data class StorageState(
     val data: StorageData? = null,
     val isLoading: Boolean = true
 )
-
-sealed class StorageAction {
-    data object NavigateBack : StorageAction()
-}

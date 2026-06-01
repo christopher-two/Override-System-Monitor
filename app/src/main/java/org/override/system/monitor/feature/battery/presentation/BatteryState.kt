@@ -6,7 +6,3 @@ data class BatteryState(
     val data: BatteryData? = null,
     val isLoading: Boolean = true
 )
-
-sealed class BatteryAction {
-    data object NavigateBack : BatteryAction()
-}

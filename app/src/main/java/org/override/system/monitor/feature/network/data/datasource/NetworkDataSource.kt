@@ -205,10 +205,3 @@ class NetworkDataSource(private val context: Context) {
         else -> "Unknown"
     }
 }
-
-enum class NetworkType {
-    WIFI,
-    CELLULAR,
-    ETHERNET,
-    OFFLINE
-}

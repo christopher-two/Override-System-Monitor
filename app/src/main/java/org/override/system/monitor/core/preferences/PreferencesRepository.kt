@@ -1,37 +1,15 @@
 package org.override.system.monitor.core.preferences
 
 import android.content.Context
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.*
-import androidx.datastore.preferences.preferencesDataStore
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
-
-val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
-
-data class AppPreferences(
-    val themeMode: ThemeMode = ThemeMode.SYSTEM,
-    val isAutoRefresh: Boolean = true,
-    val refreshInterval: Int = 1,
-    val isHighPrecision: Boolean = false,
-    val isShowUnits: Boolean = true,
-    val isVibrationFeedback: Boolean = true
-)
-
-interface IPreferencesRepository {
-    val preferencesFlow: Flow<AppPreferences>
-    val themeModeFlow: Flow<ThemeMode>
-    suspend fun updateThemeMode(mode: ThemeMode)
-    suspend fun updateAutoRefresh(enabled: Boolean)
-    suspend fun updateRefreshInterval(interval: Int)
-    suspend fun updateHighPrecision(enabled: Boolean)
-    suspend fun updateShowUnits(enabled: Boolean)
-    suspend fun updateVibrationFeedback(enabled: Boolean)
-    suspend fun resetPreferences()
-}
 
 class PreferencesRepository(private val context: Context) : IPreferencesRepository {
 

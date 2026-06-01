@@ -6,7 +6,3 @@ data class MemoryState(
     val data: MemoryData? = null,
     val isLoading: Boolean = true
 )
-
-sealed class MemoryAction {
-    data object NavigateBack : MemoryAction()
-}

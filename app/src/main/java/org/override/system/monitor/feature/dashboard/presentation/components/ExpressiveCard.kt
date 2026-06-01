@@ -9,8 +9,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.LinearWavyProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,18 +34,4 @@ fun ExpressiveCard(
     ) {
         content()
     }
-}
-
-@Composable
-fun ExpressiveProgress(
-    progress: Float,
-    color: Color,
-    modifier: Modifier = Modifier
-) {
-    LinearWavyProgressIndicator(
-        modifier = modifier.fillMaxWidth(),
-        color = color,
-        trackColor = MaterialTheme.colorScheme.surfaceContainerHighest,
-        progress = { progress.coerceIn(0f, 1f) }
-    )
 }
