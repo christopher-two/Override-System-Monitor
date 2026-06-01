@@ -159,7 +159,7 @@ private fun StorageCard(
                     )
                 }
                 Spacer(modifier = Modifier.height(8.dp))
-                LinearProgressIndicator(
+                LinearWavyProgressIndicator(
                     progress = { progress.coerceIn(0f, 1f) },
                     modifier = Modifier
                         .fillMaxWidth()

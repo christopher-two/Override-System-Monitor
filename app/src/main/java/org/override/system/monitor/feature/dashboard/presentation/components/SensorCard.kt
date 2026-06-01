@@ -349,7 +349,7 @@ fun ProximityCard(
     expanded: Boolean = false,
     onClick: () -> Unit = {}
 ) {
-    val height: Dp = if (expanded) 140.dp else 100.dp
+    val height: Dp = if (expanded) 140.dp else 120.dp
     val colors = SensorColors.proximity()
     BaseSensorCard(
         modifier = Modifier.height(height),
