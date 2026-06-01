@@ -6,6 +6,7 @@ import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 import org.override.system.monitor.core.preferences.PreferencesRepository
 import org.override.system.monitor.feature.battery.presentation.BatteryViewModel
+import org.override.system.monitor.feature.cpu.presentation.CpuViewModel
 import org.override.system.monitor.feature.dashboard.presentation.DashboardViewModel
 import org.override.system.monitor.feature.memory.presentation.MemoryViewModel
 import org.override.system.monitor.feature.navigation.navigator.AppNavigator
@@ -20,6 +21,7 @@ val viewModelModule = module {
     viewModelOf(::SettingsViewModel)
     viewModelOf(::DashboardViewModel)
     viewModelOf(::BatteryViewModel)
+    viewModelOf(::CpuViewModel)
     viewModelOf(::MemoryViewModel)
     viewModelOf(::StorageViewModel)
     viewModelOf(::SensorViewModel)

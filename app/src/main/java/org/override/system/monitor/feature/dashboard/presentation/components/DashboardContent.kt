@@ -59,6 +59,15 @@ fun TabletDashboardContent(
         }
 
         item {
+            state.cpuData?.let { cpu ->
+                CpuCard(
+                    data = cpu,
+                    onClick = { onNavigate(Destination.CpuDetail) }
+                )
+            }
+        }
+
+        item {
             state.memoryData?.let { ram ->
                 MemoryCard(
                     usedMemory = ram.usedMemory,
@@ -216,6 +225,15 @@ fun MobileDashboardContent(
                     health = battery.health,
                     temperature = battery.temperature,
                     onClick = { onNavigate(Destination.BatteryDetail) }
+                )
+            }
+        }
+
+        item(span = { GridItemSpan(1) }) {
+            state.cpuData?.let { cpu ->
+                CpuCard(
+                    data = cpu,
+                    onClick = { onNavigate(Destination.CpuDetail) }
                 )
             }
         }

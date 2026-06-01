@@ -2,6 +2,7 @@ package org.override.system.monitor.di
 
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
+import org.override.system.monitor.feature.cpu.domain.usecase.GetCpuDataUseCase
 import org.override.system.monitor.feature.battery.domain.usecase.GetBatteryDataUseCase
 import org.override.system.monitor.feature.memory.domain.usecase.GetMemoryDataUseCase
 import org.override.system.monitor.feature.network.domain.usecase.GetNetworkDataUseCase
@@ -12,6 +13,7 @@ import org.override.system.monitor.feature.systemidentity.domain.usecase.GetSyst
 
 val domainModule = module {
     factoryOf(::GetBatteryDataUseCase)
+    factoryOf(::GetCpuDataUseCase)
     factoryOf(::GetMemoryDataUseCase)
     factoryOf(::GetStorageDataUseCase)
     factoryOf(::GetSystemIdentityDataUseCase)

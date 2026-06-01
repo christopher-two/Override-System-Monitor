@@ -7,6 +7,7 @@ sealed interface Destination : NavKey {
     data object BatteryDetail : Destination
     data object MemoryDetail : Destination
     data object StorageDetail : Destination
+    data object CpuDetail : Destination
     data object SensorDetail : Destination
     data object Settings : Destination
 }

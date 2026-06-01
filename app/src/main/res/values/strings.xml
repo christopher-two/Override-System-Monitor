@@ -233,6 +233,15 @@
     <string name="about_app">About the App</string>
     <string name="about_app_description">Override System Monitor provides real-time monitoring of your device\'s sensors, network, battery, and system information.</string>
 
+    <!-- CPU -->
+    <string name="cpu">CPU</string>
+    <string name="cores">cores</string>
+    <string name="architecture">Architecture</string>
+    <string name="core_frequencies">Core Frequencies</string>
+    <string name="avg_frequency">Avg Frequency</string>
+    <string name="cores_active">Active</string>
+    <string name="loading">Loading…</string>
+
     <!-- No Data -->
     <string name="no_data">No data</string>
 </resources>

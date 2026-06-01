@@ -2,6 +2,7 @@ package org.override.system.monitor.feature.dashboard.presentation
 
 import org.override.system.monitor.core.common.model.SensorData
 import org.override.system.monitor.feature.battery.domain.model.BatteryData
+import org.override.system.monitor.feature.cpu.domain.CpuData
 import org.override.system.monitor.feature.memory.domain.model.MemoryData
 import org.override.system.monitor.feature.network.domain.model.NetworkData
 import org.override.system.monitor.feature.sensor.domain.model.MissingSensorInfo
@@ -10,6 +11,7 @@ import org.override.system.monitor.feature.systemidentity.domain.model.SystemIde
 
 data class DashboardState(
     val batteryData: BatteryData? = null,
+    val cpuData: CpuData? = null,
     val memoryData: MemoryData? = null,
     val storageData: StorageData? = null,
     val systemIdentityData: SystemIdentityData? = null,

@@ -19,6 +19,9 @@ import org.override.system.monitor.feature.sensor.domain.repository.SensorReposi
 import org.override.system.monitor.feature.storage.data.datasource.StorageDataSource
 import org.override.system.monitor.feature.storage.data.repository.StorageRepositoryImpl
 import org.override.system.monitor.feature.storage.domain.repository.StorageRepository
+import org.override.system.monitor.feature.cpu.data.CpuProvider
+import org.override.system.monitor.feature.cpu.data.repository.CpuRepositoryImpl
+import org.override.system.monitor.feature.cpu.domain.repository.CpuRepository
 import org.override.system.monitor.feature.systemidentity.data.datasource.SystemIdentityDataSource
 import org.override.system.monitor.feature.systemidentity.data.repository.SystemIdentityRepositoryImpl
 import org.override.system.monitor.feature.systemidentity.domain.repository.SystemIdentityRepository
@@ -30,6 +33,9 @@ val dataModule = module {
     single { SensorDataSource(androidContext(), get()) }
     singleOf(::SystemIdentityDataSource)
     single { NetworkDataSource(androidContext()) }
+
+    singleOf(::CpuProvider)
+    singleOf(::CpuRepositoryImpl) bind CpuRepository::class
 
     singleOf(::BatteryRepositoryImpl) bind BatteryRepository::class
     singleOf(::MemoryRepositoryImpl) bind MemoryRepository::class

@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.override.system.monitor.feature.battery.domain.usecase.GetBatteryDataUseCase
+import org.override.system.monitor.feature.cpu.domain.usecase.GetCpuDataUseCase
 import org.override.system.monitor.feature.dashboard.domain.usecase.DashboardSensorUseCase
 import org.override.system.monitor.feature.memory.domain.usecase.GetMemoryDataUseCase
 import org.override.system.monitor.feature.network.domain.usecase.GetNetworkDataUseCase
@@ -19,6 +20,7 @@ import org.override.system.monitor.core.ui.Destination
 class DashboardViewModel(
     private val appNavigator: AppNavigator,
     private val getBatteryDataUseCase: GetBatteryDataUseCase,
+    private val getCpuDataUseCase: GetCpuDataUseCase,
     private val getMemoryDataUseCase: GetMemoryDataUseCase,
     private val getStorageDataUseCase: GetStorageDataUseCase,
     private val getSystemIdentityDataUseCase: GetSystemIdentityDataUseCase,
@@ -56,6 +58,11 @@ class DashboardViewModel(
         viewModelScope.launch {
             getBatteryDataUseCase().collect { data ->
                 _state.update { it.copy(batteryData = data, isLoading = false) }
+            }
+        }
+        viewModelScope.launch {
+            getCpuDataUseCase().collect { data ->
+                _state.update { it.copy(cpuData = data) }
             }
         }
         viewModelScope.launch {

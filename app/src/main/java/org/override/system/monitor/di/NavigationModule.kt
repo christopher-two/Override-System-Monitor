@@ -6,6 +6,7 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import org.koin.dsl.navigation3.navigation
 import org.override.system.monitor.feature.battery.presentation.BatteryDetailScreen
+import org.override.system.monitor.feature.cpu.presentation.CpuDetailScreen
 import org.override.system.monitor.feature.dashboard.presentation.DashboardScreen
 import org.override.system.monitor.feature.memory.presentation.MemoryDetailScreen
 import org.override.system.monitor.feature.navigation.navigator.AppNavigator
@@ -32,6 +33,10 @@ val navigationModule = module {
 
     navigation<Destination.StorageDetail> {
         StorageDetailScreen(viewModel = koinViewModel())
+    }
+
+    navigation<Destination.CpuDetail> {
+        CpuDetailScreen(viewModel = koinViewModel())
     }
 
     navigation<Destination.SensorDetail> {
