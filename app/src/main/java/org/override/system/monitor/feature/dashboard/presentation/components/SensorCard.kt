@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import org.override.system.monitor.R
@@ -419,7 +420,7 @@ fun BarometerCard(
     expanded: Boolean = false,
     onClick: () -> Unit = {}
 ) {
-    val height: Dp = if (expanded) 140.dp else 100.dp
+    val height: Dp = if (expanded) 140.dp else 120.dp
     val colors = SensorColors.barometer()
     BaseSensorCard(
         modifier = Modifier.height(height),
@@ -457,7 +458,7 @@ fun AmbientTemperatureCard(
     expanded: Boolean = false,
     onClick: () -> Unit = {}
 ) {
-    val height: Dp = if (expanded) 140.dp else 100.dp
+    val height: Dp = if (expanded) 140.dp else 120.dp
     val colors = SensorColors.temperature()
     BaseSensorCard(
         modifier = Modifier.height(height),
@@ -495,7 +496,7 @@ fun HumidityCard(
     expanded: Boolean = false,
     onClick: () -> Unit = {}
 ) {
-    val height: Dp = if (expanded) 140.dp else 100.dp
+    val height: Dp = if (expanded) 140.dp else 120.dp
     val colors = SensorColors.humidity()
     BaseSensorCard(
         modifier = Modifier.height(height),
@@ -552,6 +553,28 @@ fun LinearAccelerationCard(
             unit = stringResource(R.string.unit_m_s2),
             axisColor = colors.axis,
             expanded = expanded
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun BarometerCardPreview() {
+    MaterialTheme {
+        BarometerCard(
+            data = SensorData(value = 1013.2f),
+            expanded = false
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun BarometerCardExpandedPreview() {
+    MaterialTheme {
+        BarometerCard(
+            data = SensorData(value = 1013.2f),
+            expanded = true
         )
     }
 }
