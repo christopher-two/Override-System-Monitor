@@ -16,7 +16,7 @@ Override System Monitor provides comprehensive system metrics monitoring includi
 Clean Architecture (MVVM)
 ├── UI Layer          → Jetpack Compose, ViewModels, Navigation 3
 ├── Domain Layer      → Use Cases, Repository Interfaces
-├── Data Layer        → Repository Implementations, Room, DataStore
+├── Data Layer        → Repository Implementations, DataStore
 └── DI Layer          → Koin Modules
 ```
 
@@ -28,10 +28,7 @@ Clean Architecture (MVVM)
 | UI Framework | Jetpack Compose | BOM 2026.05.01 |
 | Navigation | Navigation 3 | 1.1.2 |
 | DI | Koin | 4.2.1 |
-| Database | Room | 2.8.4 |
 | Preferences | DataStore | 1.2.1 |
-| JSON | Moshi | 1.15.2 |
-| Network | Retrofit + OkHttp | 3.0.0 / 5.3.2 |
 | Image Loading | Coil | 2.7.0 |
 | Theming | material-kolor | 5.0.0-alpha07 |
 | Camera | CameraX | 1.6.1 |
@@ -50,6 +47,7 @@ app/src/main/java/org/override/system/monitor/
 ├── di/                          # Koin modules (App, Data, Domain, ViewModel, Navigation)
 └── feature/
     ├── battery/                 # Battery monitoring (data/domain/presentation)
+    ├── cpu/                     # CPU monitoring (cores, frequencies)
     ├── memory/                  # RAM & storage metrics
     ├── storage/                 # Storage analysis
     ├── sensor/                  # Device sensors (accelerometer, gyro, etc.)
@@ -80,13 +78,8 @@ app/src/main/java/org/override/system/monitor/
 - `io.insert-koin:koin-compose-viewmodel`
 - `io.insert-koin:koin-compose-navigation3`
 
-### Room + KSP
-- `androidx.room:room-runtime` / `room-ktx` 2.8.4
-- `androidx.room:room-compiler` (KSP)
-
 ### KotlinX
 - `kotlinx-coroutines-core` / `android` 1.11.0
-- `kotlinx-serialization-core` 1.11.0
 
 ## Build Commands
 
@@ -131,3 +124,18 @@ Uses Navigation 3 (custom implementation, not standard Navigation Compose):
 - Mockito Kotlin 6.3.0
 - MockK 1.14.11
 - KotlinX Coroutines Test 1.11.0
+
+## ProGuard / R8
+
+Release builds use ProGuard with rules defined in `app/proguard-rules.pro`. The rules cover:
+
+- **Koin DI** - ViewModel and module preservation
+- **Navigation 3** - NavKey and Destination preservation
+- **DataStore** - Preferences serialization
+- **Compose** - Material3 and adaptive layouts
+- **CameraX** - Camera lifecycle components
+- **Play Services Location** - FusedLocationProvider
+- **Coil** - Image loading
+- **Domain Models** - All feature data classes
+
+The build configuration enables `isMinifyEnabled = true` and `isShrinkResources = true` for release builds.
