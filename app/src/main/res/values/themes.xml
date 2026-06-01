@@ -1,3 +1,9 @@
 <resources>
     <style name="Theme.OverrideSystemMonitor" parent="android:Theme.Material.NoActionBar" />
+
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/logo_app_override_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/logo_app_override</item>
+        <item name="postSplashScreenTheme">@style/Theme.OverrideSystemMonitor</item>
+    </style>
 </resources>
