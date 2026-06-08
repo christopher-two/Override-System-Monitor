@@ -13,9 +13,9 @@
     <application
         android:name=".OverrideSystemMonitorApp"
         android:allowBackup="true"
-        android:icon="@mipmap/logo_app_override"
+        android:icon="@mipmap/logo_app_helix"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/logo_app_override_round"
+        android:roundIcon="@mipmap/logo_app_helix_round"
         android:supportsRtl="true"
         android:hardwareAccelerated="true"
         android:theme="@style/Theme.OverrideSystemMonitor">
