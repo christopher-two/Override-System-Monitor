@@ -1,6 +1,5 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="Theme.OverrideSystemMonitor" parent="android:Theme.Material.NoActionBar" />
-
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/logo_app_override_background</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/logo_app_helix_monochrome</item>
